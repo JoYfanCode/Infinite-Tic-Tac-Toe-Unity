@@ -9,8 +9,8 @@ public class ViewUI : View
     [SerializeField] private List<Image> _slots;
     [SerializeField] private Sprite _cross;
     [SerializeField] private Sprite _circle;
-    [SerializeField] private TMP_Text _youWinText;
-    [SerializeField] private TMP_Text _youLoseText;
+    [SerializeField] private TMP_Text _winCircleText;
+    [SerializeField] private TMP_Text _winCrossText;
 
     public void OnSlotClicked(int id)
     {
@@ -38,13 +38,13 @@ public class ViewUI : View
         }
     }
 
-    public override void DisplayYouWin()
+    public override void DisplayWinCircle()
     {
-        _youWinText.gameObject.SetActive(true);
+        _winCircleText.gameObject.SetActive(true);
     }
 
-    public override void DisplayYouLose()
+    public override void DisplayWinCross()
     {
-        _youLoseText.gameObject.SetActive(false);
+        _winCrossText.gameObject.SetActive(true);
     }
 }

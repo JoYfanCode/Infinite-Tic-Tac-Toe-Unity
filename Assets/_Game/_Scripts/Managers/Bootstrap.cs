@@ -13,8 +13,8 @@ public class Bootstrap : MonoBehaviour
 
         //View view = Instantiate(ViewPrefab, _interfaceCanvas);
         View view = _viewUI;
-        Model model = new ModelAI(view);
-        Presenter presenter = new PresenterAI(model);
+        Model model = new ModelTwoPlayers(view);
+        Presenter presenter = new PresenterTwoPlayers(model);
 
         view.Init(presenter);
     }

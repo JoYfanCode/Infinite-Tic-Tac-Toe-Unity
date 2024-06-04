@@ -12,6 +12,6 @@ public abstract class View : MonoBehaviour
     }
 
     public abstract void DisplayField(List<SlotStates> fieldList);
-    public abstract void DisplayYouWin();
-    public abstract void DisplayYouLose();
+    public abstract void DisplayWinCircle();
+    public abstract void DisplayWinCross();
 }
