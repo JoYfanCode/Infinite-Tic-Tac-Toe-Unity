@@ -6,7 +6,7 @@ public abstract class Model
 {
     protected View _view;
 
-    protected List<SlotStates> _slotsStates;
+    protected List<SlotStates> _field;
     protected Queue<int> _queueCirclesID;
     protected Queue<int> _queueCrossesID;
 
@@ -16,7 +16,7 @@ public abstract class Model
     public int LIMIT_QUEUE_ID = 3;
     public int SLOTS_COUNT = 9;
 
-    public List<SlotStates> SlotsStates => _slotsStates;
+    public List<SlotStates> SlotsStates => _field;
     public Queue<int> QueueCircleID => _queueCirclesID;
     public Queue<int> QueueCrossID => _queueCrossesID;
 
@@ -25,50 +25,35 @@ public abstract class Model
         _view = view;
         _queueCirclesID = new Queue<int>();
         _queueCrossesID = new Queue<int>();
-        _slotsStates = new List<SlotStates>();
+        _field = new List<SlotStates>();
 
         for (int i = 0; i < SLOTS_COUNT; i++)
-            _slotsStates.Add(SlotStates.Empty);
+            _field.Add(SlotStates.Empty);
     }
     public bool isGameOn()
         => _isWinCircle == false && _isWinCross == false;
 
-    public void SetState(List<SlotStates> slotsStates)
+    public void SetState(List<SlotStates> Field)
     {
-        _slotsStates = slotsStates;
-
-        _view.DisplayField(slotsStates);
+        _field = Field;
     }
 
-    public void SetStateWinCircle(bool isWin)
+    public void SetStateWin(SlotStates State)
     {
-        _isWinCircle = isWin;
-
-        if (isWin)
-            _view.DisplayWinCircle();
-    }
-
-    public void SetStateWinCross(bool isWin)
-    {
-        _isWinCross = isWin;
-
-        if (isWin)
-            _view.DisplayWinCross();
-    }
-
-    public void SetStateWin(bool isWinCircle)
-    {
-        if (isWinCircle)
+        if (State == SlotStates.Circle)
         {
-            _view.DisplayWinCircle();
             _isWinCircle = true;
             _isWinCross = false;
         }
-        else
+        else if (State == SlotStates.Cross)
         {
-            _view.DisplayWinCross();
-            _isWinCircle = false;
             _isWinCross = true;
+            _isWinCircle = false;
+        }
+        else if (State == SlotStates.Empty)
+        {
+            _isWinCircle = false;
+            _isWinCross = false;
         }
     }
 }

@@ -17,20 +17,20 @@ public class ViewUI : View
         _presenter.OnClotClicked(id);
     }
 
-    public override void DisplayField(List<SlotStates> fieldList)
+    public override void DisplayField(List<SlotStates> Field)
     {
         for (int i = 0; i < _slots.Count; i++)
         {
-            if (fieldList[i] == SlotStates.Empty)
+            if (Field[i] == SlotStates.Empty)
             {
                 _slots[i].enabled = false;
             }
-            else if (fieldList[i] == SlotStates.Circle)
+            else if (Field[i] == SlotStates.Circle)
             {
                 _slots[i].enabled = true;
                 _slots[i].sprite = _circle;
             }
-            else if (fieldList[i] == SlotStates.Cross)
+            else if (Field[i] == SlotStates.Cross)
             {
                 _slots[i].enabled = true;
                 _slots[i].sprite = _cross;

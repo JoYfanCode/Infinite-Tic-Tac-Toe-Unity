@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class AINormal : AI
+public class AIOneTurn : AI
 {
     protected List<int> _turnsPoints;
     protected int MaxTurnPoints;
@@ -13,15 +13,15 @@ public class AINormal : AI
     protected const int WIN_TURN = 100;
     protected const int DONT_LOSE_TURN = 90;
 
-    protected List<SlotStates> SlotsStates;
+    protected List<SlotStates> Field;
     protected SlotStates _AIState;
     protected SlotStates _playerState;
 
-    public AINormal() { }
+    public AIOneTurn() { }
 
-    public override int TakeTurn(ref List<SlotStates> SlotsStates, SlotStates AIState)
+    public override int DoTurn(ref List<SlotStates> Field, SlotStates AIState)
     {
-        this.SlotsStates = SlotsStates;
+        this.Field = Field;
         _AIState = AIState;
 
         if (AIState == SlotStates.Circle)
@@ -41,7 +41,7 @@ public class AINormal : AI
 
         if (MaxTurnPoints != 0)
         {
-            this.SlotsStates[MaxTurnIndex] = _AIState;
+            this.Field[MaxTurnIndex] = _AIState;
             return MaxTurnIndex;
         }
         else
@@ -54,7 +54,7 @@ public class AINormal : AI
     {
         for (int i = 0; i < SLOTS_COUNT; i++)
         {
-            if (SlotsStates[i] == SlotStates.Empty)
+            if (Field[i] == SlotStates.Empty)
             {
                 CheckWinTurn(i);
                 CheckDontLoseTurn(i);
@@ -64,7 +64,7 @@ public class AINormal : AI
 
     protected void CheckWinTurn(int index)
     {
-        List<SlotStates> TurnSlotsStates = new List<SlotStates>(SlotsStates);
+        List<SlotStates> TurnSlotsStates = new List<SlotStates>(Field);
         TurnSlotsStates[index] = _AIState;
 
         if (FieldChecker.Check(TurnSlotsStates, _AIState))
@@ -73,7 +73,7 @@ public class AINormal : AI
 
     protected void CheckDontLoseTurn(int index)
     {
-        List<SlotStates> TurnSlotsStates = new List<SlotStates>(SlotsStates);
+        List<SlotStates> TurnSlotsStates = new List<SlotStates>(Field);
         TurnSlotsStates[index] = _playerState;
 
         if (FieldChecker.Check(TurnSlotsStates, _playerState))
@@ -98,12 +98,12 @@ public class AINormal : AI
 
         for (int i = 0; i < SLOTS_COUNT; i++)
         {
-            if (SlotsStates[i] == SlotStates.Empty)
+            if (Field[i] == SlotStates.Empty)
                 EmptyIndexes.Add(i);
         }
 
         int RandomIndex = EmptyIndexes[Random.Range(0, EmptyIndexes.Count)];
-        SlotsStates[RandomIndex] = _AIState;
+        Field[RandomIndex] = _AIState;
 
         return RandomIndex;
     }

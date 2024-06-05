@@ -8,20 +8,20 @@ public class PresenterTwoPlayers : Presenter
 
     public PresenterTwoPlayers(Model model) : base(model) { }
 
-    protected override void TakeTurn(int id)
+    protected override void DoTurn(int id)
     {
-        List<SlotStates> TempSlotsStates = _model.SlotsStates;
+        List<SlotStates> TempField = _model.SlotsStates;
 
-        TempSlotsStates[id] = _currentState;
+        TempField[id] = _currentState;
 
         EnqueueStateID(id);
         ChangeCurrentState();
-        DequeueStateID(ref TempSlotsStates);
+        DequeueStateID(ref TempField);
 
-        _model.SetState(TempSlotsStates);
-        _model.SetStateWinCircle(FieldChecker.Check(TempSlotsStates, SlotStates.Circle));
-        _model.SetStateWinCross(FieldChecker.Check(TempSlotsStates, SlotStates.Cross));
+        _model.SetState(TempField);
+        CheckField(TempField);
 
+        OnTurnDoneEvent(TempField);
     }
 
     private void EnqueueStateID(int id)
@@ -35,17 +35,18 @@ public class PresenterTwoPlayers : Presenter
             _model.QueueCrossID.Enqueue(id);
         }
     }
-    private void DequeueStateID(ref List<SlotStates> TempSlotsStates)
+
+    private void DequeueStateID(ref List<SlotStates> Field)
     {
         if (_currentState == SlotStates.Circle)
         {
             if (_model.QueueCircleID.Count >= _model.LIMIT_QUEUE_ID)
-                TempSlotsStates[_model.QueueCircleID.Dequeue()] = SlotStates.Empty;
+                Field[_model.QueueCircleID.Dequeue()] = SlotStates.Empty;
         }
         else if (_currentState == SlotStates.Cross)
         {
             if (_model.QueueCrossID.Count >= _model.LIMIT_QUEUE_ID)
-                TempSlotsStates[_model.QueueCrossID.Dequeue()] = SlotStates.Empty;
+                Field[_model.QueueCrossID.Dequeue()] = SlotStates.Empty;
         }
     }
 

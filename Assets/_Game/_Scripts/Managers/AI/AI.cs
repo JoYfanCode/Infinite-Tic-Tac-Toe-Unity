@@ -4,5 +4,5 @@ using System.Collections.Generic;
 
 public abstract class AI
 {
-    public abstract int TakeTurn(ref List<SlotStates> SlotsStates, SlotStates AIState);
+    public abstract int DoTurn(ref List<SlotStates> Field, SlotStates AIState);
 }

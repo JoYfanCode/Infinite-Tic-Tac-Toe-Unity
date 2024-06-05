@@ -21,7 +21,7 @@ public class Bootstrap : MonoBehaviour
 
         if (_isAI)
         {
-            presenter = new PresenterAI(model, new AINormal());
+            presenter = new PresenterAI(model, new AIOneTurn());
         }
         else
         {
