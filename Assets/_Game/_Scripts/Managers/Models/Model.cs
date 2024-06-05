@@ -15,8 +15,6 @@ public abstract class Model
 
     public int LIMIT_QUEUE_ID = 3;
     public int SLOTS_COUNT = 9;
-    public bool IsWinCircle => _isWinCircle;
-    public bool IsWinCross => _isWinCross;
 
     public List<SlotStates> SlotsStates => _slotsStates;
     public Queue<int> QueueCircleID => _queueCirclesID;
@@ -32,6 +30,8 @@ public abstract class Model
         for (int i = 0; i < SLOTS_COUNT; i++)
             _slotsStates.Add(SlotStates.Empty);
     }
+    public bool isGameOn()
+        => _isWinCircle == false && _isWinCross == false;
 
     public void SetState(List<SlotStates> slotsStates)
     {

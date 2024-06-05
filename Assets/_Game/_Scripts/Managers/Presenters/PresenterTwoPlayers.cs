@@ -19,8 +19,8 @@ public class PresenterTwoPlayers : Presenter
         DequeueStateID(ref TempSlotsStates);
 
         _model.SetState(TempSlotsStates);
-        _model.SetStateWinCircle(CheckField(SlotStates.Circle));
-        _model.SetStateWinCross(CheckField(SlotStates.Cross));
+        _model.SetStateWinCircle(FieldChecker.Check(TempSlotsStates, SlotStates.Circle));
+        _model.SetStateWinCross(FieldChecker.Check(TempSlotsStates, SlotStates.Cross));
 
     }
 
