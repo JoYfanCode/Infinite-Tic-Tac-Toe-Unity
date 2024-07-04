@@ -167,6 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 160e48e2a59ec2740bcadefe27138242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startGameAIButton: {fileID: 1097670256}
+  _startGameTwoPlayersButton: {fileID: 1047572199}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

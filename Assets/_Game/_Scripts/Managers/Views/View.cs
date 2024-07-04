@@ -6,13 +6,15 @@ public abstract class View : MonoBehaviour
 {
     protected Presenter _presenter;
 
-    public void Init(Presenter presenter)
+    public virtual void Init(Presenter presenter)
     {
         _presenter = presenter;
 
         _presenter.OnTurnDone += DisplayField;
         _presenter.OnCircleWon += DisplayWinCircle;
         _presenter.OnCrossWon += DisplayWinCross;
+
+        _presenter.FirstMoveDetermination();
     }
 
     public void OnDisable()

@@ -6,22 +6,21 @@ public class PresenterTwoPlayers : Presenter
 {
     protected SlotStates _currentState = SlotStates.Circle;
 
+    private List<SlotStates> Field => _model.SlotsStates;
     public PresenterTwoPlayers(Model model) : base(model) { }
 
     protected override void DoTurn(int id)
     {
-        List<SlotStates> TempField = _model.SlotsStates;
-
-        TempField[id] = _currentState;
+        Field[id] = _currentState;
 
         EnqueueStateID(id);
         ChangeCurrentState();
-        DequeueStateID(ref TempField);
+        DequeueStateID(Field);
 
-        _model.SetState(TempField);
-        CheckField(TempField);
+        _model.SetState(Field);
+        CheckField(Field);
 
-        OnTurnDoneEvent(TempField);
+        OnTurnDoneEvent(Field);
     }
 
     private void EnqueueStateID(int id)
@@ -36,7 +35,7 @@ public class PresenterTwoPlayers : Presenter
         }
     }
 
-    private void DequeueStateID(ref List<SlotStates> Field)
+    private void DequeueStateID(List<SlotStates> Field)
     {
         if (_currentState == SlotStates.Circle)
         {
@@ -57,4 +56,15 @@ public class PresenterTwoPlayers : Presenter
         else
             _currentState = SlotStates.Circle;
     }
+
+    public override void FirstMoveDetermination()
+    {
+        int isFirstCircle = UnityEngine.Random.Range(0, 2);
+
+        if (isFirstCircle == 1)
+            _currentState = SlotStates.Circle;
+        else
+            _currentState = SlotStates.Cross;
+    }
+
 }

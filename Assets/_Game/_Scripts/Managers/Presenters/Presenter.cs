@@ -34,6 +34,8 @@ public abstract class Presenter
 
     protected abstract void DoTurn(int id);
 
+    public abstract void FirstMoveDetermination();
+
     protected void CheckField(List<SlotStates> Field)
     {
         if (FieldChecker.Check(Field, SlotStates.Circle))

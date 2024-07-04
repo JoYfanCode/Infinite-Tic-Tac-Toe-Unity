@@ -14,20 +14,21 @@ public class AIOneTurn : AI
     protected const int DONT_LOSE_TURN = 90;
 
     protected List<SlotStates> Field;
+
     protected SlotStates _AIState;
-    protected SlotStates _playerState;
+    protected SlotStates _opponentState;
 
     public AIOneTurn() { }
 
-    public override int DoTurn(ref List<SlotStates> Field, SlotStates AIState)
+    public override int DoTurn(List<SlotStates> Field, Queue<int> queueCirclesID, Queue<int> queueCrossesID, SlotStates AIState)
     {
         this.Field = Field;
         _AIState = AIState;
 
         if (AIState == SlotStates.Circle)
-            _playerState = SlotStates.Cross;
+            _opponentState = SlotStates.Cross;
         else
-            _playerState = SlotStates.Circle;
+            _opponentState = SlotStates.Circle;
 
         _turnsPoints = new List<int>();
 
@@ -74,9 +75,9 @@ public class AIOneTurn : AI
     protected void CheckDontLoseTurn(int index)
     {
         List<SlotStates> TurnSlotsStates = new List<SlotStates>(Field);
-        TurnSlotsStates[index] = _playerState;
+        TurnSlotsStates[index] = _opponentState;
 
-        if (FieldChecker.Check(TurnSlotsStates, _playerState))
+        if (FieldChecker.Check(TurnSlotsStates, _opponentState))
             _turnsPoints[index] = DONT_LOSE_TURN;
     }
 
@@ -103,7 +104,6 @@ public class AIOneTurn : AI
         }
 
         int RandomIndex = EmptyIndexes[Random.Range(0, EmptyIndexes.Count)];
-        Field[RandomIndex] = _AIState;
 
         return RandomIndex;
     }

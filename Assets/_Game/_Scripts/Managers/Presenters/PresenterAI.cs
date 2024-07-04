@@ -11,8 +11,10 @@ public class PresenterAI : Presenter
 
     protected AI _AI;
 
-    protected const int AI_TURN_TIME_MIN = 1500;
-    protected const int AI_TURN_TIME_MAX = 3000;
+    protected const int AI_TURN_TIME_MIN = 250;
+    protected const int AI_TURN_TIME_MAX = 750;
+
+    private List<SlotStates> Field => _model.SlotsStates;
 
     public PresenterAI(Model model, AI AI) : base(model)
     {
@@ -21,7 +23,7 @@ public class PresenterAI : Presenter
 
     public override async void OnClotClicked(int id)
     {
-        if (_model.SlotsStates[id] == SlotStates.Empty)
+        if (Field[id] == SlotStates.Empty)
         {
             if (_model.isGameOn())
             {
@@ -39,47 +41,44 @@ public class PresenterAI : Presenter
 
     protected override void DoTurn(int id)
     {
-        List<SlotStates> TempField = _model.SlotsStates;
-
-        TempField[id] = _playerState;
-
+        Field[id] = _playerState;
         EnqueueStateID(_playerState, id);
-        DequeueStateID(ref TempField, _AIState);
+        DequeueStateID(Field, _AIState);
 
-        _model.SetState(TempField);
-        CheckField(TempField);
+        _model.SetState(Field);
+        CheckField(Field);
 
-        OnTurnDoneEvent(TempField);
+        OnTurnDoneEvent(Field);
     }
 
     private void DoAITurn()
     {
-        List<SlotStates> TempField = _model.SlotsStates;
+        int id = _AI.DoTurn(new List<SlotStates>(Field), new Queue<int>(_model.QueueCircleID), 
+            new Queue<int>(_model.QueueCrossID), _AIState);
 
-        int id = _AI.DoTurn(ref TempField, _AIState);
-
+        Field[id] = _AIState;
         EnqueueStateID(_AIState, id);
-        DequeueStateID(ref TempField, _playerState);
+        DequeueStateID(Field, _playerState);
 
-        _model.SetState(TempField);
-        CheckField(TempField);
+        _model.SetState(Field);
+        CheckField(Field);
 
-        OnTurnDoneEvent(TempField);
+        OnTurnDoneEvent(Field);
     }
 
-    private void EnqueueStateID(SlotStates Field, int id)
+    private void EnqueueStateID(SlotStates State, int id)
     {
-        if (Field == SlotStates.Circle)
+        if (State == SlotStates.Circle)
         {
             _model.QueueCircleID.Enqueue(id);
         }
-        else if (Field == SlotStates.Cross)
+        else if (State == SlotStates.Cross)
         {
             _model.QueueCrossID.Enqueue(id);
         }
     }
 
-    private void DequeueStateID(ref List<SlotStates> Field, SlotStates SlotState)
+    private void DequeueStateID(List<SlotStates> Field, SlotStates SlotState)
     {
         if (SlotState == SlotStates.Circle)
         {
@@ -91,5 +90,13 @@ public class PresenterAI : Presenter
             if (_model.QueueCrossID.Count >= _model.LIMIT_QUEUE_ID)
                 Field[_model.QueueCrossID.Dequeue()] = SlotStates.Empty;
         }
+    }
+
+    public override void FirstMoveDetermination()
+    {
+        int isFirstAI = UnityEngine.Random.Range(0, 2);
+
+        if (isFirstAI == 1)
+            DoAITurn();
     }
 }
