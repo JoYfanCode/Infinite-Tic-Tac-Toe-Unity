@@ -26,7 +26,7 @@ public class Bootstrap : MonoBehaviour
 
         if (_isAI == false)
         {
-            presenter = new PresenterTwoPlayers(model);
+            presenter = new PresenterTwoPlayersSecond(model);
         }
         else if (_AIDifficulty == AIDifficulties.AIOneTurn)
         {
@@ -38,11 +38,11 @@ public class Bootstrap : MonoBehaviour
         }
         else if ((_AIDifficulty == AIDifficulties.AIMiniMax))
         {
-            presenter = new PresenterAI(model, new AIMiniMax(_maxDepth));
+            presenter = new PresenterTwoAISecond(model, new AIMiniMaxSecond(_maxDepth));
         }
         else
         {
-            presenter = new PresenterTwoPlayers(model);
+            presenter = new PresenterTwoPlayersSecond(model);
         }
 
         view.Init(presenter);

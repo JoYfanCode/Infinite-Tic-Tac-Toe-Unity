@@ -1823,7 +1823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isAI: 1
   _AIDifficulty: 2
-  _maxDepth: 6
+  _maxDepth: 11
   _viewUI: {fileID: 969526896}
   _interfaceCanvas: {fileID: 943105947}
 --- !u!1 &1134428588
