@@ -11,8 +11,10 @@ public abstract class View : MonoBehaviour
         _presenter = presenter;
 
         _presenter.OnTurnDone += DisplayField;
+        _presenter.OnTurnDone += ChangeTurnState;
         _presenter.OnCircleWon += DisplayWinCircle;
         _presenter.OnCrossWon += DisplayWinCross;
+        _presenter.OnRestartedGame += ClearDisplayWin;
 
         _presenter.FirstMoveDetermination();
     }
@@ -20,11 +22,16 @@ public abstract class View : MonoBehaviour
     public void OnDisable()
     {
         _presenter.OnTurnDone -= DisplayField;
+        _presenter.OnTurnDone -= ChangeTurnState;
         _presenter.OnCircleWon -= DisplayWinCircle;
         _presenter.OnCrossWon -= DisplayWinCross;
+        _presenter.OnRestartedGame -= ClearDisplayWin;
     }
 
     public abstract void DisplayField(List<SlotStates> Field);
     public abstract void DisplayWinCircle();
     public abstract void DisplayWinCross();
+    public abstract void ClearDisplayWin();
+    public abstract void SetTurnState(SlotStates state);
+    public abstract void ChangeTurnState(List<SlotStates> Field);
 }

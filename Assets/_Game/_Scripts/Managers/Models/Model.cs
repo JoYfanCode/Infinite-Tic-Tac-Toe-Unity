@@ -56,4 +56,17 @@ public abstract class Model
             _isWinCross = false;
         }
     }
+
+    public void ClearField()
+    {
+        _queueCirclesID = new Queue<int>();
+        _queueCrossesID = new Queue<int>();
+        _field = new List<SlotStates>();
+
+        for (int i = 0; i < SLOTS_COUNT; i++)
+            _field.Add(SlotStates.Empty);
+
+        _isWinCircle = false;
+        _isWinCross = false;
+    }
 }

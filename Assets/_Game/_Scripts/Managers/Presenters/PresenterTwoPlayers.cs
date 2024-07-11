@@ -67,4 +67,8 @@ public class PresenterTwoPlayers : Presenter
             _currentState = SlotStates.Cross;
     }
 
+    public override void Restart()
+    {
+        throw new System.NotImplementedException();
+    }
 }

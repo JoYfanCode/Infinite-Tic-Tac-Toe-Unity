@@ -9,6 +9,9 @@ public class ViewUI : View
     [SerializeField] private List<GameObject> _slots;
     [SerializeField] private Sprite _cross;
     [SerializeField] private Sprite _circle;
+
+    [SerializeField] private Image _turnStateImage;
+
     [SerializeField] private TMP_Text _winCircleText;
     [SerializeField] private TMP_Text _winCrossText;
 
@@ -39,9 +42,14 @@ public class ViewUI : View
         {
             if (Field[i] == SlotStates.Empty)
             {
-                _slotsImage[i].sprite = null;
+                _slotsImage[i].color = Color.clear;
             }
-            else if (Field[i] == SlotStates.Circle)
+            else
+            {
+                _slotsImage[i].color = Color.white;
+            }
+            
+            if (Field[i] == SlotStates.Circle)
             {
                 _slotsImage[i].sprite = _circle;
             }
@@ -62,6 +70,12 @@ public class ViewUI : View
         _winCrossText.gameObject.SetActive(true);
     }
 
+    public override void ClearDisplayWin()
+    {
+        _winCircleText.gameObject.SetActive(false);
+        _winCrossText.gameObject.SetActive(false);
+    }
+
     private void InitSlotsButtons()
     {
         _slotsButtons[0].onClick.AddListener(delegate { OnSlotClicked(0); });
@@ -73,5 +87,29 @@ public class ViewUI : View
         _slotsButtons[6].onClick.AddListener(delegate { OnSlotClicked(6); });
         _slotsButtons[7].onClick.AddListener(delegate { OnSlotClicked(7); });
         _slotsButtons[8].onClick.AddListener(delegate { OnSlotClicked(8); });
+    }
+
+    public override void SetTurnState(SlotStates state)
+    {
+        if (state == SlotStates.Circle)
+        {
+            _turnStateImage.sprite = _circle;
+        }
+        else if (state == SlotStates.Cross)
+        {
+            _turnStateImage.sprite = _cross;
+        }
+    }
+
+    public override void ChangeTurnState(List<SlotStates> Field)
+    {
+        if (_turnStateImage.sprite == _cross)
+        {
+            _turnStateImage.sprite = _circle;
+        }
+        else if (_turnStateImage.sprite == _circle)
+        {
+            _turnStateImage.sprite = _cross;
+        }
     }
 }

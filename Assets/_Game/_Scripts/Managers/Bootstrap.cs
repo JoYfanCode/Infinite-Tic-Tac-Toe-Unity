@@ -7,6 +7,9 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private bool _isAI = false;
     [SerializeField] private AIDifficulties _AIDifficulty = AIDifficulties.AIOneTurn;
     [SerializeField] private int _maxDepth = 3;
+    [SerializeField, Range(0, 1000)] private float _AICooldownMin;
+    [SerializeField, Range(0, 2000)] private float _AICooldownMax;
+    [SerializeField, Range(0, 5000)] private float _restartCooldown;
 
     private enum AIDifficulties
     {
@@ -38,7 +41,7 @@ public class Bootstrap : MonoBehaviour
         }
         else if ((_AIDifficulty == AIDifficulties.AIMiniMax))
         {
-            presenter = new PresenterTwoAISecond(model, new AIMiniMaxSecond(_maxDepth));
+            presenter = new PresenterTwoAISecond(model, new AIMiniMaxSecond(_maxDepth), _AICooldownMin, _AICooldownMax, _restartCooldown);
         }
         else
         {

@@ -13,59 +13,56 @@ public class PresenterTwoAISecond : Presenter
 
     protected AI _AI;
 
-    protected const int AI_TURN_TIME_MIN = 50;
-    protected const int AI_TURN_TIME_MAX = 100;
+    protected readonly float _AICooldownMin;
+    protected readonly float _AICooldownMax;
+
+    protected readonly float _restartCooldown;
 
     private List<SlotStates> Field => _model.SlotsStates;
 
-    public PresenterTwoAISecond(Model model, AI AI) : base(model)
+    public PresenterTwoAISecond(Model model, AI AI, float AICooldownMin = 50, float AICooldownMax = 100, float restartCooldown = 2000) : base(model)
     {
         _AI = AI;
+        _AICooldownMin = AICooldownMin;
+        _AICooldownMax = AICooldownMax;
+        _restartCooldown = restartCooldown;
     }
 
     private async void Game()
     {
-        int AITurnTime = 0;
+        float AITurnTime = 0;
 
         while (true)
         {
-            AITurnTime = Random.Range(AI_TURN_TIME_MIN, AI_TURN_TIME_MAX);
-            await Task.Run(() => Thread.Sleep(AITurnTime));
+            AITurnTime = Random.Range(_AICooldownMin, _AICooldownMax);
+            await Task.Run(() => Thread.Sleep((int)AITurnTime));
 
             if (_model.isGameOn())
             {
                 DoAITurn(SlotStates.Circle);
             }
+            else
+            {
+                break;
+            }
 
-            AITurnTime = Random.Range(AI_TURN_TIME_MIN, AI_TURN_TIME_MAX);
-            await Task.Run(() => Thread.Sleep(AITurnTime));
+            AITurnTime = Random.Range(_AICooldownMin, _AICooldownMax);
+            await Task.Run(() => Thread.Sleep((int)AITurnTime));
 
             if (_model.isGameOn())
             {
                 DoAITurn(SlotStates.Cross);
             }
-        }
-    }
-
-    public override async void OnClotClicked(int id)
-    {
-        if (Field[id] == SlotStates.Empty)
-        {
-            if (_model.isGameOn())
+            else
             {
-                int AITurnTime = Random.Range(AI_TURN_TIME_MIN, AI_TURN_TIME_MAX);
-                await Task.Run(() => Thread.Sleep(AITurnTime));
-                DoAITurn(SlotStates.Circle);
-            }
-
-            if (_model.isGameOn())
-            {
-                int AITurnTime = Random.Range(AI_TURN_TIME_MIN, AI_TURN_TIME_MAX);
-                await Task.Run(() => Thread.Sleep(AITurnTime));
-                DoAITurn(SlotStates.Cross);
+                break;
             }
         }
+
+        Restart();
     }
+
+    public override void OnClotClicked(int id) { }
 
     protected override void DoTurn(int id)
     {
@@ -120,8 +117,19 @@ public class PresenterTwoAISecond : Presenter
         }
     }
 
+    public override async void Restart()
+    {
+        await Task.Run(() => Thread.Sleep((int)_restartCooldown));
+
+        _model.ClearField();
+        OnRestartedGameEvent();
+        OnTurnDoneEvent(Field);
+        Game();
+    }
+
     public override void FirstMoveDetermination()
     {
+        OnFirstStateDeterminedEvent(SlotStates.Circle);
         Game();
     }
 }

@@ -99,4 +99,9 @@ public class PresenterAI : Presenter
         if (isFirstAI == 1)
             DoAITurn();
     }
+
+    public override void Restart()
+    {
+        throw new System.NotImplementedException();
+    }
 }
