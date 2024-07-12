@@ -15,6 +15,9 @@ public class ViewUI : View
     [SerializeField] private TMP_Text _winCircleText;
     [SerializeField] private TMP_Text _winCrossText;
 
+    [SerializeField] private TMP_Text _counterWinsCircleText;
+    [SerializeField] private TMP_Text _counterWinsCrossText;
+
     private List<Image> _slotsImage = new List<Image>();
     private List<Button> _slotsButtons = new List<Button>();
 
@@ -60,14 +63,16 @@ public class ViewUI : View
         }
     }
 
-    public override void DisplayWinCircle()
+    public override void DisplayWinCircle(int countWins)
     {
         _winCircleText.gameObject.SetActive(true);
+        _counterWinsCircleText.text = countWins.ToString();
     }
 
-    public override void DisplayWinCross()
+    public override void DisplayWinCross(int countWins)
     {
         _winCrossText.gameObject.SetActive(true);
+        _counterWinsCrossText.text = countWins.ToString();
     }
 
     public override void ClearDisplayWin()

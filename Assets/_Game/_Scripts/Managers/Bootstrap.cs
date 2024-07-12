@@ -41,7 +41,8 @@ public class Bootstrap : MonoBehaviour
         }
         else if ((_AIDifficulty == AIDifficulties.AIMiniMax))
         {
-            presenter = new PresenterTwoAISecond(model, new AIMiniMaxSecond(_maxDepth), _AICooldownMin, _AICooldownMax, _restartCooldown);
+            //presenter = new PresenterTwoAISecond(model, new AIMiniMaxSecond(_maxDepth), _AICooldownMin, _AICooldownMax, _restartCooldown);
+            presenter = new PresenterTwoAISecondFast(model, new AIMiniMaxSecond(_maxDepth), _restartCooldown);
         }
         else
         {

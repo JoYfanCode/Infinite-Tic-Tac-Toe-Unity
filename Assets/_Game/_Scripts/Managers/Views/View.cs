@@ -29,8 +29,8 @@ public abstract class View : MonoBehaviour
     }
 
     public abstract void DisplayField(List<SlotStates> Field);
-    public abstract void DisplayWinCircle();
-    public abstract void DisplayWinCross();
+    public abstract void DisplayWinCircle(int countWins);
+    public abstract void DisplayWinCross(int countWins);
     public abstract void ClearDisplayWin();
     public abstract void SetTurnState(SlotStates state);
     public abstract void ChangeTurnState(List<SlotStates> Field);

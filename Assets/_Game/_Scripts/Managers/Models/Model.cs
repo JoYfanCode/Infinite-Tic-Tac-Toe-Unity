@@ -13,12 +13,17 @@ public abstract class Model
     protected bool _isWinCircle;
     protected bool _isWinCross;
 
+    protected int _countWinsCircle;
+    protected int _countWinsCross;
+
     public int LIMIT_QUEUE_ID = 3;
     public int SLOTS_COUNT = 9;
 
     public List<SlotStates> SlotsStates => _field;
     public Queue<int> QueueCircleID => _queueCirclesID;
     public Queue<int> QueueCrossID => _queueCrossesID;
+    public int CountWinsCircle => _countWinsCircle;
+    public int CountWinsCross => _countWinsCross;
 
     public Model(View view)
     {
@@ -42,11 +47,13 @@ public abstract class Model
     {
         if (State == SlotStates.Circle)
         {
+            _countWinsCircle++;
             _isWinCircle = true;
             _isWinCross = false;
         }
         else if (State == SlotStates.Cross)
         {
+            _countWinsCross++;
             _isWinCross = true;
             _isWinCircle = false;
         }
