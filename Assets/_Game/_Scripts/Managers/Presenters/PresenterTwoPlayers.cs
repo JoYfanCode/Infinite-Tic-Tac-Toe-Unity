@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using System;
 
 public class PresenterTwoPlayers : Presenter
 {
@@ -14,13 +17,13 @@ public class PresenterTwoPlayers : Presenter
         Field[id] = _currentState;
 
         EnqueueStateID(id);
-        ChangeCurrentState();
         DequeueStateID(Field);
+        ChangeCurrentState();
 
         _model.SetState(Field);
         CheckField(Field);
 
-        OnTurnDoneEvent(Field);
+        OnTurnDoneEvent(Field, _model.CountTurns);
     }
 
     private void EnqueueStateID(int id)
@@ -39,12 +42,12 @@ public class PresenterTwoPlayers : Presenter
     {
         if (_currentState == SlotStates.Circle)
         {
-            if (_model.QueueCircleID.Count >= _model.LIMIT_QUEUE_ID)
+            if (_model.QueueCircleID.Count > _model.LIMIT_QUEUE_ID)
                 Field[_model.QueueCircleID.Dequeue()] = SlotStates.Empty;
         }
         else if (_currentState == SlotStates.Cross)
         {
-            if (_model.QueueCrossID.Count >= _model.LIMIT_QUEUE_ID)
+            if (_model.QueueCrossID.Count > _model.LIMIT_QUEUE_ID)
                 Field[_model.QueueCrossID.Dequeue()] = SlotStates.Empty;
         }
     }
@@ -69,6 +72,6 @@ public class PresenterTwoPlayers : Presenter
 
     public override void Restart()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 }

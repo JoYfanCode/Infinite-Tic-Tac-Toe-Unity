@@ -6,66 +6,66 @@ using TMPro;
 using System.Threading.Tasks;
 using System.Threading;
 
-public class PresenterAISecond : Presenter
+public class PresenterTwoAIFast : Presenter
 {
     protected SlotStates _playerState = SlotStates.Circle;
     protected SlotStates _AIState = SlotStates.Cross;
 
     protected AI _AI;
 
-    protected const int AI_TURN_TIME_MIN = 500;
-    protected const int AI_TURN_TIME_MAX = 1000;
+    protected readonly float _restartCooldown;
 
     private List<SlotStates> Field => _model.SlotsStates;
 
-    public PresenterAISecond(Model model, AI AI) : base(model)
+    public PresenterTwoAIFast(Model model, AI AI, float restartCooldown = 2000) : base(model)
     {
         _AI = AI;
+
+        _restartCooldown = restartCooldown;
     }
 
-    public override async void OnClotClicked(int id)
+    private void Game()
     {
-        if (Field[id] == SlotStates.Empty)
+        while (true)
         {
             if (_model.isGameOn())
             {
-                DoTurn(id);
+                DoAITurn(SlotStates.Circle);
+            }
+            else
+            {
+                break;
             }
 
             if (_model.isGameOn())
             {
-                int AITurnTime = Random.Range(AI_TURN_TIME_MIN, AI_TURN_TIME_MAX);
-                await Task.Run(() => Thread.Sleep(AITurnTime));
-                DoAITurn();
+                DoAITurn(SlotStates.Cross);
+            }
+            else
+            {
+                break;
             }
         }
+
+        Restart();
     }
 
-    protected override void DoTurn(int id)
-    {
-        Field[id] = _playerState;
-        EnqueueStateID(_playerState, id);
-        DequeueStateID(Field, _playerState);
+    public override void OnClotClicked(int id) { }
 
-        _model.SetState(Field);
-        CheckField(Field);
+    protected override void DoTurn(int id) { }
 
-        OnTurnDoneEvent(Field);
-    }
-
-    private void DoAITurn()
+    private void DoAITurn(SlotStates AIState)
     {
         int id = _AI.DoTurn(new List<SlotStates>(Field), new Queue<int>(_model.QueueCircleID),
-            new Queue<int>(_model.QueueCrossID), _AIState);
+            new Queue<int>(_model.QueueCrossID), AIState);
 
-        Field[id] = _AIState;
-        EnqueueStateID(_AIState, id);
-        DequeueStateID(Field, _AIState);
+        Field[id] = AIState;
+        EnqueueStateID(AIState, id);
+        DequeueStateID(Field, AIState);
 
         _model.SetState(Field);
+        _model.PlusTurn();
         CheckField(Field);
-
-        OnTurnDoneEvent(Field);
     }
 
     private void EnqueueStateID(SlotStates State, int id)
@@ -94,16 +94,21 @@ public class PresenterAISecond : Presenter
         }
     }
 
-    public override void FirstMoveDetermination()
+    public override async void Restart()
     {
-        int isFirstAI = UnityEngine.Random.Range(0, 2);
+        OnTurnDoneEvent(Field, _model.CountTurns);
+        await Task.Run(() => Thread.Sleep((int)_restartCooldown));
 
-        if (isFirstAI == 1)
-            DoAITurn();
+        _model.ResetTurns();
+        _model.ClearField();
+        OnRestartedGameEvent();
+        OnFirstStateDeterminedEvent(SlotStates.Circle);
+        Game();
     }
 
-    public override void Restart()
+    public override void FirstMoveDetermination()
     {
-        throw new System.NotImplementedException();
+        OnFirstStateDeterminedEvent(SlotStates.Circle);
+        Game();
     }
 }

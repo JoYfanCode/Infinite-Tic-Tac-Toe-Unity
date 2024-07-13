@@ -10,6 +10,9 @@ public class ViewUI : View
     [SerializeField] private Sprite _cross;
     [SerializeField] private Sprite _circle;
 
+    [SerializeField] private Color _crossColor;
+    [SerializeField] private Color _circleColor;
+
     [SerializeField] private Image _turnStateImage;
 
     [SerializeField] private TMP_Text _winCircleText;
@@ -17,6 +20,10 @@ public class ViewUI : View
 
     [SerializeField] private TMP_Text _counterWinsCircleText;
     [SerializeField] private TMP_Text _counterWinsCrossText;
+    [SerializeField] private TMP_Text _countTurnsText;
+    [SerializeField] private TMP_Text _averageTurnsText;
+    [SerializeField] private TMP_Text _medianaTurnsText;
+
 
     private List<Image> _slotsImage = new List<Image>();
     private List<Button> _slotsButtons = new List<Button>();
@@ -32,6 +39,15 @@ public class ViewUI : View
         InitSlotsButtons();
 
         base.Init(presenter);
+
+        _presenter.OnGameOver += UpdateAverageText;
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+
+        _presenter.OnGameOver -= UpdateAverageText;
     }
 
     public void OnSlotClicked(int id)
@@ -39,7 +55,7 @@ public class ViewUI : View
         _presenter.OnClotClicked(id);
     }
 
-    public override void DisplayField(List<SlotStates> Field)
+    public override void DisplayField(List<SlotStates> Field, int CountTurns)
     {
         for (int i = 0; i < _slots.Count; i++)
         {
@@ -47,20 +63,21 @@ public class ViewUI : View
             {
                 _slotsImage[i].color = Color.clear;
             }
-            else
-            {
-                _slotsImage[i].color = Color.white;
-            }
             
             if (Field[i] == SlotStates.Circle)
             {
                 _slotsImage[i].sprite = _circle;
+                _slotsImage[i].color = _circleColor;
+
             }
             else if (Field[i] == SlotStates.Cross)
             {
                 _slotsImage[i].sprite = _cross;
+                _slotsImage[i].color = _crossColor;
             }
         }
+
+        _countTurnsText.text = CountTurns.ToString();
     }
 
     public override void DisplayWinCircle(int countWins)
@@ -81,6 +98,46 @@ public class ViewUI : View
         _winCrossText.gameObject.SetActive(false);
     }
 
+    public void UpdateAverageText(List<int> turnsList)
+    {
+        int SumTurns = 0;
+
+        foreach (int turns in turnsList)
+        {
+            SumTurns += turns;
+        }
+
+        _averageTurnsText.text = (Mathf.Round(SumTurns / turnsList.Count)).ToString();
+        _medianaTurnsText.text = (Mathf.Round(turnsList[turnsList.Count / 2])).ToString();
+    }
+
+    public override void SetTurnState(SlotStates state)
+    {
+        if (state == SlotStates.Circle)
+        {
+            _turnStateImage.sprite = _circle;
+            _turnStateImage.color = _circleColor;
+        }
+        else if (state == SlotStates.Cross)
+        {
+            _turnStateImage.sprite = _cross;
+            _turnStateImage.color = _crossColor;
+        }
+    }
+
+    public override void ChangeTurnState(List<SlotStates> Field, int CountTurns)
+    {
+        if (_turnStateImage.sprite == _cross)
+        {
+            _turnStateImage.sprite = _circle;
+            _turnStateImage.color = _circleColor;
+        }
+        else if (_turnStateImage.sprite == _circle)
+        {
+            _turnStateImage.sprite = _cross;
+            _turnStateImage.color = _crossColor;
+        }
+    }
     private void InitSlotsButtons()
     {
         _slotsButtons[0].onClick.AddListener(delegate { OnSlotClicked(0); });
@@ -92,29 +149,5 @@ public class ViewUI : View
         _slotsButtons[6].onClick.AddListener(delegate { OnSlotClicked(6); });
         _slotsButtons[7].onClick.AddListener(delegate { OnSlotClicked(7); });
         _slotsButtons[8].onClick.AddListener(delegate { OnSlotClicked(8); });
-    }
-
-    public override void SetTurnState(SlotStates state)
-    {
-        if (state == SlotStates.Circle)
-        {
-            _turnStateImage.sprite = _circle;
-        }
-        else if (state == SlotStates.Cross)
-        {
-            _turnStateImage.sprite = _cross;
-        }
-    }
-
-    public override void ChangeTurnState(List<SlotStates> Field)
-    {
-        if (_turnStateImage.sprite == _cross)
-        {
-            _turnStateImage.sprite = _circle;
-        }
-        else if (_turnStateImage.sprite == _circle)
-        {
-            _turnStateImage.sprite = _cross;
-        }
     }
 }

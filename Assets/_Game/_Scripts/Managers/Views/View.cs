@@ -19,7 +19,7 @@ public abstract class View : MonoBehaviour
         _presenter.FirstMoveDetermination();
     }
 
-    public void OnDisable()
+    public virtual void OnDisable()
     {
         _presenter.OnTurnDone -= DisplayField;
         _presenter.OnTurnDone -= ChangeTurnState;
@@ -28,10 +28,10 @@ public abstract class View : MonoBehaviour
         _presenter.OnRestartedGame -= ClearDisplayWin;
     }
 
-    public abstract void DisplayField(List<SlotStates> Field);
+    public abstract void DisplayField(List<SlotStates> Field, int CountTurns);
     public abstract void DisplayWinCircle(int countWins);
     public abstract void DisplayWinCross(int countWins);
     public abstract void ClearDisplayWin();
     public abstract void SetTurnState(SlotStates state);
-    public abstract void ChangeTurnState(List<SlotStates> Field);
+    public abstract void ChangeTurnState(List<SlotStates> Field, int CountTurns);
 }

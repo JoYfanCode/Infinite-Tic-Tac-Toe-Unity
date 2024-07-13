@@ -10,11 +10,14 @@ public abstract class Model
     protected Queue<int> _queueCirclesID;
     protected Queue<int> _queueCrossesID;
 
+    protected List<int> _turnsList;
+
     protected bool _isWinCircle;
     protected bool _isWinCross;
 
     protected int _countWinsCircle;
     protected int _countWinsCross;
+    protected int _countTurns;
 
     public int LIMIT_QUEUE_ID = 3;
     public int SLOTS_COUNT = 9;
@@ -22,12 +25,15 @@ public abstract class Model
     public List<SlotStates> SlotsStates => _field;
     public Queue<int> QueueCircleID => _queueCirclesID;
     public Queue<int> QueueCrossID => _queueCrossesID;
+    public List<int> TurnsList => _turnsList;
     public int CountWinsCircle => _countWinsCircle;
     public int CountWinsCross => _countWinsCross;
+    public int CountTurns => _countTurns;
 
     public Model(View view)
     {
         _view = view;
+        _turnsList = new List<int>();
         _queueCirclesID = new Queue<int>();
         _queueCrossesID = new Queue<int>();
         _field = new List<SlotStates>();
@@ -62,6 +68,19 @@ public abstract class Model
             _isWinCircle = false;
             _isWinCross = false;
         }
+
+        _turnsList.Add(_countTurns);
+        _turnsList.Sort();
+    }
+
+    public void PlusTurn()
+    {
+        _countTurns++;
+    }
+
+    public void ResetTurns()
+    {
+        _countTurns = 0;
     }
 
     public void ClearField()

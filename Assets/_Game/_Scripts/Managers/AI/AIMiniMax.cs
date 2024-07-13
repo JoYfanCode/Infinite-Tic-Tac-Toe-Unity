@@ -6,7 +6,8 @@ using TMPro;
 
 public class AIMiniMax : AI
 {
-    protected int _maxDepth = 2;
+    protected int _maxDepth;
+    protected int _secondTurnDepth = 2;
 
     protected List<int> _turnsPoints;
     protected int MaxTurnPoints;
@@ -25,7 +26,10 @@ public class AIMiniMax : AI
 
     public AIMiniMax(int depth)
     {
-        _maxDepth = depth;
+        if (depth >= 1)
+            _maxDepth = depth;
+        else
+            _maxDepth = 1;
     }
 
     public override int DoTurn(List<SlotStates> Field, Queue<int> queueCirclesID, Queue<int> queueCrossesID, SlotStates AIState)
@@ -41,7 +45,30 @@ public class AIMiniMax : AI
         else
             _opponentState = SlotStates.Circle;
 
+        if (_maxDepth == 1)
+            _secondTurnDepth = 1;
+
+        int EmptySlots = 0;
+        foreach (SlotStates slot in Field)
+        {
+            if (slot == SlotStates.Empty)
+                EmptySlots++;
+        }
+
+        if (EmptySlots == 9)
+            return Random.Range(0, SLOTS_COUNT);
+
         MakeTurnsIterations(queueCirclesID, queueCrossesID, Moves, ref BestScore);
+
+        if (BestScore == WIN_OPPONENT)
+        {
+            int tempDepth = _maxDepth;
+            _maxDepth = _secondTurnDepth;
+            BestScore = -1000;
+            Moves = new List<(int, int)>();
+            MakeTurnsIterations(queueCirclesID, queueCrossesID, Moves, ref BestScore);
+            _maxDepth = tempDepth;
+        }
 
         return RandomBestTurn(Moves, BestScore);
     }
@@ -60,7 +87,7 @@ public class AIMiniMax : AI
 
                 TurnField[i] = _AIState;
                 EnqueueStateID(_AIState, TurnQueueCircleID, TurnQueueCrossID, i);
-                DequeueStateID(TurnField, TurnQueueCircleID, TurnQueueCrossID, _opponentState);
+                DequeueStateID(TurnField, TurnQueueCircleID, TurnQueueCrossID, _AIState);
 
                 MoveScore = MiniMax(TurnField, TurnQueueCircleID, TurnQueueCrossID, 1, false);
 
@@ -113,7 +140,7 @@ public class AIMiniMax : AI
 
                     TurnField[i] = _AIState;
                     EnqueueStateID(_AIState, TurnQueueCircleID, TurnQueueCrossID, i);
-                    DequeueStateID(TurnField, TurnQueueCircleID, TurnQueueCrossID, _opponentState);
+                    DequeueStateID(TurnField, TurnQueueCircleID, TurnQueueCrossID, _AIState);
 
                     BestScore = Mathf.Max(BestScore, MiniMax(TurnField, TurnQueueCircleID, TurnQueueCrossID, depth + 1, !isMax));
                 }
@@ -133,7 +160,7 @@ public class AIMiniMax : AI
 
                     TurnField[i] = _opponentState;
                     EnqueueStateID(_opponentState, TurnQueueCircleID, TurnQueueCrossID, i);
-                    DequeueStateID(TurnField, TurnQueueCircleID, TurnQueueCrossID, _AIState);
+                    DequeueStateID(TurnField, TurnQueueCircleID, TurnQueueCrossID, _opponentState);
 
                     BestScore = Mathf.Min(BestScore, MiniMax(TurnField, TurnQueueCircleID, TurnQueueCrossID, depth + 1, !isMax));
                 }
@@ -170,12 +197,12 @@ public class AIMiniMax : AI
     {
         if (SlotState == SlotStates.Circle)
         {
-            if (queueCircleID.Count >= LIMIT_QUEUE_ID)
+            if (queueCircleID.Count > LIMIT_QUEUE_ID)
                 Field[queueCircleID.Dequeue()] = SlotStates.Empty;
         }
         else if (SlotState == SlotStates.Cross)
         {
-            if (queueCrossID.Count >= LIMIT_QUEUE_ID)
+            if (queueCrossID.Count > LIMIT_QUEUE_ID)
                 Field[queueCrossID.Dequeue()] = SlotStates.Empty;
         }
     }

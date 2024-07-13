@@ -14,8 +14,8 @@ public class Bootstrap : MonoBehaviour
     private enum AIDifficulties
     {
         AIOneTurn,
-        AIMiniMax2Turn,
         AIMiniMax,
+        AIMiniMaxFast,
     }
 
     [SerializeField] private ViewUI _viewUI;
@@ -29,24 +29,23 @@ public class Bootstrap : MonoBehaviour
 
         if (_isAI == false)
         {
-            presenter = new PresenterTwoPlayersSecond(model);
+            presenter = new PresenterTwoPlayers(model);
         }
         else if (_AIDifficulty == AIDifficulties.AIOneTurn)
         {
             presenter = new PresenterAI(model, new AIOneTurn());
         }
-        else if ((_AIDifficulty == AIDifficulties.AIMiniMax2Turn))
-        {
-            presenter = new PresenterAI(model, new AIMiniMax(2));
-        }
         else if ((_AIDifficulty == AIDifficulties.AIMiniMax))
         {
-            //presenter = new PresenterTwoAISecond(model, new AIMiniMaxSecond(_maxDepth), _AICooldownMin, _AICooldownMax, _restartCooldown);
-            presenter = new PresenterTwoAISecondFast(model, new AIMiniMaxSecond(_maxDepth), _restartCooldown);
+            presenter = new PresenterTwoAI(model, new AIMiniMax(_maxDepth), _AICooldownMin, _AICooldownMax, _restartCooldown);
+        }
+        else if ((_AIDifficulty == AIDifficulties.AIMiniMaxFast))
+        {
+            presenter = new PresenterTwoAIFast(model, new AIMiniMax(_maxDepth), _restartCooldown);
         }
         else
         {
-            presenter = new PresenterTwoPlayersSecond(model);
+            presenter = new PresenterTwoPlayers(model);
         }
 
         view.Init(presenter);

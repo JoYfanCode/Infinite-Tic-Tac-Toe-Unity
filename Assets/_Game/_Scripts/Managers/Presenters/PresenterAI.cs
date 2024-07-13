@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
+using TMPro;
 using System.Threading.Tasks;
+using System.Threading;
 
 public class PresenterAI : Presenter
 {
@@ -11,8 +13,8 @@ public class PresenterAI : Presenter
 
     protected AI _AI;
 
-    protected const int AI_TURN_TIME_MIN = 250;
-    protected const int AI_TURN_TIME_MAX = 750;
+    protected const int AI_TURN_TIME_MIN = 500;
+    protected const int AI_TURN_TIME_MAX = 1000;
 
     private List<SlotStates> Field => _model.SlotsStates;
 
@@ -43,27 +45,27 @@ public class PresenterAI : Presenter
     {
         Field[id] = _playerState;
         EnqueueStateID(_playerState, id);
-        DequeueStateID(Field, _AIState);
-
-        _model.SetState(Field);
-        CheckField(Field);
-
-        OnTurnDoneEvent(Field);
-    }
-
-    private void DoAITurn()
-    {
-        int id = _AI.DoTurn(new List<SlotStates>(Field), new Queue<int>(_model.QueueCircleID), 
-            new Queue<int>(_model.QueueCrossID), _AIState);
-
-        Field[id] = _AIState;
-        EnqueueStateID(_AIState, id);
         DequeueStateID(Field, _playerState);
 
         _model.SetState(Field);
         CheckField(Field);
 
-        OnTurnDoneEvent(Field);
+        OnTurnDoneEvent(Field, _model.CountTurns);
+    }
+
+    private void DoAITurn()
+    {
+        int id = _AI.DoTurn(new List<SlotStates>(Field), new Queue<int>(_model.QueueCircleID),
+            new Queue<int>(_model.QueueCrossID), _AIState);
+
+        Field[id] = _AIState;
+        EnqueueStateID(_AIState, id);
+        DequeueStateID(Field, _AIState);
+
+        _model.SetState(Field);
+        CheckField(Field);
+
+        OnTurnDoneEvent(Field, _model.CountTurns);
     }
 
     private void EnqueueStateID(SlotStates State, int id)
@@ -82,12 +84,12 @@ public class PresenterAI : Presenter
     {
         if (SlotState == SlotStates.Circle)
         {
-            if (_model.QueueCircleID.Count >= _model.LIMIT_QUEUE_ID)
+            if (_model.QueueCircleID.Count > _model.LIMIT_QUEUE_ID)
                 Field[_model.QueueCircleID.Dequeue()] = SlotStates.Empty;
         }
         else if (SlotState == SlotStates.Cross)
         {
-            if (_model.QueueCrossID.Count >= _model.LIMIT_QUEUE_ID)
+            if (_model.QueueCrossID.Count > _model.LIMIT_QUEUE_ID)
                 Field[_model.QueueCrossID.Dequeue()] = SlotStates.Empty;
         }
     }

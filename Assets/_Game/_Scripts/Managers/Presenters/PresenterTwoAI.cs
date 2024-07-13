@@ -6,28 +6,37 @@ using TMPro;
 using System.Threading.Tasks;
 using System.Threading;
 
-public class PresenterTwoAISecondFast : Presenter
+public class PresenterTwoAI : Presenter
 {
     protected SlotStates _playerState = SlotStates.Circle;
     protected SlotStates _AIState = SlotStates.Cross;
 
     protected AI _AI;
 
+    protected readonly float _AICooldownMin;
+    protected readonly float _AICooldownMax;
+
     protected readonly float _restartCooldown;
 
     private List<SlotStates> Field => _model.SlotsStates;
 
-    public PresenterTwoAISecondFast(Model model, AI AI, float restartCooldown = 2000) : base(model)
+    public PresenterTwoAI(Model model, AI AI, float AICooldownMin = 50, float AICooldownMax = 100, float restartCooldown = 2000) : base(model)
     {
         _AI = AI;
-
+        _AICooldownMin = AICooldownMin;
+        _AICooldownMax = AICooldownMax;
         _restartCooldown = restartCooldown;
     }
 
-    private void Game()
+    private async void Game()
     {
+        float AITurnTime = 0;
+
         while (true)
         {
+            AITurnTime = Random.Range(_AICooldownMin, _AICooldownMax);
+            await Task.Run(() => Thread.Sleep((int)AITurnTime));
+
             if (_model.isGameOn())
             {
                 DoAITurn(SlotStates.Circle);
@@ -36,6 +45,9 @@ public class PresenterTwoAISecondFast : Presenter
             {
                 break;
             }
+
+            AITurnTime = Random.Range(_AICooldownMin, _AICooldownMax);
+            await Task.Run(() => Thread.Sleep((int)AITurnTime));
 
             if (_model.isGameOn())
             {
@@ -64,7 +76,10 @@ public class PresenterTwoAISecondFast : Presenter
         DequeueStateID(Field, AIState);
 
         _model.SetState(Field);
+        _model.PlusTurn();
         CheckField(Field);
+
+        OnTurnDoneEvent(Field, _model.CountTurns);
     }
 
     private void EnqueueStateID(SlotStates State, int id)
@@ -95,11 +110,13 @@ public class PresenterTwoAISecondFast : Presenter
 
     public override async void Restart()
     {
-        OnTurnDoneEvent(Field);
         await Task.Run(() => Thread.Sleep((int)_restartCooldown));
 
+        _model.ResetTurns();
         _model.ClearField();
         OnRestartedGameEvent();
+        OnTurnDoneEvent(Field, _model.CountTurns);
+        OnFirstStateDeterminedEvent(SlotStates.Circle);
         Game();
     }
 
