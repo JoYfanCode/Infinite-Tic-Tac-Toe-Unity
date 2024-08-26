@@ -6447,7 +6447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e88b99cb5935ee4abe34b863e823bff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _AIDifficulty: 0
+  _AIDifficulty: 1
   _AIDepth: 3
   _AICooldownMin: 500
   _AICooldownMax: 1000

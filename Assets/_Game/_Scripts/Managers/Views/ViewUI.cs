@@ -7,16 +7,17 @@ using TMPro;
 public class ViewUI : View
 {
     [SerializeField] private List<GameObject> _slots;
+    [SerializeField] private List<ParticleSystem> _slotsParticleCircle;
+    [SerializeField] private List<ParticleSystem> _slotsParticleCross;
     [SerializeField] private Sprite _cross;
     [SerializeField] private Sprite _circle;
 
     [SerializeField] private Color _crossColor;
     [SerializeField] private Color _circleColor;
 
-    [SerializeField] private Image _turnStateImage;
+    [SerializeField] private float _halfTransparentAlpha;
 
-    [SerializeField] private TMP_Text _winCircleText;
-    [SerializeField] private TMP_Text _winCrossText;
+    [SerializeField] private Image _turnStateImage;
 
     [SerializeField] private TMP_Text _counterWinsCircleText;
     [SerializeField] private TMP_Text _counterWinsCrossText;
@@ -27,6 +28,7 @@ public class ViewUI : View
 
     private List<Image> _slotsImage = new List<Image>();
     private List<Button> _slotsButtons = new List<Button>();
+    private List<CanvasGroup> _slotsCanvasGroup = new List<CanvasGroup>();
 
     public override void Init(Presenter presenter)
     {
@@ -34,6 +36,7 @@ public class ViewUI : View
         {
             _slotsImage.Add(_slots[i].GetComponent<Image>());
             _slotsButtons.Add(_slots[i].GetComponent<Button>());
+            _slotsCanvasGroup.Add(_slots[i].GetComponent<CanvasGroup>());
         }
 
         InitSlotsButtons();
@@ -55,7 +58,7 @@ public class ViewUI : View
         _presenter.OnClotClicked(id);
     }
 
-    public override void DisplayField(List<SlotStates> Field, int CountTurns)
+    protected override void DisplayField(List<SlotStates> Field, int CountTurns)
     {
         for (int i = 0; i < _slots.Count; i++)
         {
@@ -80,25 +83,44 @@ public class ViewUI : View
         _countTurnsText.text = CountTurns.ToString();
     }
 
-    public override void DisplayWinCircle(int countWins)
+    protected override void DisplayWinCircle(int countWins)
     {
-        _winCircleText.gameObject.SetActive(true);
         _counterWinsCircleText.text = countWins.ToString();
     }
 
-    public override void DisplayWinCross(int countWins)
+    protected override void DisplayWinCross(int countWins)
     {
-        _winCrossText.gameObject.SetActive(true);
         _counterWinsCrossText.text = countWins.ToString();
     }
 
-    public override void ClearDisplayWin()
+    protected override void BoomParticleSlot(int indexSlot, SlotStates slotState)
     {
-        _winCircleText.gameObject.SetActive(false);
-        _winCrossText.gameObject.SetActive(false);
+        if (slotState == SlotStates.Circle)
+        {
+            _slotsParticleCircle[indexSlot].Play();
+        }
+        else if (slotState == SlotStates.Cross)
+        {
+            _slotsParticleCross[indexSlot].Play();
+        }
     }
 
-    public void UpdateAverageText(List<int> turnsList)
+    protected override void LightDownColorSlot(int indexSlot)
+    {
+        LightUpColorSlots();
+
+        _slotsCanvasGroup[indexSlot].alpha = _halfTransparentAlpha;
+    }
+
+    protected override void LightUpColorSlots()
+    {
+        for (int i = 0; i < _slots.Count; i++)
+        {
+            _slotsCanvasGroup[i].alpha = 1;
+        }
+    }
+
+    protected void UpdateAverageText(List<int> turnsList)
     {
         int SumTurns = 0;
 
@@ -111,7 +133,7 @@ public class ViewUI : View
         _medianaTurnsText.text = (Mathf.Round(turnsList[turnsList.Count / 2])).ToString();
     }
 
-    public override void SetTurnState(SlotStates state)
+    protected override void SetTurnState(SlotStates state)
     {
         if (state == SlotStates.Circle)
         {
@@ -125,7 +147,7 @@ public class ViewUI : View
         }
     }
 
-    public override void ChangeTurnState(List<SlotStates> Field, int CountTurns)
+    protected override void ChangeTurnState(List<SlotStates> Field, int CountTurns)
     {
         if (_turnStateImage.sprite == _cross)
         {
@@ -138,7 +160,7 @@ public class ViewUI : View
             _turnStateImage.color = _crossColor;
         }
     }
-    private void InitSlotsButtons()
+    protected void InitSlotsButtons()
     {
         _slotsButtons[0].onClick.AddListener(delegate { OnSlotClicked(0); });
         _slotsButtons[1].onClick.AddListener(delegate { OnSlotClicked(1); });
