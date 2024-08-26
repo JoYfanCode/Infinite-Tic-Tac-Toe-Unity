@@ -2994,10 +2994,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isAI: 1
   _AIDifficulty: 1
-  _maxDepth: 9
-  _AICooldownMin: 200
-  _AICooldownMax: 400
-  _restartCooldown: 2000
+  _maxDepth: 11
+  _AICooldownMin: 50
+  _AICooldownMax: 100
+  _restartCooldown: 10
   _viewUI: {fileID: 969526896}
   _interfaceCanvas: {fileID: 943105947}
 --- !u!1 &1134428588
