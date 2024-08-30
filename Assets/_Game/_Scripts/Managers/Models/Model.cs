@@ -12,8 +12,6 @@ public abstract class Model
 
     protected List<int> _turnsList;
 
-    protected bool _isAIThinking;
-
     protected bool _isWinCircle;
     protected bool _isWinCross;
 
@@ -28,11 +26,9 @@ public abstract class Model
     public Queue<int> QueueCircleID => _queueCirclesID;
     public Queue<int> QueueCrossID => _queueCrossesID;
     public List<int> TurnsList => _turnsList;
-    public bool isAIThinking => _isAIThinking;
     public int CountWinsCircle => _countWinsCircle;
     public int CountWinsCross => _countWinsCross;
     public int CountTurns => _countTurns;
-    public bool isGameOn => _isWinCircle == false && _isWinCross == false;
 
     public Model(View view)
     {
@@ -45,15 +41,12 @@ public abstract class Model
         for (int i = 0; i < SLOTS_COUNT; i++)
             _field.Add(SlotStates.Empty);
     }
+    public bool isGameOn()
+        => _isWinCircle == false && _isWinCross == false;
 
     public void SetState(List<SlotStates> Field)
     {
         _field = Field;
-    }
-
-    public void SetIsAIThinking(bool isAIThinking)
-    {
-        _isAIThinking = isAIThinking;
     }
 
     public void SetStateWin(SlotStates State)
