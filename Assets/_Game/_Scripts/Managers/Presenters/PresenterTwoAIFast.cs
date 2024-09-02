@@ -15,9 +15,11 @@ public class PresenterTwoAIFast : Presenter
 
     protected readonly float _restartCooldown;
 
+    protected const int RESTART_GAME_DEFAULT = 100;
+
     private List<SlotStates> Field => _model.SlotsStates;
 
-    public PresenterTwoAIFast(Model model, AI AI, float restartCooldown = 2000) : base(model)
+    public PresenterTwoAIFast(Model model, AI AI, float restartCooldown = RESTART_GAME_DEFAULT) : base(model)
     {
         _AI = AI;
 
@@ -28,7 +30,7 @@ public class PresenterTwoAIFast : Presenter
     {
         while (true)
         {
-            if (_model.isGameOn())
+            if (_model.isGameOn)
             {
                 DoAITurn(SlotStates.Circle);
             }
@@ -37,7 +39,7 @@ public class PresenterTwoAIFast : Presenter
                 break;
             }
 
-            if (_model.isGameOn())
+            if (_model.isGameOn)
             {
                 DoAITurn(SlotStates.Cross);
             }
@@ -47,7 +49,7 @@ public class PresenterTwoAIFast : Presenter
             }
         }
 
-        Restart();
+        RestartGame();
     }
 
     public override void OnClotClicked(int id) { }
@@ -94,7 +96,7 @@ public class PresenterTwoAIFast : Presenter
         }
     }
 
-    public override async void Restart()
+    public override async void RestartGame()
     {
         OnTurnDoneEvent(Field, _model.CountTurns);
         await Task.Run(() => Thread.Sleep((int)_restartCooldown));
