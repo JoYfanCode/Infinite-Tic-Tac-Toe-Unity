@@ -32,17 +32,17 @@ public class ScenesChanger : MonoBehaviour
     }
 
     private void OpenMenu()
-        => SceneManager.LoadScene(MENU_SCENE);
+        => SceneManager.LoadScene(MENU_SCENE, LoadSceneMode.Single);
 
     private void StartGameTwoPlayers()
-        => SceneManager.LoadScene(GAME_TWO_PLAYERS_SCENE);
+        => SceneManager.LoadScene(GAME_TWO_PLAYERS_SCENE, LoadSceneMode.Single);
 
     private void StartGameAINormal()
-        => SceneManager.LoadScene(GAME_AI_NORMAL_SCENE);
+        => SceneManager.LoadScene(GAME_AI_NORMAL_SCENE, LoadSceneMode.Single);
 
     private void StartGameAIHard()
-        => SceneManager.LoadScene(GAME_AI_HARD_SCENE);
+        => SceneManager.LoadScene(GAME_AI_HARD_SCENE, LoadSceneMode.Single);
 
     private void StartGameAIVeryHard()
-        => SceneManager.LoadScene(GAME_AI_VERY_HARD_SCENE);
+        => SceneManager.LoadScene(GAME_AI_VERY_HARD_SCENE, LoadSceneMode.Single);
 }
