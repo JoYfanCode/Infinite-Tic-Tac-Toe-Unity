@@ -10,45 +10,33 @@ public class PresenterAI : Presenter
 {
     protected SlotStates _playerState = SlotStates.Circle;
     protected SlotStates _AIState = SlotStates.Cross;
-    protected SlotStates _startState;
 
     protected AI _AI;
 
-    protected readonly float _AICooldownMin;
-    protected readonly float _AICooldownMax;
-    protected readonly float _restartGameCooldown;
-
-    protected const int AI_COOLDOWN_MIN_DEFAULT = 500;
-    protected const int AI_COOLDOWN_MAX_DEFAULT = 1000;
-    protected const int RESTART_GAME_DEFAULT = 5000;
+    protected const int AI_TURN_TIME_MIN = 500;
+    protected const int AI_TURN_TIME_MAX = 1000;
 
     private List<SlotStates> Field => _model.SlotsStates;
 
-    public PresenterAI(Model model, AI AI, float AICooldownMin = AI_COOLDOWN_MIN_DEFAULT, float AICooldownMax = AI_COOLDOWN_MAX_DEFAULT,
-                        float restartGameCooldown = RESTART_GAME_DEFAULT) : base(model)
+    public PresenterAI(Model model, AI AI) : base(model)
     {
         _AI = AI;
-        _AICooldownMin = AICooldownMin;
-        _AICooldownMax = AICooldownMax;
-        _restartGameCooldown = restartGameCooldown;
     }
 
     public override async void OnClotClicked(int id)
     {
-        if (Field[id] == SlotStates.Empty && _model.isAIThinking == false)
+        if (Field[id] == SlotStates.Empty)
         {
-            if (_model.isGameOn)
+            if (_model.isGameOn())
             {
                 DoTurn(id);
             }
 
-            if (_model.isGameOn)
+            if (_model.isGameOn())
             {
-                _model.SetIsAIThinking(true);
-                float AITurnTime = Random.Range(_AICooldownMin, _AICooldownMax);
-                await Task.Run(() => Thread.Sleep((int)AITurnTime));
+                int AITurnTime = Random.Range(AI_TURN_TIME_MIN, AI_TURN_TIME_MAX);
+                await Task.Run(() => Thread.Sleep(AITurnTime));
                 DoAITurn();
-                _model.SetIsAIThinking(false);
             }
         }
     }
@@ -60,7 +48,6 @@ public class PresenterAI : Presenter
         DequeueStateID(Field, _playerState);
 
         _model.SetState(Field);
-        _model.PlusTurn();
         CheckField(Field);
 
         OnTurnDoneEvent(Field, _model.CountTurns);
@@ -68,29 +55,27 @@ public class PresenterAI : Presenter
 
     private void DoAITurn()
     {
-        int id = _AI.DoTurn(new List<SlotStates>(Field), new Queue<int>(_model.QueueCircleID), new Queue<int>(_model.QueueCrossID), _AIState);
+        int id = _AI.DoTurn(new List<SlotStates>(Field), new Queue<int>(_model.QueueCircleID),
+            new Queue<int>(_model.QueueCrossID), _AIState);
 
         Field[id] = _AIState;
         EnqueueStateID(_AIState, id);
         DequeueStateID(Field, _AIState);
 
         _model.SetState(Field);
-        _model.PlusTurn();
         CheckField(Field);
 
         OnTurnDoneEvent(Field, _model.CountTurns);
     }
 
-    private void EnqueueStateID(SlotStates SlotState, int id)
+    private void EnqueueStateID(SlotStates State, int id)
     {
-        if (SlotState == SlotStates.Circle)
+        if (State == SlotStates.Circle)
         {
-            OnAppearedSlotStateEvent(id, SlotStates.Circle);
             _model.QueueCircleID.Enqueue(id);
         }
-        else if (SlotState == SlotStates.Cross)
+        else if (State == SlotStates.Cross)
         {
-            OnAppearedSlotStateEvent(id, SlotStates.Cross);
             _model.QueueCrossID.Enqueue(id);
         }
     }
@@ -107,17 +92,6 @@ public class PresenterAI : Presenter
             if (_model.QueueCrossID.Count > _model.LIMIT_QUEUE_ID)
                 Field[_model.QueueCrossID.Dequeue()] = SlotStates.Empty;
         }
-
-        if (SlotState == SlotStates.Circle)
-        {
-            if (_model.QueueCrossID.Count >= _model.LIMIT_QUEUE_ID)
-                OnRemovedSlotStateEvent(_model.QueueCrossID.Peek());
-        }
-        else if (SlotState == SlotStates.Cross)
-        {
-            if (_model.QueueCircleID.Count >= _model.LIMIT_QUEUE_ID)
-                OnRemovedSlotStateEvent(_model.QueueCircleID.Peek());
-        }
     }
 
     public override void FirstMoveDetermination()
@@ -125,43 +99,11 @@ public class PresenterAI : Presenter
         int isFirstAI = UnityEngine.Random.Range(0, 2);
 
         if (isFirstAI == 1)
-        {
-            _startState = SlotStates.Cross;
             DoAITurn();
-        }
-        else
-        {
-            _startState = SlotStates.Circle;
-        }
-
-        OnFirstStateDeterminedEvent(_startState);
     }
 
-    private void FirstMoveAnotherPlayer()
+    public override void Restart()
     {
-        if (_startState == SlotStates.Circle)
-        {
-            _startState = SlotStates.Cross;
-
-            DoAITurn();
-        }
-        else if (_startState == SlotStates.Cross)
-        {
-            _startState = SlotStates.Circle;
-        }
-
-        OnFirstStateDeterminedEvent(_startState);
-    }
-
-    public override async void RestartGame()
-    {
-        await Task.Run(() => Thread.Sleep((int)_restartGameCooldown));
-
-        _model.ResetTurns();
-        _model.ClearField();
-
-        OnRestartedGameEvent();
-        OnTurnDoneEvent(Field, _model.CountTurns);
-        FirstMoveAnotherPlayer();
+        throw new System.NotImplementedException();
     }
 }

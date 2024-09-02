@@ -6,28 +6,18 @@ using UnityEngine.UI;
 
 public class ScenesChanger : MonoBehaviour
 {
-    [SerializeField] private Button _startGameAINormalButton;
-    [SerializeField] private Button _startGameAIHardButton;
-    [SerializeField] private Button _startGameAIVeryHardButton;
-
+    [SerializeField] private Button _startGameAIButton;
     [SerializeField] private Button _startGameTwoPlayersButton;
-
     [SerializeField] private Button _openMenuButton;
 
     private const string MENU_SCENE = "Menu";
     private const string GAME_TWO_PLAYERS_SCENE = "Game Two Players";
-    private const string GAME_AI_NORMAL_SCENE = "Game AI Normal";
-    private const string GAME_AI_HARD_SCENE = "Game AI Hard";
-    private const string GAME_AI_VERY_HARD_SCENE = "Game AI Very Hard";
+    private const string GAME_AI_SCENE = "Game AI";
 
     private void Start()
     {
-        _startGameAINormalButton?.onClick.AddListener(StartGameAINormal);
-        _startGameAIHardButton?.onClick.AddListener(StartGameAIHard);
-        _startGameAIVeryHardButton?.onClick.AddListener(StartGameAIVeryHard);
-
+        _startGameAIButton?.onClick.AddListener(StartGameAI);
         _startGameTwoPlayersButton?.onClick.AddListener(StartGameTwoPlayers);
-
         _openMenuButton?.onClick.AddListener(OpenMenu);
     }
 

@@ -14,10 +14,7 @@ public abstract class View : MonoBehaviour
         _presenter.OnTurnDone += ChangeTurnState;
         _presenter.OnCircleWon += DisplayWinCircle;
         _presenter.OnCrossWon += DisplayWinCross;
-        _presenter.OnAppearedSlotState += BoomParticleSlot;
-        _presenter.OnRemovedSlotState += LightDownColorSlot;
-        _presenter.OnRestartedGame += LightUpColorSlots;
-        _presenter.OnFirstStateDetermined += SetTurnState;
+        _presenter.OnRestartedGame += ClearDisplayWin;
 
         _presenter.FirstMoveDetermination();
     }
@@ -28,18 +25,13 @@ public abstract class View : MonoBehaviour
         _presenter.OnTurnDone -= ChangeTurnState;
         _presenter.OnCircleWon -= DisplayWinCircle;
         _presenter.OnCrossWon -= DisplayWinCross;
-        _presenter.OnAppearedSlotState -= BoomParticleSlot;
-        _presenter.OnRemovedSlotState -= LightDownColorSlot;
-        _presenter.OnRestartedGame -= LightUpColorSlots;
-        _presenter.OnFirstStateDetermined -= SetTurnState;
+        _presenter.OnRestartedGame -= ClearDisplayWin;
     }
 
-    protected abstract void DisplayField(List<SlotStates> Field, int CountTurns);
-    protected abstract void BoomParticleSlot(int indexSlot, SlotStates slotState);
-    protected abstract void LightDownColorSlot(int indexSlot);
-    protected abstract void LightUpColorSlots();
-    protected abstract void DisplayWinCircle(int countWins);
-    protected abstract void DisplayWinCross(int countWins);
-    protected abstract void SetTurnState(SlotStates state);
-    protected abstract void ChangeTurnState(List<SlotStates> Field, int CountTurns);
+    public abstract void DisplayField(List<SlotStates> Field, int CountTurns);
+    public abstract void DisplayWinCircle(int countWins);
+    public abstract void DisplayWinCross(int countWins);
+    public abstract void ClearDisplayWin();
+    public abstract void SetTurnState(SlotStates state);
+    public abstract void ChangeTurnState(List<SlotStates> Field, int CountTurns);
 }

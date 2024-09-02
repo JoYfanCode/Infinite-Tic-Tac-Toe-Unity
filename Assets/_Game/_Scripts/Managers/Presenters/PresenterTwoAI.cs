@@ -15,21 +15,17 @@ public class PresenterTwoAI : Presenter
 
     protected readonly float _AICooldownMin;
     protected readonly float _AICooldownMax;
-    protected readonly float _restartGameCooldown;
 
-    protected const int AI_COOLDOWN_MIN_DEFAULT = 500;
-    protected const int AI_COOLDOWN_MAX_DEFAULT = 1000;
-    protected const int RESTART_GAME_DEFAULT = 5000;
+    protected readonly float _restartCooldown;
 
     private List<SlotStates> Field => _model.SlotsStates;
 
-    public PresenterTwoAI(Model model, AI AI, float AICooldownMin = AI_COOLDOWN_MIN_DEFAULT, float AICooldownMax = AI_COOLDOWN_MAX_DEFAULT,
-                        float restartGameCooldown = RESTART_GAME_DEFAULT) : base(model)
+    public PresenterTwoAI(Model model, AI AI, float AICooldownMin = 50, float AICooldownMax = 100, float restartCooldown = 2000) : base(model)
     {
         _AI = AI;
         _AICooldownMin = AICooldownMin;
         _AICooldownMax = AICooldownMax;
-        _restartGameCooldown = restartGameCooldown;
+        _restartCooldown = restartCooldown;
     }
 
     private async void Game()
@@ -41,7 +37,7 @@ public class PresenterTwoAI : Presenter
             AITurnTime = Random.Range(_AICooldownMin, _AICooldownMax);
             await Task.Run(() => Thread.Sleep((int)AITurnTime));
 
-            if (_model.isGameOn)
+            if (_model.isGameOn())
             {
                 DoAITurn(SlotStates.Circle);
             }
@@ -53,7 +49,7 @@ public class PresenterTwoAI : Presenter
             AITurnTime = Random.Range(_AICooldownMin, _AICooldownMax);
             await Task.Run(() => Thread.Sleep((int)AITurnTime));
 
-            if (_model.isGameOn)
+            if (_model.isGameOn())
             {
                 DoAITurn(SlotStates.Cross);
             }
@@ -62,6 +58,8 @@ public class PresenterTwoAI : Presenter
                 break;
             }
         }
+
+        Restart();
     }
 
     public override void OnClotClicked(int id) { }
@@ -110,13 +108,12 @@ public class PresenterTwoAI : Presenter
         }
     }
 
-    public override async void RestartGame()
+    public override async void Restart()
     {
-        await Task.Run(() => Thread.Sleep((int)_restartGameCooldown));
+        await Task.Run(() => Thread.Sleep((int)_restartCooldown));
 
         _model.ResetTurns();
         _model.ClearField();
-
         OnRestartedGameEvent();
         OnTurnDoneEvent(Field, _model.CountTurns);
         OnFirstStateDeterminedEvent(SlotStates.Circle);
