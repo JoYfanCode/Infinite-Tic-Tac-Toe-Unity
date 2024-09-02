@@ -2,45 +2,24 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Threading;
 
 public abstract class Presenter
 {
     protected Model _model;
+    protected View _view;
 
-    public event Action<List<SlotStates>, int> OnTurnDone;
-    public event Action<int> OnCircleWon;
-    public event Action<int> OnCrossWon;
-    public event Action OnRestartedGame;
-    public event Action<SlotStates> OnFirstStateDetermined;
-    public event Action<List<int>> OnGameOver;
-
-    public Presenter(Model model)
+    public Presenter(Model model, View view)
     {
         _model = model;
+        _view = view;
     }
-
-    protected void OnTurnDoneEvent(List<SlotStates> Field, int CountTurns)
-        => OnTurnDone?.Invoke(Field, CountTurns);
-
-    protected void OnCircleWonEvent(int count)
-        => OnCircleWon?.Invoke(count);
-
-    protected void OnCrossWonEvent(int count)
-        => OnCrossWon?.Invoke(count);
-
-    protected void OnRestartedGameEvent()
-        => OnRestartedGame?.Invoke();
-
-    protected void OnFirstStateDeterminedEvent(SlotStates state)
-        => OnFirstStateDetermined?.Invoke(state);
-
-    protected void OnGameOverEvent(List<int> turnsList)
-        => OnGameOver?.Invoke(turnsList);
 
     public virtual void OnClotClicked(int id)
     {
         if (_model.SlotsStates[id] == SlotStates.Empty)
-            if (_model.isGameOn())
+            if (_model.isGameOn)
                 DoTurn(id);
     }
 
@@ -48,21 +27,33 @@ public abstract class Presenter
 
     public abstract void FirstMoveDetermination();
 
-    public abstract void Restart();
+    public abstract void RestartGame();
 
     protected void CheckField(List<SlotStates> Field)
     {
-        if (FieldChecker.Check(Field, SlotStates.Circle))
+        List<int> WinIndexesSlots;
+
+        if (FieldChecker.Check(Field, SlotStates.Circle, out WinIndexesSlots))
         {
             _model.SetStateWin(SlotStates.Circle);
-            OnCircleWonEvent(_model.CountWinsCircle);
-            OnGameOverEvent(_model.TurnsList);
+            _view.DisplayWinCircle(_model.CountWinsCircle);
+
+            for (int i = 0; i < WinIndexesSlots.Count; i++)
+                _view.BoomParticleSlot(WinIndexesSlots[i], SlotStates.Circle);
+
+            _view.UpdateAverageText(_model.TurnsList);
+            RestartGame();
         }
-        else if (FieldChecker.Check(Field, SlotStates.Cross))
+        else if (FieldChecker.Check(Field, SlotStates.Cross, out WinIndexesSlots))
         {
             _model.SetStateWin(SlotStates.Cross);
-            OnCrossWonEvent(_model.CountWinsCross);
-            OnGameOverEvent(_model.TurnsList);
+            _view.DisplayWinCross(_model.CountWinsCross);
+
+            for (int i = 0; i < WinIndexesSlots.Count; i++)
+                _view.BoomParticleSlot(WinIndexesSlots[i], SlotStates.Cross);
+
+            _view.UpdateAverageText(_model.TurnsList);
+            RestartGame();
         }
     }
 }

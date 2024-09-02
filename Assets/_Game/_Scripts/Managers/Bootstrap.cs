@@ -4,50 +4,66 @@ using UnityEngine;
 
 public class Bootstrap : MonoBehaviour
 {
-    [SerializeField] private bool _isAI = false;
-    [SerializeField] private AIDifficulties _AIDifficulty = AIDifficulties.AIOneTurn;
-    [SerializeField] private int _maxDepth = 3;
+    private enum Modes
+    {
+        TwoPlayers,
+        AINormal,
+        AIHard,
+        AIVeryHard,
+        TwoAI,
+        TwoAIFast,
+    }
+
+    [SerializeField] private Modes _AIDifficulty = Modes.TwoPlayers;
+    [SerializeField] private int _AIDepth = 3;
     [SerializeField, Range(0, 1000)] private float _AICooldownMin;
     [SerializeField, Range(0, 2000)] private float _AICooldownMax;
-    [SerializeField, Range(0, 5000)] private float _restartCooldown;
-
-    private enum AIDifficulties
-    {
-        AIOneTurn,
-        AIMiniMax,
-        AIMiniMaxFast,
-    }
+    [SerializeField, Range(0, 5000)] private float _restartGameCooldown;
 
     [SerializeField] private ViewUI _viewUI;
     [SerializeField] private Transform _interfaceCanvas;
 
+    private const int AI_NORMAL_DEPTH = 2;
+    private const int AI_HARD_DEPTH = 3;
+
     public void Awake()
     {
         View view = _viewUI;
-        Model model = new Model3x3(view);
-        Presenter presenter;
+        Model model = new Model3x3();
+        Presenter presenter = CreatePresenter(_AIDifficulty, model, view);
 
-        if (_isAI == false)
+        view.Init(presenter);
+    }
+
+    private Presenter CreatePresenter(Modes mode, Model model, View view)
+    {
+        if (_AIDifficulty == Modes.TwoPlayers)
         {
-            presenter = new PresenterTwoPlayers(model);
+            return new PresenterTwoPlayers(model, view, _restartGameCooldown);
         }
-        else if (_AIDifficulty == AIDifficulties.AIOneTurn)
+        else if (_AIDifficulty == Modes.AINormal)
         {
-            presenter = new PresenterAI(model, new AIOneTurn());
+            return new PresenterAI(model, view, new AIOneTurn(), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
         }
-        else if ((_AIDifficulty == AIDifficulties.AIMiniMax))
+        else if (_AIDifficulty == Modes.AIHard)
         {
-            presenter = new PresenterTwoAI(model, new AIMiniMax(_maxDepth), _AICooldownMin, _AICooldownMax, _restartCooldown);
+            return new PresenterAI(model, view, new AIMiniMax(AI_NORMAL_DEPTH), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
         }
-        else if ((_AIDifficulty == AIDifficulties.AIMiniMaxFast))
+        else if (_AIDifficulty == Modes.AIVeryHard)
         {
-            presenter = new PresenterTwoAIFast(model, new AIMiniMax(_maxDepth), _restartCooldown);
+            return new PresenterAI(model, view, new AIMiniMax(AI_HARD_DEPTH), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
+        }
+        else if ((_AIDifficulty == Modes.TwoAI))
+        {
+            return new PresenterTwoAI(model, view, new AIMiniMax(_AIDepth), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
+        }
+        else if ((_AIDifficulty == Modes.TwoAIFast))
+        {
+            return new PresenterTwoAIFast(model, view, new AIMiniMax(_AIDepth), _restartGameCooldown);
         }
         else
         {
-            presenter = new PresenterTwoPlayers(model);
+            return new PresenterTwoPlayers(model, view, _restartGameCooldown);
         }
-
-        view.Init(presenter);
     }
 }
