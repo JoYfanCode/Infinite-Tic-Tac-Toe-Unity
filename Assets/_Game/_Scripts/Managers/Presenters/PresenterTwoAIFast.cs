@@ -19,7 +19,7 @@ public class PresenterTwoAIFast : Presenter
 
     private List<SlotStates> Field => _model.SlotsStates;
 
-    public PresenterTwoAIFast(Model model, AI AI, float restartCooldown = RESTART_GAME_DEFAULT) : base(model)
+    public PresenterTwoAIFast(Model model, View view, AI AI, float restartCooldown = RESTART_GAME_DEFAULT) : base(model, view)
     {
         _AI = AI;
 
@@ -98,19 +98,19 @@ public class PresenterTwoAIFast : Presenter
 
     public override async void RestartGame()
     {
-        OnTurnDoneEvent(Field, _model.CountTurns);
+        _view.DisplayField(Field, _model.CountTurns);
         await Task.Run(() => Thread.Sleep((int)_restartCooldown));
 
         _model.ResetTurns();
         _model.ClearField();
-        OnRestartedGameEvent();
-        OnFirstStateDeterminedEvent(SlotStates.Circle);
+        _view.LightUpColorSlots();
+        _view.SetTurnState(SlotStates.Circle);
         Game();
     }
 
     public override void FirstMoveDetermination()
     {
-        OnFirstStateDeterminedEvent(SlotStates.Circle);
+        _view.SetTurnState(SlotStates.Circle);
         Game();
     }
 }

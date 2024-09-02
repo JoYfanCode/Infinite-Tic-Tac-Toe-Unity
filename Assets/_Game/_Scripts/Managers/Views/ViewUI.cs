@@ -42,15 +42,6 @@ public class ViewUI : View
         InitSlotsButtons();
 
         base.Init(presenter);
-
-        _presenter.OnGameOver += UpdateAverageText;
-    }
-
-    public override void OnDisable()
-    {
-        base.OnDisable();
-
-        _presenter.OnGameOver -= UpdateAverageText;
     }
 
     public void OnSlotClicked(int id)
@@ -58,7 +49,7 @@ public class ViewUI : View
         _presenter.OnClotClicked(id);
     }
 
-    protected override void DisplayField(List<SlotStates> Field, int CountTurns)
+    public override void DisplayField(List<SlotStates> Field, int CountTurns)
     {
         for (int i = 0; i < _slots.Count; i++)
         {
@@ -81,19 +72,20 @@ public class ViewUI : View
         }
 
         _countTurnsText.text = CountTurns.ToString();
+        ChangeTurnState();
     }
 
-    protected override void DisplayWinCircle(int countWins)
+    public override void DisplayWinCircle(int countWins)
     {
         _counterWinsCircleText.text = countWins.ToString();
     }
 
-    protected override void DisplayWinCross(int countWins)
+    public override void DisplayWinCross(int countWins)
     {
         _counterWinsCrossText.text = countWins.ToString();
     }
 
-    protected override void BoomParticleSlot(int indexSlot, SlotStates slotState)
+    public override void BoomParticleSlot(int indexSlot, SlotStates slotState)
     {
         if (slotState == SlotStates.Circle)
         {
@@ -105,14 +97,14 @@ public class ViewUI : View
         }
     }
 
-    protected override void LightDownColorSlot(int indexSlot)
+    public override void LightDownColorSlot(int indexSlot)
     {
         LightUpColorSlots();
 
         _slotsCanvasGroup[indexSlot].alpha = _halfTransparentAlpha;
     }
 
-    protected override void LightUpColorSlots()
+    public override void LightUpColorSlots()
     {
         for (int i = 0; i < _slots.Count; i++)
         {
@@ -120,7 +112,7 @@ public class ViewUI : View
         }
     }
 
-    protected void UpdateAverageText(List<int> turnsList)
+    public override void UpdateAverageText(List<int> turnsList)
     {
         int SumTurns = 0;
 
@@ -133,7 +125,7 @@ public class ViewUI : View
         _medianaTurnsText.text = (Mathf.Round(turnsList[turnsList.Count / 2])).ToString();
     }
 
-    protected override void SetTurnState(SlotStates state)
+    public override void SetTurnState(SlotStates state)
     {
         if (state == SlotStates.Circle)
         {
@@ -147,7 +139,7 @@ public class ViewUI : View
         }
     }
 
-    protected override void ChangeTurnState(List<SlotStates> Field, int CountTurns)
+    protected void ChangeTurnState()
     {
         if (_turnStateImage.sprite == _cross)
         {

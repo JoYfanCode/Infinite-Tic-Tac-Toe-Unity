@@ -29,34 +29,41 @@ public class Bootstrap : MonoBehaviour
     public void Awake()
     {
         View view = _viewUI;
-        Model model = new Model3x3(view);
-        Presenter presenter = new PresenterTwoPlayers(model, _restartGameCooldown);
+        Model model = new Model3x3();
+        Presenter presenter = CreatePresenter(_AIDifficulty, model, view);
 
+        view.Init(presenter);
+    }
+
+    private Presenter CreatePresenter(Modes mode, Model model, View view)
+    {
         if (_AIDifficulty == Modes.TwoPlayers)
         {
-            presenter = new PresenterTwoPlayers(model, _restartGameCooldown);
+            return new PresenterTwoPlayers(model, view, _restartGameCooldown);
         }
         else if (_AIDifficulty == Modes.AINormal)
         {
-            presenter = new PresenterAI(model, new AIOneTurn(), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
+            return new PresenterAI(model, view, new AIOneTurn(), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
         }
         else if (_AIDifficulty == Modes.AIHard)
         {
-            presenter = new PresenterAI(model, new AIMiniMax(AI_NORMAL_DEPTH), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
+            return new PresenterAI(model, view, new AIMiniMax(AI_NORMAL_DEPTH), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
         }
         else if (_AIDifficulty == Modes.AIVeryHard)
         {
-            presenter = new PresenterAI(model, new AIMiniMax(AI_HARD_DEPTH), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
+            return new PresenterAI(model, view, new AIMiniMax(AI_HARD_DEPTH), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
         }
         else if ((_AIDifficulty == Modes.TwoAI))
         {
-            presenter = new PresenterTwoAI(model, new AIMiniMax(_AIDepth), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
+            return new PresenterTwoAI(model, view, new AIMiniMax(_AIDepth), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
         }
         else if ((_AIDifficulty == Modes.TwoAIFast))
         {
-            presenter = new PresenterTwoAIFast(model, new AIMiniMax(_AIDepth), _restartGameCooldown);
+            return new PresenterTwoAIFast(model, view, new AIMiniMax(_AIDepth), _restartGameCooldown);
         }
-
-        view.Init(presenter);
+        else
+        {
+            return new PresenterTwoPlayers(model, view, _restartGameCooldown);
+        }
     }
 }

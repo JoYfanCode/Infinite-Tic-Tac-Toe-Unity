@@ -23,8 +23,8 @@ public class PresenterTwoAI : Presenter
 
     private List<SlotStates> Field => _model.SlotsStates;
 
-    public PresenterTwoAI(Model model, AI AI, float AICooldownMin = AI_COOLDOWN_MIN_DEFAULT, float AICooldownMax = AI_COOLDOWN_MAX_DEFAULT,
-                        float restartGameCooldown = RESTART_GAME_DEFAULT) : base(model)
+    public PresenterTwoAI(Model model, View view, AI AI, float AICooldownMin = AI_COOLDOWN_MIN_DEFAULT, float AICooldownMax = AI_COOLDOWN_MAX_DEFAULT,
+                        float restartGameCooldown = RESTART_GAME_DEFAULT) : base(model, view)
     {
         _AI = AI;
         _AICooldownMin = AICooldownMin;
@@ -81,7 +81,7 @@ public class PresenterTwoAI : Presenter
         _model.PlusTurn();
         CheckField(Field);
 
-        OnTurnDoneEvent(Field, _model.CountTurns);
+        _view.DisplayField(Field, _model.CountTurns);
     }
 
     private void EnqueueStateID(SlotStates State, int id)
@@ -117,15 +117,15 @@ public class PresenterTwoAI : Presenter
         _model.ResetTurns();
         _model.ClearField();
 
-        OnRestartedGameEvent();
-        OnTurnDoneEvent(Field, _model.CountTurns);
-        OnFirstStateDeterminedEvent(SlotStates.Circle);
+        _view.LightUpColorSlots();
+        _view.DisplayField(Field, _model.CountTurns);
+        _view.SetTurnState(SlotStates.Circle);
         Game();
     }
 
     public override void FirstMoveDetermination()
     {
-        OnFirstStateDeterminedEvent(SlotStates.Circle);
+        _view.SetTurnState(SlotStates.Circle);
         Game();
     }
 }

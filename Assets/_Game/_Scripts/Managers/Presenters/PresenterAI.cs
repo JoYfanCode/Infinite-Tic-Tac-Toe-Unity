@@ -24,8 +24,8 @@ public class PresenterAI : Presenter
 
     private List<SlotStates> Field => _model.SlotsStates;
 
-    public PresenterAI(Model model, AI AI, float AICooldownMin = AI_COOLDOWN_MIN_DEFAULT, float AICooldownMax = AI_COOLDOWN_MAX_DEFAULT,
-                        float restartGameCooldown = RESTART_GAME_DEFAULT) : base(model)
+    public PresenterAI(Model model, View view, AI AI, float AICooldownMin = AI_COOLDOWN_MIN_DEFAULT, float AICooldownMax = AI_COOLDOWN_MAX_DEFAULT,
+                        float restartGameCooldown = RESTART_GAME_DEFAULT) : base(model, view)
     {
         _AI = AI;
         _AICooldownMin = AICooldownMin;
@@ -63,7 +63,7 @@ public class PresenterAI : Presenter
         _model.PlusTurn();
         CheckField(Field);
 
-        OnTurnDoneEvent(Field, _model.CountTurns);
+        _view.DisplayField(Field, _model.CountTurns);
     }
 
     private void DoAITurn()
@@ -78,19 +78,19 @@ public class PresenterAI : Presenter
         _model.PlusTurn();
         CheckField(Field);
 
-        OnTurnDoneEvent(Field, _model.CountTurns);
+        _view.DisplayField(Field, _model.CountTurns);
     }
 
     private void EnqueueStateID(SlotStates SlotState, int id)
     {
         if (SlotState == SlotStates.Circle)
         {
-            OnAppearedSlotStateEvent(id, SlotStates.Circle);
+            _view.BoomParticleSlot(id, SlotStates.Circle);
             _model.QueueCircleID.Enqueue(id);
         }
         else if (SlotState == SlotStates.Cross)
         {
-            OnAppearedSlotStateEvent(id, SlotStates.Cross);
+            _view.BoomParticleSlot(id, SlotStates.Cross);
             _model.QueueCrossID.Enqueue(id);
         }
     }
@@ -111,12 +111,12 @@ public class PresenterAI : Presenter
         if (SlotState == SlotStates.Circle)
         {
             if (_model.QueueCrossID.Count >= _model.LIMIT_QUEUE_ID)
-                OnRemovedSlotStateEvent(_model.QueueCrossID.Peek());
+                _view.LightDownColorSlot(_model.QueueCrossID.Peek());
         }
         else if (SlotState == SlotStates.Cross)
         {
             if (_model.QueueCircleID.Count >= _model.LIMIT_QUEUE_ID)
-                OnRemovedSlotStateEvent(_model.QueueCircleID.Peek());
+                _view.LightDownColorSlot(_model.QueueCircleID.Peek());
         }
     }
 
@@ -134,7 +134,7 @@ public class PresenterAI : Presenter
             _startState = SlotStates.Circle;
         }
 
-        OnFirstStateDeterminedEvent(_startState);
+        _view.SetTurnState(_startState);
     }
 
     private void FirstMoveAnotherPlayer()
@@ -150,7 +150,7 @@ public class PresenterAI : Presenter
             _startState = SlotStates.Circle;
         }
 
-        OnFirstStateDeterminedEvent(_startState);
+        _view.SetTurnState(_startState);
     }
 
     public override async void RestartGame()
@@ -160,8 +160,8 @@ public class PresenterAI : Presenter
         _model.ResetTurns();
         _model.ClearField();
 
-        OnRestartedGameEvent();
-        OnTurnDoneEvent(Field, _model.CountTurns);
+        _view.LightUpColorSlots();
+        _view.DisplayField(Field, _model.CountTurns);
         FirstMoveAnotherPlayer();
     }
 }

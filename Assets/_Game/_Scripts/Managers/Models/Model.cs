@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public abstract class Model
 {
-    protected View _view;
-
     protected List<SlotStates> _field;
     protected Queue<int> _queueCirclesID;
     protected Queue<int> _queueCrossesID;
@@ -34,9 +32,8 @@ public abstract class Model
     public int CountTurns => _countTurns;
     public bool isGameOn => _isWinCircle == false && _isWinCross == false;
 
-    public Model(View view)
+    public Model()
     {
-        _view = view;
         _turnsList = new List<int>();
         _queueCirclesID = new Queue<int>();
         _queueCrossesID = new Queue<int>();

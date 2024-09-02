@@ -17,7 +17,7 @@ public class PresenterTwoPlayers : Presenter
     protected const int RESTART_GAME_DEFAULT = 100;
 
     private List<SlotStates> Field => _model.SlotsStates;
-    public PresenterTwoPlayers(Model model, float restartGameCooldown = RESTART_GAME_DEFAULT) : base(model) 
+    public PresenterTwoPlayers(Model model, View view, float restartGameCooldown = RESTART_GAME_DEFAULT) : base(model, view) 
     {
         _restartGameCooldown = restartGameCooldown;
     }
@@ -34,19 +34,19 @@ public class PresenterTwoPlayers : Presenter
         _model.PlusTurn();
         CheckField(Field);
 
-        OnTurnDoneEvent(Field, _model.CountTurns);
+        _view.DisplayField(Field, _model.CountTurns);
     }
 
     private void EnqueueStateID(int id)
     {
         if (_currentState == SlotStates.Circle)
         {
-            OnAppearedSlotStateEvent(id, SlotStates.Circle);
+            _view.BoomParticleSlot(id, SlotStates.Circle);
             _model.QueueCircleID.Enqueue(id);
         }
         else if (_currentState == SlotStates.Cross)
         {
-            OnAppearedSlotStateEvent(id, SlotStates.Cross);
+            _view.BoomParticleSlot(id, SlotStates.Cross);
             _model.QueueCrossID.Enqueue(id);
         }
     }
@@ -71,12 +71,12 @@ public class PresenterTwoPlayers : Presenter
         if (_currentState == SlotStates.Circle)
         {
             if (_model.QueueCrossID.Count >= _model.LIMIT_QUEUE_ID)
-                OnRemovedSlotStateEvent(_model.QueueCrossID.Peek());
+                _view.LightDownColorSlot(_model.QueueCrossID.Peek());
         }
         else if (_currentState == SlotStates.Cross)
         {
             if (_model.QueueCircleID.Count >= _model.LIMIT_QUEUE_ID)
-                OnRemovedSlotStateEvent(_model.QueueCircleID.Peek());
+                _view.LightDownColorSlot(_model.QueueCircleID.Peek());
         }
     }
 
@@ -103,7 +103,7 @@ public class PresenterTwoPlayers : Presenter
             _currentState = SlotStates.Cross;
         }
 
-        OnFirstStateDeterminedEvent(_currentState);
+        _view.SetTurnState(_currentState);
     }
 
     private void FirstMoveAnotherPlayer()
@@ -119,7 +119,7 @@ public class PresenterTwoPlayers : Presenter
             _currentState = SlotStates.Circle;
         }
 
-        OnFirstStateDeterminedEvent(_startState);
+        _view.SetTurnState(_startState);
     }
 
     public override async void RestartGame()
@@ -129,8 +129,8 @@ public class PresenterTwoPlayers : Presenter
         _model.ResetTurns();
         _model.ClearField();
 
-        OnRestartedGameEvent();
-        OnTurnDoneEvent(Field, _model.CountTurns);
+        _view.LightUpColorSlots();
+        _view.DisplayField(Field, _model.CountTurns);
         FirstMoveAnotherPlayer();
     }
 }
