@@ -29,12 +29,10 @@ public class PresenterTwoPlayers : Presenter
         EnqueueStateID(id);
         DequeueStateID(Field);
         ChangeCurrentState();
+        CheckField(Field);
 
         _model.SetState(Field);
         _model.PlusTurn();
-        CheckField(Field);
-
-        _view.DisplayField(Field, _model.CountTurns);
     }
 
     private void EnqueueStateID(int id)
@@ -130,7 +128,6 @@ public class PresenterTwoPlayers : Presenter
         _model.ClearField();
 
         _view.LightUpColorSlots();
-        _view.DisplayField(Field, _model.CountTurns);
         FirstMoveAnotherPlayer();
     }
 }

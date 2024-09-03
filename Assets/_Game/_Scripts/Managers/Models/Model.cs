@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using static UnityEngine.Rendering.DebugUI;
 
 public abstract class Model
 {
+    protected View _view;
+
     protected List<SlotStates> _field;
     protected Queue<int> _queueCirclesID;
     protected Queue<int> _queueCrossesID;
@@ -32,8 +35,10 @@ public abstract class Model
     public int CountTurns => _countTurns;
     public bool isGameOn => _isWinCircle == false && _isWinCross == false;
 
-    public Model()
+    public Model(View view)
     {
+        _view = view;
+
         _turnsList = new List<int>();
         _queueCirclesID = new Queue<int>();
         _queueCrossesID = new Queue<int>();
@@ -46,6 +51,7 @@ public abstract class Model
     public void SetState(List<SlotStates> Field)
     {
         _field = Field;
+        _view.DisplayField(Field, CountTurns);
     }
 
     public void SetIsAIThinking(bool isAIThinking)
@@ -60,12 +66,14 @@ public abstract class Model
             _countWinsCircle++;
             _isWinCircle = true;
             _isWinCross = false;
+            _view.DisplayWinCircle(CountWinsCircle);
         }
         else if (State == SlotStates.Cross)
         {
             _countWinsCross++;
             _isWinCross = true;
             _isWinCircle = false;
+            _view.DisplayWinCross(CountWinsCross);
         }
         else if (State == SlotStates.Empty)
         {
@@ -75,6 +83,7 @@ public abstract class Model
 
         _turnsList.Add(_countTurns);
         _turnsList.Sort();
+        _view.UpdateAverageText(TurnsList);
     }
 
     public void PlusTurn()
@@ -98,5 +107,7 @@ public abstract class Model
 
         _isWinCircle = false;
         _isWinCross = false;
+
+        _view.DisplayField(_field, CountTurns);
     }
 }

@@ -29,7 +29,7 @@ public class Bootstrap : MonoBehaviour
     public void Awake()
     {
         View view = _viewUI;
-        Model model = new Model3x3();
+        Model model = new Model3x3(view);
         Presenter presenter = CreatePresenter(_AIDifficulty, model, view);
 
         view.Init(presenter);

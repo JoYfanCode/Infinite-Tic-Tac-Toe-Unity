@@ -76,12 +76,10 @@ public class PresenterTwoAI : Presenter
         Field[id] = AIState;
         EnqueueStateID(AIState, id);
         DequeueStateID(Field, AIState);
+        CheckField(Field);
 
         _model.SetState(Field);
         _model.PlusTurn();
-        CheckField(Field);
-
-        _view.DisplayField(Field, _model.CountTurns);
     }
 
     private void EnqueueStateID(SlotStates State, int id)
@@ -118,7 +116,6 @@ public class PresenterTwoAI : Presenter
         _model.ClearField();
 
         _view.LightUpColorSlots();
-        _view.DisplayField(Field, _model.CountTurns);
         _view.SetTurnState(SlotStates.Circle);
         Game();
     }

@@ -58,12 +58,10 @@ public class PresenterAI : Presenter
         Field[id] = _playerState;
         EnqueueStateID(_playerState, id);
         DequeueStateID(Field, _playerState);
+        CheckField(Field);
 
         _model.SetState(Field);
         _model.PlusTurn();
-        CheckField(Field);
-
-        _view.DisplayField(Field, _model.CountTurns);
     }
 
     private void DoAITurn()
@@ -73,12 +71,10 @@ public class PresenterAI : Presenter
         Field[id] = _AIState;
         EnqueueStateID(_AIState, id);
         DequeueStateID(Field, _AIState);
+        CheckField(Field);
 
         _model.SetState(Field);
         _model.PlusTurn();
-        CheckField(Field);
-
-        _view.DisplayField(Field, _model.CountTurns);
     }
 
     private void EnqueueStateID(SlotStates SlotState, int id)
@@ -161,7 +157,6 @@ public class PresenterAI : Presenter
         _model.ClearField();
 
         _view.LightUpColorSlots();
-        _view.DisplayField(Field, _model.CountTurns);
         FirstMoveAnotherPlayer();
     }
 }

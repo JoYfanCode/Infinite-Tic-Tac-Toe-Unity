@@ -36,23 +36,19 @@ public abstract class Presenter
         if (FieldChecker.Check(Field, SlotStates.Circle, out WinIndexesSlots))
         {
             _model.SetStateWin(SlotStates.Circle);
-            _view.DisplayWinCircle(_model.CountWinsCircle);
 
             for (int i = 0; i < WinIndexesSlots.Count; i++)
                 _view.BoomParticleSlot(WinIndexesSlots[i], SlotStates.Circle);
 
-            _view.UpdateAverageText(_model.TurnsList);
             RestartGame();
         }
         else if (FieldChecker.Check(Field, SlotStates.Cross, out WinIndexesSlots))
         {
             _model.SetStateWin(SlotStates.Cross);
-            _view.DisplayWinCross(_model.CountWinsCross);
 
             for (int i = 0; i < WinIndexesSlots.Count; i++)
                 _view.BoomParticleSlot(WinIndexesSlots[i], SlotStates.Cross);
 
-            _view.UpdateAverageText(_model.TurnsList);
             RestartGame();
         }
     }

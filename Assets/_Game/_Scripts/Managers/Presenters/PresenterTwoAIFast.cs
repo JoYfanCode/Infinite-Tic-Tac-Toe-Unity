@@ -64,10 +64,10 @@ public class PresenterTwoAIFast : Presenter
         Field[id] = AIState;
         EnqueueStateID(AIState, id);
         DequeueStateID(Field, AIState);
+        CheckField(Field);
 
         _model.SetState(Field);
         _model.PlusTurn();
-        CheckField(Field);
     }
 
     private void EnqueueStateID(SlotStates State, int id)
@@ -98,11 +98,14 @@ public class PresenterTwoAIFast : Presenter
 
     public override async void RestartGame()
     {
-        _view.DisplayField(Field, _model.CountTurns);
+        List<SlotStates> field = Field;
+        
         await Task.Run(() => Thread.Sleep((int)_restartCooldown));
 
         _model.ResetTurns();
         _model.ClearField();
+
+        _view.DisplayField(field, _model.CountTurns);
         _view.LightUpColorSlots();
         _view.SetTurnState(SlotStates.Circle);
         Game();
