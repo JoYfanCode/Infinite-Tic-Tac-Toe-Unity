@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VInspector;
 
-public class Bootstrap : MonoBehaviour
+public class GameFieldBootstrap : MonoBehaviour
 {
+    [Tab("Parameters")]
+
     [SerializeField] private Modes _mode = Modes.TwoPlayers;
     [SerializeField] private int _AIDepth = 3;
     [SerializeField, Range(0, 1000)] private float _AICooldownMin;
     [SerializeField, Range(0, 2000)] private float _AICooldownMax;
     [SerializeField, Range(0, 5000)] private float _restartGameCooldown;
+
+    [Tab("Objects")]
 
     [SerializeField] private ViewUI _viewUI;
     [SerializeField] private Transform _interfaceCanvas;

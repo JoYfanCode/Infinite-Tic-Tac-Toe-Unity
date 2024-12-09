@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using static UnityEngine.Rendering.DebugUI;
+﻿using System.Collections.Generic;
 
 public abstract class Model
 {

@@ -26,14 +26,14 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-f72c5dc68c6ba5e4099c127ac98e53c3-943105946-0
         - globalObjectIdString: GlobalObjectId_V1-2-f72c5dc68c6ba5e4099c127ac98e53c3-238534585-0
         values:
-        - colorIndex: 8
-          iconNameOrGuid: 
-        - colorIndex: 8
-          iconNameOrGuid: 
-        - colorIndex: 8
-          iconNameOrGuid: 
-        - colorIndex: 8
-          iconNameOrGuid: 
+        - colorIndex: 1
+          iconNameOrGuid: Settings Icon
+        - colorIndex: 1
+          iconNameOrGuid: Canvas Icon
+        - colorIndex: 1
+          iconNameOrGuid: AvatarMask On Icon
+        - colorIndex: 1
+          iconNameOrGuid: PreMatCube
         - colorIndex: 1
           iconNameOrGuid: 
         - colorIndex: 1
@@ -48,13 +48,13 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-77e71fb9ff8bd924aa0580101518cd87-882857544-0
         - globalObjectIdString: GlobalObjectId_V1-2-77e71fb9ff8bd924aa0580101518cd87-943105946-0
         values:
-        - colorIndex: 8
+        - colorIndex: 1
           iconNameOrGuid: Settings Icon
-        - colorIndex: 8
+        - colorIndex: 1
           iconNameOrGuid: Canvas Icon
-        - colorIndex: 8
+        - colorIndex: 1
           iconNameOrGuid: AvatarMask On Icon
-        - colorIndex: 8
+        - colorIndex: 1
           iconNameOrGuid: PreMatCube
         - colorIndex: 1
           iconNameOrGuid: 

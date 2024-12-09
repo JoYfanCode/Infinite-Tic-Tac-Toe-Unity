@@ -47,6 +47,7 @@ public class ViewUI : View
     public void OnSlotClicked(int id)
     {
         _presenter.OnClotClicked(id);
+        AudioSystem.inst.PlayClickSound();
     }
 
     public override void DisplayField(List<SlotStates> Field, int CountTurns)
@@ -77,11 +78,13 @@ public class ViewUI : View
 
     public override void DisplayWinCircle(int countWins)
     {
+        AudioSystem.PlaySound(AudioSystem.inst.Win);
         _counterWinsCircleText.text = countWins.ToString();
     }
 
     public override void DisplayWinCross(int countWins)
     {
+        AudioSystem.PlaySound(AudioSystem.inst.Win);
         _counterWinsCrossText.text = countWins.ToString();
     }
 

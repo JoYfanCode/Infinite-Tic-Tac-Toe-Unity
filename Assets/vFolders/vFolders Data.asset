@@ -18,12 +18,27 @@ MonoBehaviour:
     - 47b0dd1733a886f498ec3ba4d6bef13f
     - 1eb6d13adaf44df4da93f54214e2403f
     - 981a2a85a755b3f4a9b80db03d10bf1b
+    - e7cfcff558707884aba3678a975786b8
+    - b4730e3c1d30a7c4280b0ebb7442b0b4
+    - daf452b73c1c4cf44b2b895b13e51361
+    - c4842f06af5aa4d4399a90efd6eb21c6
+    - ff2263e75f5e03c43a4e70888d3a44de
     values:
-    - colorIndex: 8
+    - colorIndex: 1
+      iconNameOrGuid: cs Script Icon
+    - colorIndex: 1
+      iconNameOrGuid: RawImage Icon
+    - colorIndex: 1
+      iconNameOrGuid: Prefab Icon
+    - colorIndex: 1
+      iconNameOrGuid: SceneAsset Icon
+    - colorIndex: 1
       iconNameOrGuid: 
-    - colorIndex: 8
+    - colorIndex: 1
       iconNameOrGuid: 
-    - colorIndex: 8
+    - colorIndex: 1
       iconNameOrGuid: 
-    - colorIndex: 8
+    - colorIndex: 1
+      iconNameOrGuid: 
+    - colorIndex: 1
       iconNameOrGuid: 

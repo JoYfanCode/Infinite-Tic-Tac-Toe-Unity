@@ -116,13 +116,15 @@ public class PresenterAI : Presenter
         }
     }
 
-    public override void FirstMoveDetermination()
+    public override async void FirstMoveDetermination()
     {
-        int isFirstAI = UnityEngine.Random.Range(0, 2);
+        int isFirstAI = Random.Range(0, 2);
 
         if (isFirstAI == 1)
         {
             _startState = SlotStates.Cross;
+            float AITurnTime = Random.Range(2 * _AICooldownMin, 2 * _AICooldownMax);
+            await Task.Run(() => Thread.Sleep((int)AITurnTime));
             DoAITurn();
         }
         else

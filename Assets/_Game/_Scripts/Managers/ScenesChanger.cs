@@ -39,9 +39,17 @@ public class ScenesChanger : MonoBehaviour
         _openMenuButton?.onClick.RemoveListener(OpenMenu);
     }
 
-    private void OpenMenu() => SceneManager.LoadScene(MENU_SCENE, LoadSceneMode.Single);
+    private void OpenMenu()
+    {
+        AudioSystem.PlaySound(AudioSystem.inst.Click);
+        SceneManager.LoadScene(MENU_SCENE, LoadSceneMode.Single);
+    }
 
-    private void OpenGameField() => SceneManager.LoadScene(GAME_FIELD, LoadSceneMode.Single);
+    private void OpenGameField() 
+    {
+        AudioSystem.PlaySound(AudioSystem.inst.OpenGameMode);
+        SceneManager.LoadScene(GAME_FIELD, LoadSceneMode.Single);
+    }
 
     private void StartGameTwoPlayers()
     {
