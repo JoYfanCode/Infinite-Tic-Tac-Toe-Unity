@@ -15,12 +15,9 @@ public class ScenesChanger : MonoBehaviour
     [SerializeField] private Button _openMenuButton;
 
     private const string MENU_SCENE = "Menu";
-    private const string GAME_TWO_PLAYERS_SCENE = "Game Two Players";
-    private const string GAME_AI_NORMAL_SCENE = "Game AI Normal";
-    private const string GAME_AI_HARD_SCENE = "Game AI Hard";
-    private const string GAME_AI_VERY_HARD_SCENE = "Game AI Very Hard";
+    private const string GAME_FIELD = "Game Field";
 
-    private void Start()
+    private void OnEnable()
     {
         _startGameAINormalButton?.onClick.AddListener(StartGameAINormal);
         _startGameAIHardButton?.onClick.AddListener(StartGameAIHard);
@@ -31,18 +28,42 @@ public class ScenesChanger : MonoBehaviour
         _openMenuButton?.onClick.AddListener(OpenMenu);
     }
 
-    private void OpenMenu()
-        => SceneManager.LoadScene(MENU_SCENE, LoadSceneMode.Single);
+    private void OnDisable()
+    {
+        _startGameAINormalButton?.onClick.RemoveListener(StartGameAINormal);
+        _startGameAIHardButton?.onClick.RemoveListener(StartGameAIHard);
+        _startGameAIVeryHardButton?.onClick.RemoveListener(StartGameAIVeryHard);
+
+        _startGameTwoPlayersButton?.onClick.RemoveListener(StartGameTwoPlayers);
+
+        _openMenuButton?.onClick.RemoveListener(OpenMenu);
+    }
+
+    private void OpenMenu() => SceneManager.LoadScene(MENU_SCENE, LoadSceneMode.Single);
+
+    private void OpenGameField() => SceneManager.LoadScene(GAME_FIELD, LoadSceneMode.Single);
 
     private void StartGameTwoPlayers()
-        => SceneManager.LoadScene(GAME_TWO_PLAYERS_SCENE, LoadSceneMode.Single);
+    {
+        SetUp.Mode = Modes.TwoPlayers;
+        OpenGameField();
+    }
 
     private void StartGameAINormal()
-        => SceneManager.LoadScene(GAME_AI_NORMAL_SCENE, LoadSceneMode.Single);
+    {
+        SetUp.Mode = Modes.AINormal;
+        OpenGameField();
+    }
 
     private void StartGameAIHard()
-        => SceneManager.LoadScene(GAME_AI_HARD_SCENE, LoadSceneMode.Single);
+    {
+        SetUp.Mode = Modes.AIHard;
+        OpenGameField();
+    }
 
     private void StartGameAIVeryHard()
-        => SceneManager.LoadScene(GAME_AI_VERY_HARD_SCENE, LoadSceneMode.Single);
+    {
+        SetUp.Mode = Modes.AIVeryHard;
+        OpenGameField();
+    }
 }
