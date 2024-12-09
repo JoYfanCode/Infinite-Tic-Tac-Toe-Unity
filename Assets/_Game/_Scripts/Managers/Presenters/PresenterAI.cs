@@ -75,6 +75,8 @@ public class PresenterAI : Presenter
 
         _model.SetState(Field);
         _model.PlusTurn();
+
+        AudioSystem.inst.PlayClickSound();
     }
 
     private void EnqueueStateID(SlotStates SlotState, int id)

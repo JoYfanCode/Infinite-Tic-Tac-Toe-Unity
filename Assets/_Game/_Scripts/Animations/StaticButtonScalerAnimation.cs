@@ -24,6 +24,9 @@ public class StaticButtonScalerAnimation : MonoBehaviour, IPointerMoveHandler
 
     private void Awake()
     {
+        if (IsMobile())
+            enabled = false;
+
         if (isSetScale)
         {
             _normalScale = _normalScaleValue;
@@ -39,10 +42,14 @@ public class StaticButtonScalerAnimation : MonoBehaviour, IPointerMoveHandler
         _rect = GetComponent<RectTransform>();
     }
 
+    private void OnEnable()
+    {
+        if (IsMobile())
+            enabled = false;
+    }
+
     void Update()
     {
-        //this.enabled = false;
-
         if (_button.interactable == false || _eventData == null)
             return;
 
@@ -67,5 +74,11 @@ public class StaticButtonScalerAnimation : MonoBehaviour, IPointerMoveHandler
     public void OnPointerMove(PointerEventData eventData)
     {
         _eventData = eventData;
+    }
+
+    bool IsMobile()
+    {
+        return Application.platform == RuntimePlatform.Android ||
+               Application.platform == RuntimePlatform.IPhonePlayer;
     }
 }
