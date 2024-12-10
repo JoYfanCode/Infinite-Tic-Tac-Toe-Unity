@@ -122,6 +122,11 @@ public class PresenterTwoPlayers : Presenter
     {
         await Task.Run(() => Thread.Sleep((int)_restartGameCooldown));
 
+        if (_model.CountWinsCircle == _model.POINTS_FOR_WIN || _model.CountWinsCross == _model.POINTS_FOR_WIN)
+        {
+            _model.RestartCounters();
+        }
+
         _model.ResetTurns();
         _model.ClearField();
     }

@@ -2716,7 +2716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6ecce4a77a00c48a2c3693a6a60890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _duration: 0.3
+  _duration: 0.2
   _blackScreen: {fileID: 1317829261}
 --- !u!1 &1890901144
 GameObject:

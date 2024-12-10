@@ -21,6 +21,7 @@ public abstract class Model
 
     public int LIMIT_QUEUE_ID = 3;
     public int SLOTS_COUNT = 9;
+    public int POINTS_FOR_WIN = 5;
 
     public List<SlotStates> SlotsStates => _field;
     public Queue<int> QueueCircleID => _queueCirclesID;
@@ -121,5 +122,13 @@ public abstract class Model
         _isWinCross = false;
 
         _view.LightUpColorSlots();
+    }
+
+    public void RestartCounters()
+    {
+        _countWinsCircle = 0;
+        _countWinsCross = 0;
+        _view.DisplayWinCircle(CountWinsCircle);
+        _view.DisplayWinCross(CountWinsCross);
     }
 }

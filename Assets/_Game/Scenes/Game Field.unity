@@ -264,6 +264,83 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &43175510
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 43175511}
+  - component: {fileID: 43175513}
+  - component: {fileID: 43175512}
+  m_Layer: 0
+  m_Name: Circles Points Handler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &43175511
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43175510}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1006941911}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 228.40002, y: -107}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &43175512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43175510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4fd4ca5a20c747419af1e974cef03f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _countPoints: 5
+  _colorOff: {r: 0.25490198, g: 0.25490198, b: 0.25490198, a: 1}
+  _colorOn: {r: 0.7921569, g: 0.7411765, b: 1, a: 1}
+  _pointPrefab: {fileID: 3739715997617815528, guid: 8f1c7a5b6730f364fb229ec8420ce187, type: 3}
+--- !u!114 &43175513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43175510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 3
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 50, y: 50}
+  m_Spacing: {x: 20, y: 0}
+  m_Constraint: 2
+  m_ConstraintCount: 1
 --- !u!224 &57834204 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7112074644979813009, guid: ab0c6d7b5ebfb4740bdcf828284eee0f, type: 3}
@@ -2263,6 +2340,83 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1166082308229900412, guid: 4226c203f6b7ba2498d354db77d76a6e, type: 3}
   m_PrefabInstance: {fileID: 1208414602}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &422986786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 422986787}
+  - component: {fileID: 422986789}
+  - component: {fileID: 422986788}
+  m_Layer: 0
+  m_Name: Crosses Points Handler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &422986787
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422986786}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1006941911}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -228.40002, y: -107}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &422986788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422986786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4fd4ca5a20c747419af1e974cef03f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _countPoints: 5
+  _colorOff: {r: 0.25490198, g: 0.25490198, b: 0.25490198, a: 1}
+  _colorOn: {r: 1, g: 0.9019608, b: 0.6745098, a: 1}
+  _pointPrefab: {fileID: 3739715997617815528, guid: 8f1c7a5b6730f364fb229ec8420ce187, type: 3}
+--- !u!114 &422986789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422986786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 5
+  m_StartCorner: 1
+  m_StartAxis: 0
+  m_CellSize: {x: 50, y: 50}
+  m_Spacing: {x: 20, y: 0}
+  m_Constraint: 2
+  m_ConstraintCount: 1
 --- !u!1001 &439602894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3895,7 +4049,7 @@ GameObject:
   - component: {fileID: 682132009}
   - component: {fileID: 682132008}
   m_Layer: 0
-  m_Name: Image
+  m_Name: Cross Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3908,16 +4062,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 682132006}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1040899066}
+  m_Father: {fileID: 1006941911}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 148, y: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -91.99988, y: -106.99997}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &682132008
@@ -4559,7 +4713,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &786832250
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4571,8 +4725,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2132991914}
+  m_Children: []
   m_Father: {fileID: 1006941911}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -5971,10 +6124,12 @@ MonoBehaviour:
   - {fileID: 1574307701}
   _cross: {fileID: 21300000, guid: ae2a604284589f24b90bfce5cda128fc, type: 3}
   _circle: {fileID: 21300000, guid: 22f7539950eef9e42a59eb3673a53cf0, type: 3}
+  _turnStateImage: {fileID: 485335926}
   _crossColor: {r: 1, g: 0.9019608, b: 0.6745098, a: 1}
   _circleColor: {r: 0.7921569, g: 0.7411765, b: 1, a: 1}
   _halfTransparentAlpha: 0.25
-  _turnStateImage: {fileID: 485335926}
+  _circlesPointsHandler: {fileID: 43175512}
+  _crossesPointsHandler: {fileID: 422986788}
   _counterWinsCircleText: {fileID: 786832251}
   _counterWinsCrossText: {fileID: 1040899067}
   _countTurnsText: {fileID: 633206079}
@@ -6029,11 +6184,15 @@ RectTransform:
   - {fileID: 157129157}
   - {fileID: 485335925}
   - {fileID: 1040899066}
+  - {fileID: 682132007}
   - {fileID: 786832250}
+  - {fileID: 2132991914}
   - {fileID: 1121688060}
   - {fileID: 1855706503}
   - {fileID: 235580860}
   - {fileID: 633206078}
+  - {fileID: 422986787}
+  - {fileID: 43175511}
   m_Father: {fileID: 943105947}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6096,7 +6255,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1040899066
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6108,8 +6267,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 682132007}
+  m_Children: []
   m_Father: {fileID: 1006941911}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
@@ -9119,7 +9277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6ecce4a77a00c48a2c3693a6a60890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _duration: 0.3
+  _duration: 0.2
   _blackScreen: {fileID: 1043119958}
 --- !u!4 &1546797071
 Transform:
@@ -13648,7 +13806,7 @@ GameObject:
   - component: {fileID: 2132991916}
   - component: {fileID: 2132991915}
   m_Layer: 0
-  m_Name: Image
+  m_Name: Circle Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13661,16 +13819,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2132991913}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 786832250}
+  m_Father: {fileID: 1006941911}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -148, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 91.99988, y: -106.99997}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2132991915

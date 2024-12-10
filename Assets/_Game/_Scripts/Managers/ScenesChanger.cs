@@ -64,7 +64,7 @@ public class ScenesChanger : MonoBehaviour
 
     private void StartGameTwoPlayers()
     {
-        AudioSystem.PlaySound(AudioSystem.inst.Click);
+        AudioSystem.PlaySound(AudioSystem.inst.OpenGameMode);
         SetUp.Mode = Modes.TwoPlayers;
         _sceneChangerAnimation.Appear();
         _sceneChangerAnimation.OnFinishedAppear += OpenSceneGameField;
@@ -72,7 +72,7 @@ public class ScenesChanger : MonoBehaviour
 
     private void StartGameAINormal()
     {
-        AudioSystem.PlaySound(AudioSystem.inst.Click);
+        AudioSystem.PlaySound(AudioSystem.inst.OpenGameMode);
         SetUp.Mode = Modes.AINormal;
         _sceneChangerAnimation.Appear();
         _sceneChangerAnimation.OnFinishedAppear += OpenSceneGameField;
@@ -80,7 +80,7 @@ public class ScenesChanger : MonoBehaviour
 
     private void StartGameAIHard()
     {
-        AudioSystem.PlaySound(AudioSystem.inst.Click);
+        AudioSystem.PlaySound(AudioSystem.inst.OpenGameMode);
         SetUp.Mode = Modes.AIHard;
         _sceneChangerAnimation.Appear();
         _sceneChangerAnimation.OnFinishedAppear += OpenSceneGameField;
@@ -88,7 +88,7 @@ public class ScenesChanger : MonoBehaviour
 
     private void StartGameAIVeryHard()
     {
-        AudioSystem.PlaySound(AudioSystem.inst.Click);
+        AudioSystem.PlaySound(AudioSystem.inst.OpenGameMode);
         SetUp.Mode = Modes.AIVeryHard;
         _sceneChangerAnimation.Appear();
         _sceneChangerAnimation.OnFinishedAppear += OpenSceneGameField;

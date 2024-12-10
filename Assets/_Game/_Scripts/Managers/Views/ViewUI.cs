@@ -3,22 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
+using VInspector;
 
 public class ViewUI : View
 {
+    [Tab("Clots")]
+
+    [Header("Objects")]
+
     [SerializeField] private List<GameObject> _slots;
     [SerializeField] private List<Shaker> _slotsShakers;
     [SerializeField] private List<ParticleSystem> _slotsParticleCircle;
     [SerializeField] private List<ParticleSystem> _slotsParticleCross;
     [SerializeField] private Sprite _cross;
     [SerializeField] private Sprite _circle;
+    [SerializeField] private Image _turnStateImage;
+
+    [Space]
+    [Header("Parameters")]
 
     [SerializeField] private Color _crossColor;
     [SerializeField] private Color _circleColor;
-
     [SerializeField] private float _halfTransparentAlpha;
 
-    [SerializeField] private Image _turnStateImage;
+    [Tab("Managers")]
+
+    [SerializeField] private PointsHandler _circlesPointsHandler;
+    [SerializeField] private PointsHandler _crossesPointsHandler;
+
+    [Tab("Texts")]
 
     [SerializeField] private TMP_Text _counterWinsCircleText;
     [SerializeField] private TMP_Text _counterWinsCrossText;
@@ -40,6 +53,9 @@ public class ViewUI : View
         }
 
         InitSlotsButtons();
+
+        _circlesPointsHandler.Init();
+        _crossesPointsHandler.Init();
 
         base.Init(presenter);
     }
@@ -98,12 +114,14 @@ public class ViewUI : View
     public override void DisplayWinCircle(int countWins)
     {
         AudioSystem.PlaySound(AudioSystem.inst.Win);
+        _circlesPointsHandler.SetPoints(countWins);
         _counterWinsCircleText.text = countWins.ToString();
     }
 
     public override void DisplayWinCross(int countWins)
     {
         AudioSystem.PlaySound(AudioSystem.inst.Win);
+        _crossesPointsHandler.SetPoints(countWins);
         _counterWinsCrossText.text = countWins.ToString();
     }
 
