@@ -103,7 +103,7 @@ public class PresenterTwoAIFast : Presenter
         await Task.Run(() => Thread.Sleep((int)_restartCooldown));
 
         _model.ResetTurns();
-        _model.ClearField();
+        _model.ClearField(false);
 
         _view.DisplayField(field, _model.CountTurns);
         _view.LightUpColorSlots();
@@ -116,4 +116,6 @@ public class PresenterTwoAIFast : Presenter
         _view.SetTurnState(SlotStates.Circle);
         Game();
     }
+
+    public override void FirstMoveAnotherPlayer() { }
 }

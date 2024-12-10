@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public abstract class View : MonoBehaviour
 {
     protected Presenter _presenter;
+
+    public event Action OnFinishedClearFieldAnimation;
 
     public virtual void Init(Presenter presenter)
     {
@@ -20,4 +23,9 @@ public abstract class View : MonoBehaviour
     public abstract void DisplayWinCross(int countWins);
     public abstract void SetTurnState(SlotStates state);
     public abstract void UpdateAverageText(List<int> turnsList);
+    public abstract void ClearField();
+    protected void EventOnFinishedClearFieldAnimation()
+    {
+        OnFinishedClearFieldAnimation?.Invoke();
+    }
 }

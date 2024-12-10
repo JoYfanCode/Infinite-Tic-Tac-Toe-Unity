@@ -36,6 +36,8 @@ public abstract class Model
     {
         _view = view;
 
+        _view.OnFinishedClearFieldAnimation += RestartGame;
+
         _turnsList = new List<int>();
         _queueCirclesID = new Queue<int>();
         _queueCrossesID = new Queue<int>();
@@ -93,7 +95,20 @@ public abstract class Model
         _countTurns = 0;
     }
 
-    public void ClearField()
+    public void ClearField(bool isAnimation = true)
+    {
+        if (isAnimation)
+        {
+            _view.ClearField();
+        }
+        else
+        {
+            _view.DisplayField(_field, CountTurns);
+            RestartGame();
+        }
+    }
+
+    public void RestartGame()
     {
         _queueCirclesID = new Queue<int>();
         _queueCrossesID = new Queue<int>();
@@ -105,6 +120,6 @@ public abstract class Model
         _isWinCircle = false;
         _isWinCross = false;
 
-        _view.DisplayField(_field, CountTurns);
+        _view.LightUpColorSlots();
     }
 }

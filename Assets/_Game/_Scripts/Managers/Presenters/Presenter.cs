@@ -21,6 +21,7 @@ public abstract class Presenter
     protected abstract void DoTurn(int id);
 
     public abstract void FirstMoveDetermination();
+    public abstract void FirstMoveAnotherPlayer();
 
     public abstract void RestartGame();
 

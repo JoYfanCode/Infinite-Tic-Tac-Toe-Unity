@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using System.Threading.Tasks;
 using System.Threading;
+using Unity.Collections.LowLevel.Unsafe;
 
 public class PresenterAI : Presenter
 {
@@ -21,6 +22,7 @@ public class PresenterAI : Presenter
     protected const int AI_COOLDOWN_MIN_DEFAULT = 500;
     protected const int AI_COOLDOWN_MAX_DEFAULT = 1000;
     protected const int RESTART_GAME_DEFAULT = 5000;
+    protected const int WAIT_FIRST_MOVE_TIME_MULT = 2;
 
     private List<SlotStates> Field => _model.SlotsStates;
 
@@ -33,23 +35,12 @@ public class PresenterAI : Presenter
         _restartGameCooldown = restartGameCooldown;
     }
 
-    public override async void OnClotClicked(int id)
+    public override void OnClotClicked(int id)
     {
         if (Field[id] == SlotStates.Empty && _model.isAIThinking == false)
         {
-            if (_model.isGameOn)
-            {
-                DoTurn(id);
-            }
-
-            if (_model.isGameOn)
-            {
-                _model.SetIsAIThinking(true);
-                float AITurnTime = Random.Range(_AICooldownMin, _AICooldownMax);
-                await Task.Run(() => Thread.Sleep((int)AITurnTime));
-                DoAITurn();
-                _model.SetIsAIThinking(false);
-            }
+            if (_model.isGameOn) DoTurn(id);
+            if (_model.isGameOn) DoAITurn(_AICooldownMin, _AICooldownMax);
         }
     }
 
@@ -64,9 +55,14 @@ public class PresenterAI : Presenter
         _model.PlusTurn();
     }
 
-    private void DoAITurn()
+    private async void DoAITurn(float AICooldownMin, float AICooldownMax)
     {
+        _model.SetIsAIThinking(true);
+
         int id = _AI.DoTurn(new List<SlotStates>(Field), new Queue<int>(_model.QueueCircleID), new Queue<int>(_model.QueueCrossID), _AIState);
+
+        float AITurnTime = Random.Range(AICooldownMin, AICooldownMax);
+        await Task.Run(() => Thread.Sleep((int)AITurnTime));
 
         Field[id] = _AIState;
         EnqueueStateID(_AIState, id);
@@ -75,7 +71,7 @@ public class PresenterAI : Presenter
 
         _model.SetState(Field);
         _model.PlusTurn();
-
+        _model.SetIsAIThinking(false);
         AudioSystem.inst.PlayClickSound();
     }
 
@@ -118,32 +114,28 @@ public class PresenterAI : Presenter
         }
     }
 
-    public override async void FirstMoveDetermination()
+    public override void FirstMoveDetermination()
     {
-        int isFirstAI = Random.Range(0, 2);
-
-        if (isFirstAI == 1)
+        if (NumbericUtilities.RollChance(50))
         {
             _startState = SlotStates.Cross;
-            float AITurnTime = Random.Range(2 * _AICooldownMin, 2 * _AICooldownMax);
-            await Task.Run(() => Thread.Sleep((int)AITurnTime));
-            DoAITurn();
+            _view.SetTurnState(_startState);
+            DoAITurn(WAIT_FIRST_MOVE_TIME_MULT * _AICooldownMin, WAIT_FIRST_MOVE_TIME_MULT * _AICooldownMax);
         }
         else
         {
             _startState = SlotStates.Circle;
+            _view.SetTurnState(_startState);
         }
-
-        _view.SetTurnState(_startState);
     }
 
-    private void FirstMoveAnotherPlayer()
+    public override void FirstMoveAnotherPlayer()
     {
         if (_startState == SlotStates.Circle)
         {
             _startState = SlotStates.Cross;
 
-            DoAITurn();
+            DoAITurn(_AICooldownMin, _AICooldownMax);
         }
         else if (_startState == SlotStates.Cross)
         {
@@ -159,8 +151,5 @@ public class PresenterAI : Presenter
 
         _model.ResetTurns();
         _model.ClearField();
-
-        _view.LightUpColorSlots();
-        FirstMoveAnotherPlayer();
     }
 }

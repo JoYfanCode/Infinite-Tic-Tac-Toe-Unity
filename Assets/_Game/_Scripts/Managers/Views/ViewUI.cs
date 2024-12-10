@@ -7,6 +7,7 @@ using TMPro;
 public class ViewUI : View
 {
     [SerializeField] private List<GameObject> _slots;
+    [SerializeField] private List<Shaker> _slotsShakers;
     [SerializeField] private List<ParticleSystem> _slotsParticleCircle;
     [SerializeField] private List<ParticleSystem> _slotsParticleCross;
     [SerializeField] private Sprite _cross;
@@ -24,7 +25,6 @@ public class ViewUI : View
     [SerializeField] private TMP_Text _countTurnsText;
     [SerializeField] private TMP_Text _averageTurnsText;
     [SerializeField] private TMP_Text _medianaTurnsText;
-
 
     private List<Image> _slotsImage = new List<Image>();
     private List<Button> _slotsButtons = new List<Button>();
@@ -74,6 +74,25 @@ public class ViewUI : View
 
         _countTurnsText.text = CountTurns.ToString();
         ChangeTurnState();
+    }
+
+    public override void ClearField()
+    {
+        StartCoroutine(ClearFieldAnimation());
+    }
+
+    private IEnumerator ClearFieldAnimation()
+    {
+        for (int i = 0; i < _slots.Count; ++i)
+        {
+            yield return new WaitForSeconds(0.1f);
+
+            _slotsImage[i].color = Color.clear;
+            _slotsShakers[i].Shake();
+        }
+
+        EventOnFinishedClearFieldAnimation();
+        _presenter.FirstMoveAnotherPlayer();
     }
 
     public override void DisplayWinCircle(int countWins)

@@ -113,7 +113,7 @@ public class PresenterTwoAI : Presenter
         await Task.Run(() => Thread.Sleep((int)_restartGameCooldown));
 
         _model.ResetTurns();
-        _model.ClearField();
+        _model.ClearField(false);
 
         _view.LightUpColorSlots();
         _view.SetTurnState(SlotStates.Circle);
@@ -125,4 +125,6 @@ public class PresenterTwoAI : Presenter
         _view.SetTurnState(SlotStates.Circle);
         Game();
     }
+
+    public override void FirstMoveAnotherPlayer() { }
 }

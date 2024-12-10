@@ -88,9 +88,7 @@ public class PresenterTwoPlayers : Presenter
 
     public override void FirstMoveDetermination()
     {
-        int isFirstCircle = UnityEngine.Random.Range(0, 2);
-
-        if (isFirstCircle == 1)
+        if (NumbericUtilities.RollChance(50))
         {
             _startState = SlotStates.Circle;
             _currentState = SlotStates.Circle;
@@ -104,7 +102,7 @@ public class PresenterTwoPlayers : Presenter
         _view.SetTurnState(_currentState);
     }
 
-    private void FirstMoveAnotherPlayer()
+    public override void FirstMoveAnotherPlayer()
     {
         if (_startState == SlotStates.Circle)
         {
@@ -126,8 +124,5 @@ public class PresenterTwoPlayers : Presenter
 
         _model.ResetTurns();
         _model.ClearField();
-
-        _view.LightUpColorSlots();
-        FirstMoveAnotherPlayer();
     }
 }
