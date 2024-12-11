@@ -6,8 +6,6 @@ public abstract class View : MonoBehaviour
 {
     protected Presenter _presenter;
 
-    public event Action OnFinishedClearFieldAnimation;
-
     public virtual void Init(Presenter presenter)
     {
         _presenter = presenter;
@@ -15,17 +13,11 @@ public abstract class View : MonoBehaviour
         _presenter.FirstMoveDetermination();
     }
 
-    public abstract void DisplayField(List<SlotStates> Field, int CountTurns);
+    public abstract void DisplayField(List<SlotStates> Field);
     public abstract void BoomParticleSlot(int indexSlot, SlotStates slotState);
     public abstract void LightDownColorSlot(int indexSlot);
     public abstract void LightUpColorSlots();
-    public abstract void DisplayWinCircle(int countWins);
-    public abstract void DisplayWinCross(int countWins);
+    public abstract void DisplayCounters(int countCirclesPoints, int countCrossesPoints);
     public abstract void SetTurnState(SlotStates state);
-    public abstract void UpdateAverageText(List<int> turnsList);
-    public abstract void ClearField();
-    protected void EventOnFinishedClearFieldAnimation()
-    {
-        OnFinishedClearFieldAnimation?.Invoke();
-    }
+    public abstract void ClearFieldAnimation();
 }

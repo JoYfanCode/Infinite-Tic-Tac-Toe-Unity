@@ -15,11 +15,11 @@ public class PointsHandler : MonoBehaviour
     [Tab("Objects")]
 
     [SerializeField] private Image _pointPrefab;
+    [SerializeField] private List<Image> _points;
+    [SerializeField] private List<Shaker> _pointsShakers = new();
 
-    private List<Image> _points = new();
-    private List<Shaker> _pointsShakers = new();
-
-    public void Init()
+    [Button]
+    private void CreatePoints()
     {
         for (int i = 0; i < _countPoints; ++i)
         {
@@ -28,6 +28,19 @@ public class PointsHandler : MonoBehaviour
             _points[^1].color = _colorOff;
         }
     }
+
+    [Button]
+    private void ClearPoints()
+    {
+        int countPoints = _points.Count;
+
+        for (int i = 0; i < countPoints; i++)
+        {
+            DestroyImmediate(_points[0].gameObject);
+            _points.RemoveAt(0);
+            _pointsShakers.RemoveAt(0);
+        }
+    } 
 
     public void SetPoints(int countTurnOnPoints)
     {

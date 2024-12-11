@@ -12,27 +12,20 @@ public class PresenterTwoPlayers : Presenter
     protected SlotStates _currentState = SlotStates.Circle;
     protected SlotStates _startState;
 
-    protected readonly float _restartGameCooldown;
-
-    protected const int RESTART_GAME_DEFAULT = 100;
-
-    private List<SlotStates> Field => _model.SlotsStates;
-    public PresenterTwoPlayers(Model model, View view, float restartGameCooldown = RESTART_GAME_DEFAULT) : base(model, view) 
-    {
-        _restartGameCooldown = restartGameCooldown;
-    }
+    public PresenterTwoPlayers(Model model, View view, float restartGameCooldown = RESTART_GAME_DEFAULT) : base(model, view, restartGameCooldown) { }
 
     protected override void DoTurn(int id)
     {
-        Field[id] = _currentState;
+        _model.Field[id] = _currentState;
 
         EnqueueStateID(id);
-        DequeueStateID(Field);
+        DequeueStateID(_model.Field);
         ChangeCurrentState();
-        CheckField(Field);
+        CheckField(_model.Field);
 
-        _model.SetState(Field);
-        _model.PlusTurn();
+        _model.SetState(_model.Field);
+
+        _view.DisplayField(_model.Field);
     }
 
     private void EnqueueStateID(int id)
@@ -116,18 +109,5 @@ public class PresenterTwoPlayers : Presenter
         }
 
         _view.SetTurnState(_startState);
-    }
-
-    public override async void RestartGame()
-    {
-        await Task.Run(() => Thread.Sleep((int)_restartGameCooldown));
-
-        if (_model.CountWinsCircle == _model.POINTS_FOR_WIN || _model.CountWinsCross == _model.POINTS_FOR_WIN)
-        {
-            _model.RestartCounters();
-        }
-
-        _model.ResetTurns();
-        _model.ClearField();
     }
 }

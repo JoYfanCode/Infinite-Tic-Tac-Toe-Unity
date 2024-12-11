@@ -10,20 +10,17 @@ public class ObjectsAppearAnimation : MonoBehaviour
     [SerializeField] private float _scaleTime = 0.2f;
     [SerializeField] private float _nextAppearButtonTime = 0.1f; 
     [SerializeField] private float _nextDisappearButtonTime = 0.1f;
-    [SerializeField] private float _playOnStartCooldown = 1f;
-    [SerializeField] private float _startCooldown = 0.3f;
-
-    [SerializeField] private bool _isPlayOnStart = false;
+    [SerializeField] private float _appearCooldown = 0.3f;
 
     private List<Vector3> _defaultScale = new();
     private List<StaticButtonScalerAnimation> _scaleAnimations = new();
 
-    private int ActiveButtonsCount = 0;
+    private int _activeButtonsCount = 0;
 
     public event Action OnAppeared;
     public event Action OnDisappeared;
 
-    private void Awake()
+    public ObjectsAppearAnimation Init()
     {
         for (int i = 0; i < _objects.Count; i++)
         {
@@ -34,17 +31,13 @@ public class ObjectsAppearAnimation : MonoBehaviour
 
             if (_scaleAnimations[i]) _scaleAnimations[i].enabled = false;
         }
+
+        return this;
     }
 
-    private void Start()
+    public void Appear()
     {
-        if (_isPlayOnStart)
-            Appear(true);
-    }
-
-    public void Appear(bool isPlayOnStart)
-    {
-        ActiveButtonsCount = 0;
+        _activeButtonsCount = 0;
 
         for (int i = 0; i < _objects.Count; i++)
         {
@@ -52,15 +45,22 @@ public class ObjectsAppearAnimation : MonoBehaviour
             if(_scaleAnimations[i]) _scaleAnimations[i].enabled = false;
         }
 
-        StartCoroutine(AppearButtonsCoroutine(isPlayOnStart));
+        StartCoroutine(AppearButtonsCoroutine());
     }
 
-    private IEnumerator AppearButtonsCoroutine(bool isPlayOnStart = false)
+    public void Disappear()
     {
-        if (isPlayOnStart)
-            yield return new WaitForSeconds(_playOnStartCooldown);
-        else
-            yield return new WaitForSeconds(_startCooldown);
+        for (int i = 0; i < _objects.Count; i++)
+        {
+            _scaleAnimations[i].enabled = false;
+        }
+
+        StartCoroutine(DisappearButtonsCoroutine());
+    }
+
+    private IEnumerator AppearButtonsCoroutine()
+    {
+        yield return new WaitForSeconds(_appearCooldown);
 
         WaitForSeconds NextButtonTime = new WaitForSeconds(_nextAppearButtonTime);
 
@@ -75,18 +75,8 @@ public class ObjectsAppearAnimation : MonoBehaviour
 
     private void EnableScaleAnimation()
     {
-        if (_scaleAnimations[ActiveButtonsCount]) _scaleAnimations[ActiveButtonsCount].enabled = true;
-        ActiveButtonsCount++;
-    }
-
-    public void Disappear()
-    {
-        for (int i = 0; i < _objects.Count; i++)
-        {
-            _scaleAnimations[i].enabled = false;
-        }
-
-        StartCoroutine(DisappearButtonsCoroutine());
+        if (_scaleAnimations[_activeButtonsCount]) _scaleAnimations[_activeButtonsCount].enabled = true;
+        _activeButtonsCount++;
     }
 
     private IEnumerator DisappearButtonsCoroutine()

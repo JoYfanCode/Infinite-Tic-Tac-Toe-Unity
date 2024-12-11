@@ -16,9 +16,11 @@ public class GameFieldBootstrap : MonoBehaviour
     [SerializeField] private ViewUI _viewUI;
     [SerializeField] private Transform _interfaceCanvas;
     [SerializeField] private SceneChangerAnimation _sceneChangerAnimation;
+    [SerializeField] private ObjectsAppearAnimation _slotsAppearAnimation;
+    [SerializeField] private ObjectsAppearAnimation _circlesPointsAnimation;
+    [SerializeField] private ObjectsAppearAnimation _crossesPointsAnimation;
 
     private Modes _mode = Modes.TwoPlayers;
-    private int _AIDepth = 3;
     private const int AI_NORMAL_DEPTH = 2;
     private const int AI_HARD_DEPTH = 3;
 
@@ -27,28 +29,23 @@ public class GameFieldBootstrap : MonoBehaviour
         _mode = SetUp.Mode;
 
         View view = _viewUI;
-        Model model = new Model3x3(view);
+        Model model = new Model3x3();
         Presenter presenter = CreatePresenter(_mode, model, view);
 
         view.Init(presenter);
 
         _sceneChangerAnimation.Fade();
+        _slotsAppearAnimation.Init().Appear();
+        _circlesPointsAnimation.Init().Appear();
+        _crossesPointsAnimation.Init().Appear();
     }
 
     private Presenter CreatePresenter(Modes mode, Model model, View view)
     {
         if (_mode == Modes.TwoPlayers) return new PresenterTwoPlayers(model, view, _restartGameCooldown);
-
         else if (_mode == Modes.AINormal) return new PresenterAI(model, view, new AIOneTurn(), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
-
         else if (_mode == Modes.AIHard) return new PresenterAI(model, view, new AIMiniMax(AI_NORMAL_DEPTH), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
-
         else if (_mode == Modes.AIVeryHard) return new PresenterAI(model, view, new AIMiniMax(AI_HARD_DEPTH), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
-
-        else if ((_mode == Modes.TwoAI)) return new PresenterTwoAI(model, view, new AIMiniMax(_AIDepth), _AICooldownMin, _AICooldownMax, _restartGameCooldown);
-
-        else if ((_mode == Modes.TwoAIFast)) return new PresenterTwoAIFast(model, view, new AIMiniMax(_AIDepth), _restartGameCooldown);
-
         else return new PresenterTwoPlayers(model, view, _restartGameCooldown);
     }
 }

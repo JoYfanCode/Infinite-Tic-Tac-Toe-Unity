@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 using VInspector;
+using NUnit.Framework;
 
 public class ViewUI : View
 {
@@ -25,19 +26,12 @@ public class ViewUI : View
     [SerializeField] private Color _crossColor;
     [SerializeField] private Color _circleColor;
     [SerializeField] private float _halfTransparentAlpha;
+    [SerializeField] private float _nextSlotClearCooldown = 0.1f;
 
     [Tab("Managers")]
 
     [SerializeField] private PointsHandler _circlesPointsHandler;
     [SerializeField] private PointsHandler _crossesPointsHandler;
-
-    [Tab("Texts")]
-
-    [SerializeField] private TMP_Text _counterWinsCircleText;
-    [SerializeField] private TMP_Text _counterWinsCrossText;
-    [SerializeField] private TMP_Text _countTurnsText;
-    [SerializeField] private TMP_Text _averageTurnsText;
-    [SerializeField] private TMP_Text _medianaTurnsText;
 
     private List<Image> _slotsImage = new List<Image>();
     private List<Button> _slotsButtons = new List<Button>();
@@ -54,9 +48,6 @@ public class ViewUI : View
 
         InitSlotsButtons();
 
-        _circlesPointsHandler.Init();
-        _crossesPointsHandler.Init();
-
         base.Init(presenter);
     }
 
@@ -66,7 +57,7 @@ public class ViewUI : View
         AudioSystem.inst.PlayClickSound();
     }
 
-    public override void DisplayField(List<SlotStates> Field, int CountTurns)
+    public override void DisplayField(List<SlotStates> Field)
     {
         for (int i = 0; i < _slots.Count; i++)
         {
@@ -88,41 +79,34 @@ public class ViewUI : View
             }
         }
 
-        _countTurnsText.text = CountTurns.ToString();
         ChangeTurnState();
     }
 
-    public override void ClearField()
+    public override void ClearFieldAnimation()
     {
-        StartCoroutine(ClearFieldAnimation());
+        StartCoroutine(ClearFieldAnimationCoroutine());
     }
 
-    private IEnumerator ClearFieldAnimation()
+    private IEnumerator ClearFieldAnimationCoroutine()
     {
         for (int i = 0; i < _slots.Count; ++i)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(_nextSlotClearCooldown);
 
             _slotsImage[i].color = Color.clear;
             _slotsShakers[i].Shake();
         }
 
-        EventOnFinishedClearFieldAnimation();
+        _presenter.ResetFieldState();
         _presenter.FirstMoveAnotherPlayer();
     }
 
-    public override void DisplayWinCircle(int countWins)
+    public override void DisplayCounters(int countCirclesPoints, int countCrossesPoints)
     {
-        AudioSystem.PlaySound(AudioSystem.inst.Win);
-        _circlesPointsHandler.SetPoints(countWins);
-        _counterWinsCircleText.text = countWins.ToString();
-    }
+        _circlesPointsHandler.SetPoints(countCirclesPoints);
+        _crossesPointsHandler.SetPoints(countCrossesPoints);
 
-    public override void DisplayWinCross(int countWins)
-    {
         AudioSystem.PlaySound(AudioSystem.inst.Win);
-        _crossesPointsHandler.SetPoints(countWins);
-        _counterWinsCrossText.text = countWins.ToString();
     }
 
     public override void BoomParticleSlot(int indexSlot, SlotStates slotState)
@@ -150,19 +134,6 @@ public class ViewUI : View
         {
             _slotsCanvasGroup[i].alpha = 1;
         }
-    }
-
-    public override void UpdateAverageText(List<int> turnsList)
-    {
-        int SumTurns = 0;
-
-        foreach (int turns in turnsList)
-        {
-            SumTurns += turns;
-        }
-
-        _averageTurnsText.text = (Mathf.Round(SumTurns / turnsList.Count)).ToString();
-        _medianaTurnsText.text = (Mathf.Round(turnsList[turnsList.Count / 2])).ToString();
     }
 
     public override void SetTurnState(SlotStates state)

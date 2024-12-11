@@ -1879,9 +1879,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Shaker, Assembly-CSharp
-        m_MethodName: Shake
+      - m_Target: {fileID: 1527477279}
+        m_TargetAssemblyTypeName: ObjectsAppearAnimation, Assembly-CSharp
+        m_MethodName: Appear
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2083,6 +2083,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _audioSystem: {fileID: 1703555769}
   _sceneChangerAnimation: {fileID: 1837255268}
+  _startButtonsAppearAnimation: {fileID: 1975494221}
+  _AIDifficultyButtonsAppearAnimation: {fileID: 1527477279}
 --- !u!1 &1317829259
 GameObject:
   m_ObjectHideFlags: 0
@@ -2258,9 +2260,7 @@ MonoBehaviour:
   _scaleTime: 0.4
   _nextAppearButtonTime: 0.2
   _nextDisappearButtonTime: 0.1
-  _playOnStartCooldown: 0.25
-  _startCooldown: 0.3
-  _isPlayOnStart: 0
+  _appearCooldown: 0.3
 --- !u!1 &1557349393
 GameObject:
   m_ObjectHideFlags: 0
@@ -3049,9 +3049,7 @@ MonoBehaviour:
   _scaleTime: 0.4
   _nextAppearButtonTime: 0.2
   _nextDisappearButtonTime: 0.1
-  _playOnStartCooldown: 0.5
-  _startCooldown: 0.3
-  _isPlayOnStart: 1
+  _appearCooldown: 0.3
 --- !u!1 &2115297280
 GameObject:
   m_ObjectHideFlags: 0
