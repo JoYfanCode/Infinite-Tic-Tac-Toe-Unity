@@ -7,7 +7,6 @@ public class AudioSystem : MonoBehaviour
     public static AudioSystem inst;
     public static AudioSettingsModel settings = null;
 
-
     [Header("Sound")]
     public GameObject Click;
     public GameObject OpenGameMode;
@@ -15,8 +14,8 @@ public class AudioSystem : MonoBehaviour
 
     public Action OnAudioSettingsChanged;
 
-    private static float _minPitch = 0.8f;
-    private static float _maxPitch = 1.2f;
+    private static float minPitch = 0.8f;
+    private static float maxPitch = 1.2f;
 
     public void Init()
     {
@@ -73,7 +72,7 @@ public class AudioSystem : MonoBehaviour
         DontDestroyOnLoad(sound);
 
         if (isDistortSound)
-            sound.pitch = UnityEngine.Random.Range(_minPitch, _maxPitch);
+            sound.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
     }
 
     public void PlayClickSound(bool isDistortSound = true)
@@ -82,6 +81,6 @@ public class AudioSystem : MonoBehaviour
         DontDestroyOnLoad(sound);
 
         if (isDistortSound)
-            sound.pitch = UnityEngine.Random.Range(_minPitch, _maxPitch);
+            sound.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
     }
 }

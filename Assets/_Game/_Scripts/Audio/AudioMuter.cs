@@ -5,13 +5,13 @@ public class AudioMuter : MonoBehaviour
 {
     [SerializeField] private bool isMusic = false;
 
-    private AudioSource _audioSource;
-    private float _baseVolume;
+    private AudioSource audioSource;
+    private float baseVolume;
 
     private void Awake()
     {
-        _audioSource = gameObject.GetComponent<AudioSource>();
-        _baseVolume = _audioSource.volume;
+        audioSource = gameObject.GetComponent<AudioSource>();
+        baseVolume = audioSource.volume;
     }
 
     private void Start()
@@ -23,9 +23,9 @@ public class AudioMuter : MonoBehaviour
     private void _audioSettingsChanged()
     {
         if (isMusic)
-            _audioSource.volume = (AudioSystem.settings.music) ? AudioSystem.settings.musicVolume * _baseVolume : 0F;
+            audioSource.volume = (AudioSystem.settings.music) ? AudioSystem.settings.musicVolume * baseVolume : 0F;
         if (!isMusic)
-            _audioSource.volume = (AudioSystem.settings.sounds) ? AudioSystem.settings.soundsVolume * _baseVolume : 0F;
+            audioSource.volume = (AudioSystem.settings.sounds) ? AudioSystem.settings.soundsVolume * baseVolume : 0F;
     }
 
     private void OnDestroy()

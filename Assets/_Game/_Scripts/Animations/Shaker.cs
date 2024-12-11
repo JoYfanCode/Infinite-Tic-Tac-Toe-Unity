@@ -3,11 +3,11 @@ using System.Collections;
 
 public class Shaker : MonoBehaviour
 {
-    [SerializeField] private float _downscaleSpeed = 5f;
-    [SerializeField] private float _radius = 1.25f;
+    [SerializeField] private float downscaleSpeed = 5f;
+    [SerializeField] private float radius = 1.25f;
 
     [SerializeField] private bool isSetScale = false;
-    [SerializeField] private Vector2 _normalScaleValue = Vector2.one;
+    [SerializeField] private Vector2 normalScaleValue = Vector2.one;
 
     private Vector2 _maxScale;
     private Vector2 _normalScale;
@@ -20,27 +20,26 @@ public class Shaker : MonoBehaviour
     {
         if (isSetScale)
         {
-            _normalScale = _normalScaleValue;
+            _normalScale = normalScaleValue;
         }
         else
         {
             _normalScale = transform.localScale;
         }
 
-        _maxScale = new Vector2(_normalScale.x * _radius, _normalScale.y * _radius);
+        _maxScale = new Vector2(_normalScale.x * radius, _normalScale.y * radius);
     }
 
     private void Update()
     {
         if (isPulse)
         {
-            float step = _downscaleSpeed * Time.deltaTime;
+            float step = downscaleSpeed * Time.deltaTime;
             transform.localScale = Vector2.MoveTowards(transform.localScale, _normalScale, step);
 
             if (Vector2.Distance(transform.localScale, _normalScale) < EPSILON)
                 isPulse = false;
         }
-        
     }
 
     public void Shake()

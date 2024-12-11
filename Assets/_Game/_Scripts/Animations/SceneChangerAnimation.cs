@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class SceneChangerAnimation : MonoBehaviour
 {
-    [SerializeField] private float _duration = 0.5f;   
-    [SerializeField] private CanvasGroup _blackScreen;
+    [SerializeField] private float duration = 0.2f;   
+    [SerializeField] private CanvasGroup blackScreen;
 
     public event Action OnFinishedAppear;
     public event Action OnFinishedFade;
 
     public void Appear()
     {
-        _blackScreen.alpha = 0f;
-        _blackScreen.gameObject.SetActive(true);
+        blackScreen.alpha = 0f;
+        blackScreen.gameObject.SetActive(true);
         StartCoroutine(AppearCoroutine());
     }
 
@@ -21,10 +21,10 @@ public class SceneChangerAnimation : MonoBehaviour
     {
         float elapsedTime = 0f;
 
-        while (elapsedTime < _duration)
+        while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
-            _blackScreen.alpha = elapsedTime / _duration;
+            blackScreen.alpha = elapsedTime / duration;
             yield return null;
         }
 
@@ -33,8 +33,8 @@ public class SceneChangerAnimation : MonoBehaviour
 
     public void Fade()
     {
-        _blackScreen.alpha = 1f;
-        _blackScreen.gameObject.SetActive(true);
+        blackScreen.alpha = 1f;
+        blackScreen.gameObject.SetActive(true);
         StartCoroutine(FadeCoroutine());
     }
 
@@ -42,10 +42,10 @@ public class SceneChangerAnimation : MonoBehaviour
     {
         float elapsedTime = 0f;
 
-        while (elapsedTime < _duration)
+        while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
-            _blackScreen.alpha = 1 - elapsedTime / _duration;
+            blackScreen.alpha = 1 - elapsedTime / duration;
             yield return null;
         }
 

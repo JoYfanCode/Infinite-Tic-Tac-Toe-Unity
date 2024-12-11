@@ -327,7 +327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSetScale: 1
-  _normalScaleValue: {x: 1, y: 1}
+  normalScaleValue: {x: 1, y: 1}
 --- !u!114 &29442868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,10 +340,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa29595ef89a4cb4d71ef59beab76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _downscaleSpeed: 5
-  _radius: 1.25
+  downscaleSpeed: 5
+  radius: 1.25
   isSetScale: 1
-  _normalScaleValue: {x: 1, y: 1}
+  normalScaleValue: {x: 1, y: 1}
 --- !u!1 &83613755
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,12 +388,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 160e48e2a59ec2740bcadefe27138242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startGameAINormalButton: {fileID: 29442864}
-  _startGameAIHardButton: {fileID: 178755639}
-  _startGameAIVeryHardButton: {fileID: 1557349395}
-  _startGameTwoPlayersButton: {fileID: 1047572199}
-  _openMenuButton: {fileID: 0}
-  _sceneChangerAnimation: {fileID: 1837255268}
+  startGameAINormalButton: {fileID: 29442864}
+  startGameAIHardButton: {fileID: 178755639}
+  startGameAIVeryHardButton: {fileID: 1557349395}
+  startGameTwoPlayersButton: {fileID: 1047572199}
+  openMenuButton: {fileID: 0}
+  sceneChangerAnimation: {fileID: 1837255268}
 --- !u!1 &114991473
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,7 +665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSetScale: 1
-  _normalScaleValue: {x: 1, y: 1}
+  normalScaleValue: {x: 1, y: 1}
 --- !u!114 &178755643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,10 +678,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa29595ef89a4cb4d71ef59beab76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _downscaleSpeed: 5
-  _radius: 1.25
+  downscaleSpeed: 5
+  radius: 1.25
   isSetScale: 1
-  _normalScaleValue: {x: 1, y: 1}
+  normalScaleValue: {x: 1, y: 1}
 --- !u!1 &238534585
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,7 +841,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: v1.1
+  m_text: v1.2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 28d7d2cd5a77e91419079860ae6689da, type: 2}
   m_sharedMaterial: {fileID: 1020185230227205288, guid: 28d7d2cd5a77e91419079860ae6689da, type: 2}
@@ -1215,6 +1215,142 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 757259438}
   m_CullTransparentMesh: 1
+--- !u!1 &878726538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 878726539}
+  - component: {fileID: 878726541}
+  - component: {fileID: 878726540}
+  m_Layer: 0
+  m_Name: Made by Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &878726539
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878726538}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1006941911}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 100, y: 42.5}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &878726540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878726538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: by JoYfan
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 28d7d2cd5a77e91419079860ae6689da, type: 2}
+  m_sharedMaterial: {fileID: 1020185230227205288, guid: 28d7d2cd5a77e91419079860ae6689da, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 1358954495
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0.3137255}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 4
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &878726541
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878726538}
+  m_CullTransparentMesh: 1
 --- !u!1 &932682117
 GameObject:
   m_ObjectHideFlags: 0
@@ -1426,6 +1562,7 @@ RectTransform:
   - {fileID: 1962694598}
   - {fileID: 1134428589}
   - {fileID: 114991474}
+  - {fileID: 878726539}
   - {fileID: 334173994}
   m_Father: {fileID: 943105947}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1680,7 +1817,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSetScale: 1
-  _normalScaleValue: {x: 1, y: 1}
+  normalScaleValue: {x: 1, y: 1}
 --- !u!114 &1047572201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1693,10 +1830,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa29595ef89a4cb4d71ef59beab76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _downscaleSpeed: 5
-  _radius: 1.25
+  downscaleSpeed: 5
+  radius: 1.25
   isSetScale: 1
-  _normalScaleValue: {x: 1, y: 1}
+  normalScaleValue: {x: 1, y: 1}
 --- !u!1 &1097670252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1940,7 +2077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSetScale: 1
-  _normalScaleValue: {x: 1, y: 1}
+  normalScaleValue: {x: 1, y: 1}
 --- !u!1 &1109112146
 GameObject:
   m_ObjectHideFlags: 0
@@ -2081,10 +2218,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 792b38963b3cd8643b5709c7135c9d13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioSystem: {fileID: 1703555769}
-  _sceneChangerAnimation: {fileID: 1837255268}
-  _startButtonsAppearAnimation: {fileID: 1975494221}
-  _AIDifficultyButtonsAppearAnimation: {fileID: 1527477279}
+  audioSystem: {fileID: 1703555769}
+  sceneChangerAnimation: {fileID: 1837255268}
+  startButtonsAppearAnimation: {fileID: 1975494221}
+  AIDifficultyButtonsAppearAnimation: {fileID: 1527477279}
 --- !u!1 &1317829259
 GameObject:
   m_ObjectHideFlags: 0
@@ -2253,14 +2390,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 138c2037ad2fdd44391eff35ea668c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objects:
+  objects:
   - {fileID: 29442862}
   - {fileID: 178755637}
   - {fileID: 1557349393}
-  _scaleTime: 0.4
-  _nextAppearButtonTime: 0.2
-  _nextDisappearButtonTime: 0.1
-  _appearCooldown: 0.3
+  scaleTime: 0.4
+  nextAppearButtonTime: 0.2
+  nextDisappearButtonTime: 0.1
+  appearCooldown: 0.2
 --- !u!1 &1557349393
 GameObject:
   m_ObjectHideFlags: 0
@@ -2469,7 +2606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSetScale: 1
-  _normalScaleValue: {x: 1, y: 1}
+  normalScaleValue: {x: 1, y: 1}
 --- !u!114 &1557349399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2482,10 +2619,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa29595ef89a4cb4d71ef59beab76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _downscaleSpeed: 5
-  _radius: 1.25
+  downscaleSpeed: 5
+  radius: 1.25
   isSetScale: 1
-  _normalScaleValue: {x: 1, y: 1}
+  normalScaleValue: {x: 1, y: 1}
 --- !u!1 &1640168468
 GameObject:
   m_ObjectHideFlags: 0
@@ -2716,8 +2853,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6ecce4a77a00c48a2c3693a6a60890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _duration: 0.2
-  _blackScreen: {fileID: 1317829261}
+  duration: 0.2
+  blackScreen: {fileID: 1317829261}
 --- !u!1 &1890901144
 GameObject:
   m_ObjectHideFlags: 0
@@ -2838,10 +2975,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa29595ef89a4cb4d71ef59beab76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _downscaleSpeed: 5
-  _radius: 1.25
+  downscaleSpeed: 5
+  radius: 1.25
   isSetScale: 1
-  _normalScaleValue: {x: 1, y: 1}
+  normalScaleValue: {x: 1, y: 1}
 --- !u!114 &1962694600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2855,7 +2992,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSetScale: 1
-  _normalScaleValue: {x: 1, y: 1}
+  normalScaleValue: {x: 1, y: 1}
 --- !u!114 &1962694601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3043,13 +3180,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 138c2037ad2fdd44391eff35ea668c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objects:
+  objects:
   - {fileID: 1097670252}
   - {fileID: 1047572195}
-  _scaleTime: 0.4
-  _nextAppearButtonTime: 0.2
-  _nextDisappearButtonTime: 0.1
-  _appearCooldown: 0.3
+  scaleTime: 0.4
+  nextAppearButtonTime: 0.2
+  nextDisappearButtonTime: 0.1
+  appearCooldown: 0.2
 --- !u!1 &2115297280
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,20 +15,18 @@ public class AIOneTurn : AI
 
     protected List<SlotStates> Field;
 
-    protected SlotStates _AIState;
-    protected SlotStates _opponentState;
-
-    public AIOneTurn() { }
+    protected SlotStates AIState;
+    protected SlotStates opponentState;
 
     public override int DoTurn(List<SlotStates> Field, Queue<int> queueCirclesID, Queue<int> queueCrossesID, SlotStates AIState)
     {
         this.Field = Field;
-        _AIState = AIState;
+        this.AIState = AIState;
 
         if (AIState == SlotStates.Circle)
-            _opponentState = SlotStates.Cross;
+            opponentState = SlotStates.Cross;
         else
-            _opponentState = SlotStates.Circle;
+            opponentState = SlotStates.Circle;
 
         _turnsPoints = new List<int>();
 
@@ -42,7 +40,7 @@ public class AIOneTurn : AI
 
         if (MaxTurnPoints != 0)
         {
-            this.Field[MaxTurnIndex] = _AIState;
+            this.Field[MaxTurnIndex] = this.AIState;
             return MaxTurnIndex;
         }
         else
@@ -66,18 +64,18 @@ public class AIOneTurn : AI
     protected void CheckWinTurn(int index)
     {
         List<SlotStates> TurnSlotsStates = new List<SlotStates>(Field);
-        TurnSlotsStates[index] = _AIState;
+        TurnSlotsStates[index] = AIState;
 
-        if (FieldChecker.Check(TurnSlotsStates, _AIState))
+        if (FieldChecker.Check(TurnSlotsStates, AIState))
             _turnsPoints[index] = WIN_TURN;
     }
 
     protected void CheckDontLoseTurn(int index)
     {
         List<SlotStates> TurnSlotsStates = new List<SlotStates>(Field);
-        TurnSlotsStates[index] = _opponentState;
+        TurnSlotsStates[index] = opponentState;
 
-        if (FieldChecker.Check(TurnSlotsStates, _opponentState))
+        if (FieldChecker.Check(TurnSlotsStates, opponentState))
             _turnsPoints[index] = DONT_LOSE_TURN;
     }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class FieldChecker
 {
-    public static bool Check(List<SlotStates> Field, SlotStates State, out List<int> WinIndexesSlots)
+    public static bool Check(IReadOnlyList<SlotStates> Field, SlotStates State, out List<int> WinIndexesSlots)
     {
         WinIndexesSlots = new List<int>();
 
@@ -70,7 +70,7 @@ public static class FieldChecker
         return false;
     }
 
-    public static bool Check(List<SlotStates> Field, SlotStates State)
+    public static bool Check(IReadOnlyList<SlotStates> Field, SlotStates State)
     {
         if (Field[0] == State && Field[1] == State && Field[2] == State)
         {

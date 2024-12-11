@@ -10,13 +10,13 @@ using System;
 public class StaticButtonScalerAnimation : MonoBehaviour, IPointerMoveHandler
 {
     [SerializeField] private bool isSetScale = false;
-    [SerializeField] private Vector2 _normalScaleValue = Vector2.one;
+    [SerializeField] private Vector2 normalScaleValue = Vector2.one;
 
-    private Vector2 _normalScale;
-    private Vector2 _maxScale;
+    private Vector2 normalScale;
+    private Vector2 maxScale;
 
-    private float _radiusSize = 1.1f;
-    private float _animationTime = 0.1f;
+    private float radiusSize = 1.1f;
+    private float animationTime = 0.1f;
 
     private Button _button;
     private RectTransform _rect;
@@ -29,14 +29,14 @@ public class StaticButtonScalerAnimation : MonoBehaviour, IPointerMoveHandler
 
         if (isSetScale)
         {
-            _normalScale = _normalScaleValue;
+            normalScale = normalScaleValue;
         }
         else
         {
-            _normalScale = transform.localScale;
+            normalScale = transform.localScale;
         }
 
-        _maxScale = new Vector2(_normalScale.x * _radiusSize, _normalScale.y * _radiusSize);
+        maxScale = new Vector2(normalScale.x * radiusSize, normalScale.y * radiusSize);
 
         _button = GetComponent<Button>();
         _rect = GetComponent<RectTransform>();
@@ -63,11 +63,11 @@ public class StaticButtonScalerAnimation : MonoBehaviour, IPointerMoveHandler
 
         if (uvX >= 0 && uvY >= 0 && uvX <= 1 && uvY <= 1)
         {
-            transform.localScale = Vector3.Lerp(transform.localScale, _maxScale, Time.deltaTime / _animationTime);
+            transform.localScale = Vector3.Lerp(transform.localScale, maxScale, Time.deltaTime / animationTime);
         }
         else
         {
-            transform.localScale = Vector3.Lerp(transform.localScale, _normalScale, Time.deltaTime / _animationTime);
+            transform.localScale = Vector3.Lerp(transform.localScale, normalScale, Time.deltaTime / animationTime);
         }
     }
 

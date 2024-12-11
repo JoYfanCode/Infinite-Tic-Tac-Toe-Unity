@@ -6,30 +6,30 @@ using UnityEngine.UI;
 
 public class ObjectsAppearAnimation : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> _objects;
-    [SerializeField] private float _scaleTime = 0.2f;
-    [SerializeField] private float _nextAppearButtonTime = 0.1f; 
-    [SerializeField] private float _nextDisappearButtonTime = 0.1f;
-    [SerializeField] private float _appearCooldown = 0.3f;
+    [SerializeField] private List<GameObject> objects;
+    [SerializeField] private float scaleTime = 0.2f;
+    [SerializeField] private float nextAppearButtonTime = 0.1f; 
+    [SerializeField] private float nextDisappearButtonTime = 0.1f;
+    [SerializeField] private float appearCooldown = 0.2f;
 
-    private List<Vector3> _defaultScale = new();
-    private List<StaticButtonScalerAnimation> _scaleAnimations = new();
+    private List<Vector3> defaultScale = new();
+    private List<StaticButtonScalerAnimation> scaleAnimations = new();
 
-    private int _activeButtonsCount = 0;
+    private int activeButtonsCount = 0;
 
     public event Action OnAppeared;
     public event Action OnDisappeared;
 
     public ObjectsAppearAnimation Init()
     {
-        for (int i = 0; i < _objects.Count; i++)
+        for (int i = 0; i < objects.Count; i++)
         {
-            _defaultScale.Add(_objects[i].transform.localScale);
-            _objects[i].TryGetComponent(out StaticButtonScalerAnimation anim);
-            _scaleAnimations.Add(anim);
-            _objects[i].transform.localScale = Vector3.zero;
+            defaultScale.Add(objects[i].transform.localScale);
+            objects[i].TryGetComponent(out StaticButtonScalerAnimation anim);
+            scaleAnimations.Add(anim);
+            objects[i].transform.localScale = Vector3.zero;
 
-            if (_scaleAnimations[i]) _scaleAnimations[i].enabled = false;
+            if (scaleAnimations[i]) scaleAnimations[i].enabled = false;
         }
 
         return this;
@@ -37,12 +37,12 @@ public class ObjectsAppearAnimation : MonoBehaviour
 
     public void Appear()
     {
-        _activeButtonsCount = 0;
+        activeButtonsCount = 0;
 
-        for (int i = 0; i < _objects.Count; i++)
+        for (int i = 0; i < objects.Count; i++)
         {
-            _objects[i].transform.localScale = Vector3.zero;
-            if(_scaleAnimations[i]) _scaleAnimations[i].enabled = false;
+            objects[i].transform.localScale = Vector3.zero;
+            if(scaleAnimations[i]) scaleAnimations[i].enabled = false;
         }
 
         StartCoroutine(AppearButtonsCoroutine());
@@ -50,9 +50,9 @@ public class ObjectsAppearAnimation : MonoBehaviour
 
     public void Disappear()
     {
-        for (int i = 0; i < _objects.Count; i++)
+        for (int i = 0; i < objects.Count; i++)
         {
-            _scaleAnimations[i].enabled = false;
+            scaleAnimations[i].enabled = false;
         }
 
         StartCoroutine(DisappearButtonsCoroutine());
@@ -60,13 +60,13 @@ public class ObjectsAppearAnimation : MonoBehaviour
 
     private IEnumerator AppearButtonsCoroutine()
     {
-        yield return new WaitForSeconds(_appearCooldown);
+        yield return new WaitForSeconds(appearCooldown);
 
-        WaitForSeconds NextButtonTime = new WaitForSeconds(_nextAppearButtonTime);
+        WaitForSeconds NextButtonTime = new WaitForSeconds(nextAppearButtonTime);
 
-        for (int i = 0; i < _objects.Count; i++)
+        for (int i = 0; i < objects.Count; i++)
         {
-            _objects[i].transform.LeanScale(_defaultScale[i], _scaleTime).setEaseOutBack().setOnComplete(EnableScaleAnimation);
+            objects[i].transform.LeanScale(defaultScale[i], scaleTime).setEaseOutBack().setOnComplete(EnableScaleAnimation);
             yield return NextButtonTime;
         }
 
@@ -75,17 +75,17 @@ public class ObjectsAppearAnimation : MonoBehaviour
 
     private void EnableScaleAnimation()
     {
-        if (_scaleAnimations[_activeButtonsCount]) _scaleAnimations[_activeButtonsCount].enabled = true;
-        _activeButtonsCount++;
+        if (scaleAnimations[activeButtonsCount]) scaleAnimations[activeButtonsCount].enabled = true;
+        activeButtonsCount++;
     }
 
     private IEnumerator DisappearButtonsCoroutine()
     {
-        WaitForSeconds NextButtonTime = new WaitForSeconds(_nextDisappearButtonTime);
+        WaitForSeconds NextButtonTime = new WaitForSeconds(nextDisappearButtonTime);
 
-        for (int i = 0; i < _objects.Count; i++)
+        for (int i = 0; i < objects.Count; i++)
         {
-            _objects[i].transform.LeanScale(Vector3.zero, _scaleTime).setEaseOutExpo();
+            objects[i].transform.LeanScale(Vector3.zero, scaleTime).setEaseOutExpo();
             yield return NextButtonTime;
         }
 

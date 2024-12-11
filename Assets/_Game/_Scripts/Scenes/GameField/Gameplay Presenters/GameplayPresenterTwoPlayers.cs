@@ -1,44 +1,38 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using System;
-using System.Threading.Tasks;
-using System.Threading;
+﻿using System.Collections.Generic;
 
-public class PresenterTwoPlayers : Presenter
+public class GameplayPresenterTwoPlayers : GameplayPresenter
 {
     protected SlotStates _currentState = SlotStates.Circle;
     protected SlotStates _startState;
 
-    public PresenterTwoPlayers(Model model, View view, float restartGameCooldown = RESTART_GAME_DEFAULT) : base(model, view, restartGameCooldown) { }
+    public GameplayPresenterTwoPlayers(GameplayModel model, GameplayView view, int restartGameCooldown = RESTART_GAME_DEFAULT) : base(model, view, restartGameCooldown) { }
 
     protected override void DoTurn(int id)
     {
-        _model.Field[id] = _currentState;
+        List<SlotStates> field = model.Field;
+
+        field[id] = _currentState;
 
         EnqueueStateID(id);
-        DequeueStateID(_model.Field);
+        DequeueStateID(field);
         ChangeCurrentState();
-        CheckField(_model.Field);
+        model.SetState(field);
+        view.DisplayField(model.Field);
 
-        _model.SetState(_model.Field);
-
-        _view.DisplayField(_model.Field);
+        CheckField(model.Field);
     }
 
     private void EnqueueStateID(int id)
     {
         if (_currentState == SlotStates.Circle)
         {
-            _view.BoomParticleSlot(id, SlotStates.Circle);
-            _model.QueueCircleID.Enqueue(id);
+            view.BoomParticleSlot(id, SlotStates.Circle);
+            model.QueueCircleID.Enqueue(id);
         }
         else if (_currentState == SlotStates.Cross)
         {
-            _view.BoomParticleSlot(id, SlotStates.Cross);
-            _model.QueueCrossID.Enqueue(id);
+            view.BoomParticleSlot(id, SlotStates.Cross);
+            model.QueueCrossID.Enqueue(id);
         }
     }
 
@@ -46,28 +40,28 @@ public class PresenterTwoPlayers : Presenter
     {
         if (_currentState == SlotStates.Circle)
         {
-            if (_model.QueueCircleID.Count > _model.LIMIT_QUEUE_ID)
+            if (model.QueueCircleID.Count > model.LIMIT_QUEUE_ID)
             {
-                Field[_model.QueueCircleID.Dequeue()] = SlotStates.Empty;
+                Field[model.QueueCircleID.Dequeue()] = SlotStates.Empty;
             }
         }
         else if (_currentState == SlotStates.Cross)
         {
-            if (_model.QueueCrossID.Count > _model.LIMIT_QUEUE_ID)
+            if (model.QueueCrossID.Count > model.LIMIT_QUEUE_ID)
             {
-                Field[_model.QueueCrossID.Dequeue()] = SlotStates.Empty;
+                Field[model.QueueCrossID.Dequeue()] = SlotStates.Empty;
             }
         }
 
         if (_currentState == SlotStates.Circle)
         {
-            if (_model.QueueCrossID.Count >= _model.LIMIT_QUEUE_ID)
-                _view.LightDownColorSlot(_model.QueueCrossID.Peek());
+            if (model.QueueCrossID.Count >= model.LIMIT_QUEUE_ID)
+                view.LightDownColorSlot(model.QueueCrossID.Peek());
         }
         else if (_currentState == SlotStates.Cross)
         {
-            if (_model.QueueCircleID.Count >= _model.LIMIT_QUEUE_ID)
-                _view.LightDownColorSlot(_model.QueueCircleID.Peek());
+            if (model.QueueCircleID.Count >= model.LIMIT_QUEUE_ID)
+                view.LightDownColorSlot(model.QueueCircleID.Peek());
         }
     }
 
@@ -92,7 +86,7 @@ public class PresenterTwoPlayers : Presenter
             _currentState = SlotStates.Cross;
         }
 
-        _view.SetTurnState(_currentState);
+        view.SetTurnState(_currentState);
     }
 
     public override void FirstMoveAnotherPlayer()
@@ -108,6 +102,6 @@ public class PresenterTwoPlayers : Presenter
             _currentState = SlotStates.Circle;
         }
 
-        _view.SetTurnState(_startState);
+        view.SetTurnState(_startState);
     }
 }
