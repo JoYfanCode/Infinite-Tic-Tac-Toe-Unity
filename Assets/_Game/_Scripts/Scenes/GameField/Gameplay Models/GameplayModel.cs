@@ -20,10 +20,12 @@ public class GameplayModel
     public Queue<int> QueueCircleID => queueCirclesID;
     public Queue<int> QueueCrossID => queueCrossesID;
     public bool IsAIThinking => isAIThinking;
-    public int CountWinsCircle => countCirclesPoints;
+    public int CountCirclesPoints => countCirclesPoints;
     public int CountCrossesPoints => countCrossesPoints;
     public bool IsGameState => isWinState == false;
-    public bool IsWin => CountWinsCircle == POINTS_FOR_WIN || CountCrossesPoints == POINTS_FOR_WIN;
+    public bool IsCirclesWin => countCirclesPoints == POINTS_FOR_WIN;
+    public bool IsCrossesWin => CountCrossesPoints == POINTS_FOR_WIN;
+    public bool IsWin => IsCirclesWin || IsCrossesWin;
 
     public GameplayModel()
     {

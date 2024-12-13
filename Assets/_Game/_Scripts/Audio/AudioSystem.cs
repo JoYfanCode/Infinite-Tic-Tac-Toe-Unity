@@ -11,6 +11,7 @@ public class AudioSystem : MonoBehaviour
     public GameObject Click;
     public GameObject OpenGameMode;
     public GameObject Win;
+    public GameObject Firework;
 
     public Action OnAudioSettingsChanged;
 

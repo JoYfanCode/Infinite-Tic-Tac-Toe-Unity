@@ -10,6 +10,8 @@ public abstract class GameplayView : MonoBehaviour
     {
         this.presenter = presenter;
         this.presenter.FirstMoveDetermination();
+
+        PlayWinEffects(SlotStates.Circle);
     }
 
     public abstract void DisplayField(IReadOnlyList<SlotStates> Field);
@@ -19,7 +21,9 @@ public abstract class GameplayView : MonoBehaviour
     public abstract void DisplayCounters(int countCirclesPoints, int countCrossesPoints);
     public abstract void SetTurnState(SlotStates state);
     public abstract void ClearFieldAnimation();
+    public abstract void PlayWinEffects(SlotStates winState);
 
     public void PlayClickSound() => AudioSystem.inst.PlayClickSound();
     public void PlayWinSound() => AudioSystem.PlaySound(AudioSystem.inst.Win);
+    public void PlayFireworkSound() => AudioSystem.PlaySound(AudioSystem.inst.Firework);
 }

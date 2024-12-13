@@ -8,15 +8,14 @@ public abstract class GameplayPresenter
     protected readonly GameplayModel model;
     protected readonly GameplayView view;
 
-    protected readonly int _restartGameCooldown;
-
+    protected readonly int restartGameCooldown;
     protected const int RESTART_GAME_DEFAULT = 100;
 
     public GameplayPresenter(GameplayModel model, GameplayView view, int restartGameCooldown = RESTART_GAME_DEFAULT)
     {
         this.model = model;
         this.view = view;
-        _restartGameCooldown = restartGameCooldown;
+        this.restartGameCooldown = restartGameCooldown;
     }
 
     public virtual void OnClotClicked(int id)
@@ -33,7 +32,10 @@ public abstract class GameplayPresenter
 
     public async void RestartGame()
     {
-        await WaitForSeconds(_restartGameCooldown);
+        if (model.IsCirclesWin) view.PlayWinEffects(SlotStates.Circle);
+        else if (model.IsCrossesWin) view.PlayWinEffects(SlotStates.Cross);
+
+        await WaitForSeconds(restartGameCooldown);
 
         if (model.IsWin) model.ResetCounters();
 
@@ -43,7 +45,7 @@ public abstract class GameplayPresenter
     public void ResetFieldState()
     {
         model.ResetFieldState();
-        view.DisplayCounters(model.CountWinsCircle, model.CountCrossesPoints);
+        view.DisplayCounters(model.CountCirclesPoints, model.CountCrossesPoints);
         view.LightUpColorSlots();
     }
 
@@ -55,7 +57,7 @@ public abstract class GameplayPresenter
         {
             model.SetStateWin();
             model.AddCirclesPoint();
-            view.DisplayCounters(model.CountWinsCircle, model.CountCrossesPoints);
+            view.DisplayCounters(model.CountCirclesPoints, model.CountCrossesPoints);
             view.PlayWinSound();
 
             for (int i = 0; i < WinIndexesSlots.Count; i++)
@@ -67,7 +69,7 @@ public abstract class GameplayPresenter
         {
             model.SetStateWin();
             model.AddCrossesPoint();
-            view.DisplayCounters(model.CountWinsCircle, model.CountCrossesPoints);
+            view.DisplayCounters(model.CountCirclesPoints, model.CountCrossesPoints);
             view.PlayWinSound();
 
             for (int i = 0; i < WinIndexesSlots.Count; i++)

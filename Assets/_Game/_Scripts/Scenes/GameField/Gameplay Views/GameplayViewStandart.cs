@@ -4,34 +4,43 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 using VInspector;
-using NUnit.Framework;
 
 public class GameplayViewStandart : GameplayView
 {
-    [Tab("Slots")]
+    [Tab("Parameters")]
+    [SerializeField] private Color circleColor = Color.blue;
+    [SerializeField] private Color crossColor = Color.red;
+    [SerializeField] private float halfTransparentAlpha = 0.25f;
+    [SerializeField] private float nextSlotClearCooldown = 0.1f;
+    [SerializeField] private float effectCooldown = 0.1f;
 
-    [Header("Objects")]
-
+    [Tab("Objects")]
     [SerializeField] private List<Slot> slots;
     [SerializeField] private Sprite cross;
     [SerializeField] private Sprite circle;
     [SerializeField] private Image turnStateImage;
 
     [Space]
-    [Header("Parameters")]
+    [Header("Effects")]
+    [SerializeField] private GameObject circleSmallEffectPrefab;
+    [SerializeField] private GameObject circleBigEffectPrefab;
+    [SerializeField] private GameObject crossSmallEffectPrefab;
+    [SerializeField] private GameObject crossBigEffectPrefab;
 
-    [SerializeField] private Color circleColor = Color.blue;
-    [SerializeField] private Color crossColor = Color.red;
-    [SerializeField] private float halfTransparentAlpha = 0.25f;
-    [SerializeField] private float nextSlotClearCooldown = 0.1f;
+    [SerializeField] private Transform leftPoint;
+    [SerializeField] private Transform centerPoint;
+    [SerializeField] private Transform rightPoint;
+    [SerializeField] private Transform effectsParent;
 
     [Tab("Managers")]
-
     [SerializeField] private PointsHandler circlesPointsHandler;
     [SerializeField] private PointsHandler crossesPointsHandler;
 
+    private WaitForSeconds waitCooldownEffect;
+
     public override void Init(GameplayPresenter presenter)
     {
+        waitCooldownEffect = new WaitForSeconds(effectCooldown);
         InitSlotsButtons();
         base.Init(presenter);
     }
@@ -51,7 +60,7 @@ public class GameplayViewStandart : GameplayView
             {
                 slots[i].Image.color = Color.clear;
             }
-            
+
             if (Field[i] == SlotStates.Circle)
             {
                 slots[i].Image.sprite = circle;
@@ -161,5 +170,39 @@ public class GameplayViewStandart : GameplayView
         {
             slot.Button.onClick.RemoveAllListeners();
         }
+    }
+
+    public override void PlayWinEffects(SlotStates winState)
+    {
+        if (winState == SlotStates.Circle)
+        {
+            StartCoroutine(PlayWinEffectsCoroutine(circleBigEffectPrefab, circleSmallEffectPrefab));
+        }
+        else if (winState == SlotStates.Cross)
+        {
+            StartCoroutine(PlayWinEffectsCoroutine(crossBigEffectPrefab, crossSmallEffectPrefab));
+        }
+    }
+
+    public IEnumerator PlayWinEffectsCoroutine(GameObject bigEffectPrefab, GameObject smallEffectPrefab)
+    {
+        yield return waitCooldownEffect;
+
+        GameObject rightEffect = Instantiate(smallEffectPrefab, Vector2.zero, Quaternion.identity, effectsParent).gameObject;
+        rightEffect.transform.localPosition = rightPoint.transform.localPosition;
+        PlayFireworkSound();
+
+        yield return waitCooldownEffect;
+
+        GameObject leftEffect = Instantiate(smallEffectPrefab, Vector2.zero, Quaternion.identity, effectsParent).gameObject;
+        leftEffect.transform.localPosition = leftPoint.transform.localPosition;
+        PlayFireworkSound();
+
+        yield return waitCooldownEffect;
+        yield return waitCooldownEffect;
+
+        GameObject centerEffect = Instantiate(bigEffectPrefab, Vector2.zero, Quaternion.identity, effectsParent).gameObject;
+        centerEffect.transform.localPosition = centerPoint.transform.localPosition;
+        PlayFireworkSound();
     }
 }
