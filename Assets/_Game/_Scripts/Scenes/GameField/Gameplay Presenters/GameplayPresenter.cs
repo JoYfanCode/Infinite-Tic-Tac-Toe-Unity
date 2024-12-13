@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public abstract class GameplayPresenter
 {
@@ -32,12 +33,21 @@ public abstract class GameplayPresenter
 
     public async void RestartGame()
     {
-        if (model.IsCirclesWin) view.PlayWinEffects(SlotStates.Circle);
-        else if (model.IsCrossesWin) view.PlayWinEffects(SlotStates.Cross);
+        if (model.IsWin)
+        {
+            await WaitForSeconds(restartGameCooldown);
 
-        await WaitForSeconds(restartGameCooldown);
+            if (model.IsCirclesWin) view.PlayWinEffects(SlotStates.Circle);
+            else if (model.IsCrossesWin) view.PlayWinEffects(SlotStates.Cross);
 
-        if (model.IsWin) model.ResetCounters();
+            await WaitForSeconds(2 * restartGameCooldown);
+
+            model.ResetCounters();
+        }
+        else
+        {
+            await WaitForSeconds(restartGameCooldown);
+        }
 
         view.ClearFieldAnimation();
     }
@@ -51,29 +61,21 @@ public abstract class GameplayPresenter
 
     protected void CheckField(IReadOnlyList<SlotStates> Field)
     {
-        List<int> WinIndexesSlots;
+        CheckField(Field, SlotStates.Circle);
+        CheckField(Field, SlotStates.Cross);
+    }
 
-        if (FieldChecker.Check(Field, SlotStates.Circle, out WinIndexesSlots))
+    private void CheckField(IReadOnlyList<SlotStates> Field, SlotStates slotState)
+    {
+        if (FieldChecker.Check(Field, slotState, out List<int> WinIndexesSlots))
         {
             model.SetStateWin();
-            model.AddCirclesPoint();
+            model.AddPoint(slotState);
             view.DisplayCounters(model.CountCirclesPoints, model.CountCrossesPoints);
             view.PlayWinSound();
 
             for (int i = 0; i < WinIndexesSlots.Count; i++)
-                view.BoomParticleSlot(WinIndexesSlots[i], SlotStates.Circle);
-
-            RestartGame();
-        }
-        else if (FieldChecker.Check(Field, SlotStates.Cross, out WinIndexesSlots))
-        {
-            model.SetStateWin();
-            model.AddCrossesPoint();
-            view.DisplayCounters(model.CountCirclesPoints, model.CountCrossesPoints);
-            view.PlayWinSound();
-
-            for (int i = 0; i < WinIndexesSlots.Count; i++)
-                view.BoomParticleSlot(WinIndexesSlots[i], SlotStates.Cross);
+                view.BoomParticleSlot(WinIndexesSlots[i], slotState);
 
             RestartGame();
         }

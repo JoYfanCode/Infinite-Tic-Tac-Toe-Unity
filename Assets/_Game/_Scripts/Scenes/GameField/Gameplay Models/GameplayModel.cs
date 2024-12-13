@@ -51,9 +51,12 @@ public class GameplayModel
         isAIThinking = false;
     }
 
-    public void AddCirclesPoint() => countCirclesPoints++;
+    public void AddPoint(SlotStates slotState)
+    {
+        if (slotState == SlotStates.Circle) countCirclesPoints++;
+        else if (slotState == SlotStates.Cross) countCrossesPoints++;
+    }
 
-    public void AddCrossesPoint() => countCrossesPoints++;
     public void ResetCounters()
     {
         countCirclesPoints = 0;

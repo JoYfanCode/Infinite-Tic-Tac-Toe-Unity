@@ -40,9 +40,9 @@ public class GameplayViewStandart : GameplayView
 
     public override void Init(GameplayPresenter presenter)
     {
+        base.Init(presenter);
         waitCooldownEffect = new WaitForSeconds(effectCooldown);
         InitSlotsButtons();
-        base.Init(presenter);
     }
 
     public void OnSlotClicked(int id)

@@ -343,6 +343,7 @@ GameObject:
   - component: {fileID: 157129159}
   - component: {fileID: 157129158}
   - component: {fileID: 157129161}
+  - component: {fileID: 157129162}
   m_Layer: 0
   m_Name: Menu Button
   m_TagString: Untagged
@@ -412,31 +413,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 157129159}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 157129161}
-        m_TargetAssemblyTypeName: Shaker, Assembly-CSharp
-        m_MethodName: Shake
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1522937353}
-        m_TargetAssemblyTypeName: ScenesChanger, Assembly-CSharp
-        m_MethodName: OpenMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &157129159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -491,6 +468,19 @@ MonoBehaviour:
   radius: 1.25
   isSetScale: 1
   normalScaleValue: {x: 1, y: 1}
+--- !u!114 &157129162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157129156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6672e087f5e4eb419ab167e0244c67a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scenesChanger: {fileID: 1522937353}
 --- !u!1001 &287984790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -934,14 +924,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7921569, g: 0.7411765, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 22f7539950eef9e42a59eb3673a53cf0, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2100,7 +2090,7 @@ MonoBehaviour:
   crossColor: {r: 1, g: 0.9019608, b: 0.6745098, a: 1}
   halfTransparentAlpha: 0.25
   nextSlotClearCooldown: 0.1
-  effectCooldown: 0.1
+  effectCooldown: 0.25
   slots:
   - {fileID: 2708484935622403769}
   - {fileID: 287984792}
@@ -3360,11 +3350,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 160e48e2a59ec2740bcadefe27138242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startGameAINormalButton: {fileID: 0}
-  startGameAIHardButton: {fileID: 0}
-  startGameAIVeryHardButton: {fileID: 0}
-  startGameTwoPlayersButton: {fileID: 0}
-  openMenuButton: {fileID: 157129158}
   sceneChangerAnimation: {fileID: 1546797070}
 --- !u!4 &1522937354
 Transform:
@@ -3411,6 +3396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 0.2
+  delayMilisecDuration: 10
   blackScreen: {fileID: 1043119958}
 --- !u!4 &1546797071
 Transform:

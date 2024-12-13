@@ -1,54 +1,45 @@
 ﻿using System;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class SceneChangerAnimation : MonoBehaviour
 {
-    [SerializeField] private float duration = 0.2f;   
+    [SerializeField] private float duration = 0.2f;
+    [SerializeField] private int delayMilisecDuration = 10;
     [SerializeField] private CanvasGroup blackScreen;
 
-    public event Action OnFinishedAppear;
-    public event Action OnFinishedFade;
-
-    public void Appear()
+    public async Task Appear()
     {
+        blackScreen.gameObject.SetActive(true);
         blackScreen.alpha = 0f;
-        blackScreen.gameObject.SetActive(true);
-        StartCoroutine(AppearCoroutine());
-    }
 
-    private IEnumerator AppearCoroutine()
-    {
-        float elapsedTime = 0f;
+        float startTime = Time.time;
+        float timeDx = 0f;
 
-        while (elapsedTime < duration)
+        while (timeDx < duration)
         {
-            elapsedTime += Time.deltaTime;
-            blackScreen.alpha = elapsedTime / duration;
-            yield return null;
+            blackScreen.alpha = timeDx / duration;
+            await WaitForSeconds(delayMilisecDuration);
+            timeDx = Time.time - startTime;
         }
-
-        OnFinishedAppear?.Invoke();
     }
 
-    public void Fade()
+    public async Task Fade()
     {
+        blackScreen.gameObject.SetActive(true);
         blackScreen.alpha = 1f;
-        blackScreen.gameObject.SetActive(true);
-        StartCoroutine(FadeCoroutine());
-    }
 
-    private IEnumerator FadeCoroutine()
-    {
-        float elapsedTime = 0f;
+        float startTime = Time.time;
+        float timeDx = 0f;
 
-        while (elapsedTime < duration)
+        while (timeDx < duration)
         {
-            elapsedTime += Time.deltaTime;
-            blackScreen.alpha = 1 - elapsedTime / duration;
-            yield return null;
+            blackScreen.alpha = 1- timeDx / duration;
+            await WaitForSeconds(delayMilisecDuration);
+            timeDx = Time.time - startTime;
         }
-
-        OnFinishedFade?.Invoke();
     }
+
+    protected async Task WaitForSeconds(int time) => await Task.Delay(time);
 }

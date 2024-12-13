@@ -2,12 +2,13 @@
 
 internal static class SetUp
 {
-    public static Modes Mode { get; set; }
+    public static GameModes GameMode;
+    public static AIDifficulties AIDifficulty;
 
-    public static Dictionary<string, bool> DifficultiesComplited = new()
+    public static Dictionary<AIDifficulties, bool> AIDifficultiesComplited = new Dictionary<AIDifficulties, bool>()
     {
-        { "Normal", false },
-        { "Hard", false },
-        { "VeryHard", false },
+        { AIDifficulties.NORMAL, false },
+        { AIDifficulties.HARD, false },
+        { AIDifficulties.VERY_HARD, false },
     };
 }
