@@ -17,9 +17,7 @@ public class ObjectsAppearAnimation : MonoBehaviour
     private List<StaticButtonScalerAnimation> scaleAnimations = new();
 
     private int activeButtonsCount = 0;
-
-    public event Action OnAppeared;
-    public event Action OnDisappeared;
+    private const int MILISEC_IN_SEC = 1000;
 
     public ObjectsAppearAnimation Init()
     {
@@ -28,8 +26,8 @@ public class ObjectsAppearAnimation : MonoBehaviour
             defaultScale.Add(objects[i].transform.localScale);
             objects[i].TryGetComponent(out StaticButtonScalerAnimation anim);
             scaleAnimations.Add(anim);
-            objects[i].transform.localScale = Vector3.zero;
 
+            objects[i].transform.localScale = Vector3.zero;
             if (scaleAnimations[i]) scaleAnimations[i].enabled = false;
         }
 
@@ -37,6 +35,11 @@ public class ObjectsAppearAnimation : MonoBehaviour
     }
 
     public void Appear()
+    {
+        AppearAsync();
+    }
+
+    public async Task AppearAsync()
     {
         activeButtonsCount = 0;
 
@@ -46,50 +49,37 @@ public class ObjectsAppearAnimation : MonoBehaviour
             if(scaleAnimations[i]) scaleAnimations[i].enabled = false;
         }
 
-        StartCoroutine(AppearButtonsCoroutine());
+        await Task.Delay((int)(appearCooldown * MILISEC_IN_SEC));
+
+        for (int i = 0; i < objects.Count; i++)
+        {
+            objects[i].transform.LeanScale(defaultScale[i], scaleTime).setEaseOutBack().setOnComplete(EnableScaleAnimation);
+            await Task.Delay((int)(nextAppearButtonTime * MILISEC_IN_SEC));
+        }
     }
 
-    public void Disappear()
+    public void Dissappear()
+    {
+        DisappearAsync();
+    }
+
+    public async Task DisappearAsync()
     {
         for (int i = 0; i < objects.Count; i++)
         {
             scaleAnimations[i].enabled = false;
         }
 
-        StartCoroutine(DisappearButtonsCoroutine());
-    }
-
-    private IEnumerator AppearButtonsCoroutine()
-    {
-        yield return new WaitForSeconds(appearCooldown);
-
-        WaitForSeconds NextButtonTime = new WaitForSeconds(nextAppearButtonTime);
-
         for (int i = 0; i < objects.Count; i++)
         {
-            objects[i].transform.LeanScale(defaultScale[i], scaleTime).setEaseOutBack().setOnComplete(EnableScaleAnimation);
-            yield return NextButtonTime;
+            objects[i].transform.LeanScale(Vector3.zero, scaleTime).setEaseOutExpo();
+            await Task.Delay((int)(nextAppearButtonTime * MILISEC_IN_SEC));
         }
-
-        OnAppeared?.Invoke();
     }
 
     private void EnableScaleAnimation()
     {
         if (scaleAnimations[activeButtonsCount]) scaleAnimations[activeButtonsCount].enabled = true;
         activeButtonsCount++;
-    }
-
-    private IEnumerator DisappearButtonsCoroutine()
-    {
-        WaitForSeconds NextButtonTime = new WaitForSeconds(nextDisappearButtonTime);
-
-        for (int i = 0; i < objects.Count; i++)
-        {
-            objects[i].transform.LeanScale(Vector3.zero, scaleTime).setEaseOutExpo();
-            yield return NextButtonTime;
-        }
-
-        OnDisappeared?.Invoke();
     }
 }

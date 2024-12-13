@@ -33,6 +33,7 @@ public class GameFieldBootstrap : MonoBehaviour
 
         GameplayModel gameplayModel = new GameplayModel();
         GameplayPresenter gameplayPresenter = CreatePresenter(gameMode, AIDifficulty, gameplayModel, gameplayView);
+        gameplayView.Init(gameplayPresenter);
 
         slotsAppearAnimation.Init();
         circlesPointsAnimation.Init();
@@ -40,11 +41,11 @@ public class GameFieldBootstrap : MonoBehaviour
 
         await sceneChangerAnimation.Fade();
 
-        slotsAppearAnimation.Appear();
         circlesPointsAnimation.Appear();
         crossesPointsAnimation.Appear();
 
-        gameplayView.Init(gameplayPresenter);
+        await slotsAppearAnimation.AppearAsync();
+
         gameplayPresenter.FirstMoveDetermination();
     }
 
@@ -56,9 +57,9 @@ public class GameFieldBootstrap : MonoBehaviour
         }
         else if (gameMode == GameModes.OnePlayer)
         {
-            if (AIDifficulty == AIDifficulties.NORMAL) return new GameplayPresenterAI(model, view, new AIOneTurn(), AICooldownMin, AICooldownMax, restartGameCooldown);
-            else if (AIDifficulty == AIDifficulties.HARD) return new GameplayPresenterAI(model, view, new AIMiniMax(AI_NORMAL_DEPTH), AICooldownMin, AICooldownMax, restartGameCooldown);
-            else if (AIDifficulty == AIDifficulties.VERY_HARD) return new GameplayPresenterAI(model, view, new AIMiniMax(AI_HARD_DEPTH), AICooldownMin, AICooldownMax, restartGameCooldown);
+            if (AIDifficulty == AIDifficulties.NORMAL) return new GameplayPresenterAI(model, view, new AIOneTurn(), restartGameCooldown, AICooldownMin, AICooldownMax);
+            else if (AIDifficulty == AIDifficulties.HARD) return new GameplayPresenterAI(model, view, new AIMiniMax(AI_NORMAL_DEPTH), restartGameCooldown, AICooldownMin, AICooldownMax);
+            else if (AIDifficulty == AIDifficulties.VERY_HARD) return new GameplayPresenterAI(model, view, new AIMiniMax(AI_HARD_DEPTH), restartGameCooldown, AICooldownMin, AICooldownMax);
         }
 
         return new GameplayPresenterTwoPlayers(model, view, restartGameCooldown);

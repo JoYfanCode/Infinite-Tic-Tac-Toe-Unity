@@ -2338,7 +2338,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1975494221}
         m_TargetAssemblyTypeName: ObjectsAppearAnimation, Assembly-CSharp
-        m_MethodName: Disappear
+        m_MethodName: Dissappear
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

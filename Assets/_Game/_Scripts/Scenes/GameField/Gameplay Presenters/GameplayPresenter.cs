@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public abstract class GameplayPresenter
 {
@@ -10,9 +9,8 @@ public abstract class GameplayPresenter
     protected readonly GameplayView view;
 
     protected readonly int restartGameCooldown;
-    protected const int RESTART_GAME_DEFAULT = 100;
 
-    public GameplayPresenter(GameplayModel model, GameplayView view, int restartGameCooldown = RESTART_GAME_DEFAULT)
+    public GameplayPresenter(GameplayModel model, GameplayView view, int restartGameCooldown)
     {
         this.model = model;
         this.view = view;
@@ -21,35 +19,44 @@ public abstract class GameplayPresenter
 
     public virtual void OnClotClicked(int id)
     {
-        if (model.Field[id] == SlotStates.Empty)
-            if (model.IsGameState)
-                DoTurn(id);
+        if (model.Field[id] == SlotStates.Empty && model.IsGameState)
+        {
+            DoTurn(id);
+        }
     }
-
-    protected abstract void DoTurn(int id);
-
-    public abstract void FirstMoveDetermination();
-    public abstract void FirstMoveAnotherPlayer();
 
     public async void RestartGame()
     {
         if (model.IsWin)
         {
-            await WaitForSeconds(restartGameCooldown);
+            await Task.Delay(restartGameCooldown / 2);
 
             if (model.IsCirclesWin) view.PlayWinEffects(SlotStates.Circle);
             else if (model.IsCrossesWin) view.PlayWinEffects(SlotStates.Cross);
 
-            await WaitForSeconds(2 * restartGameCooldown);
+            await Task.Delay(2 * restartGameCooldown);
+
+            if (SetUp.GameMode == GameModes.OnePlayer && model.IsCirclesWin)
+            {
+                if (SetUp.AIDifficultiesComplited[SetUp.AIDifficulty] == false)
+                {
+                    SetUp.AIDifficultiesComplited[SetUp.AIDifficulty] = true;
+                    SetUp.isOpenedNewDifficulty = true;
+                    view.OpenMenu();
+                }
+            }
 
             model.ResetCounters();
         }
         else
         {
-            await WaitForSeconds(restartGameCooldown);
+            await Task.Delay(restartGameCooldown);
         }
 
-        view.ClearFieldAnimation();
+        await view.ClearFieldAnimation();
+
+        ResetFieldState();
+        FirstMoveAnotherPlayer();
     }
 
     public void ResetFieldState()
@@ -81,5 +88,7 @@ public abstract class GameplayPresenter
         }
     }
 
-    protected async Task WaitForSeconds(int time) => await Task.Delay(time);
+    protected abstract void DoTurn(int id);
+    public abstract void FirstMoveDetermination();
+    public abstract void FirstMoveAnotherPlayer();
 }

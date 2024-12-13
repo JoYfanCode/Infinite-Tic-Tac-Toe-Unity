@@ -2089,8 +2089,8 @@ MonoBehaviour:
   circleColor: {r: 0.7921569, g: 0.7411765, b: 1, a: 1}
   crossColor: {r: 1, g: 0.9019608, b: 0.6745098, a: 1}
   halfTransparentAlpha: 0.25
-  nextSlotClearCooldown: 0.1
-  effectCooldown: 0.25
+  nextSlotClearMilisecCooldown: 100
+  effectMilisecCooldown: 200
   slots:
   - {fileID: 2708484935622403769}
   - {fileID: 287984792}
@@ -2112,6 +2112,7 @@ MonoBehaviour:
   centerPoint: {fileID: 1094982061}
   rightPoint: {fileID: 1929515340}
   effectsParent: {fileID: 882857545}
+  scenesChanger: {fileID: 1522937353}
   circlesPointsHandler: {fileID: 43175512}
   crossesPointsHandler: {fileID: 422986788}
 --- !u!4 &969526897

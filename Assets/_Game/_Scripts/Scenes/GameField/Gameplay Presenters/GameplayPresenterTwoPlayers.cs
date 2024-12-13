@@ -5,7 +5,7 @@ public class GameplayPresenterTwoPlayers : GameplayPresenter
     protected SlotStates _currentState = SlotStates.Circle;
     protected SlotStates _startState;
 
-    public GameplayPresenterTwoPlayers(GameplayModel model, GameplayView view, int restartGameCooldown = RESTART_GAME_DEFAULT) : base(model, view, restartGameCooldown) { }
+    public GameplayPresenterTwoPlayers(GameplayModel model, GameplayView view, int restartGameCooldown) : base(model, view, restartGameCooldown) { }
 
     protected override void DoTurn(int id)
     {

@@ -11,4 +11,6 @@ internal static class SetUp
         { AIDifficulties.HARD, false },
         { AIDifficulties.VERY_HARD, false },
     };
+
+    public static bool isOpenedNewDifficulty = false;
 }

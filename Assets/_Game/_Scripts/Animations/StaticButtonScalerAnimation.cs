@@ -78,7 +78,6 @@ public class StaticButtonScalerAnimation : MonoBehaviour, IPointerMoveHandler
 
     bool IsMobile()
     {
-        return Application.platform == RuntimePlatform.Android ||
-               Application.platform == RuntimePlatform.IPhonePlayer;
+        return Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer;
     }
 }

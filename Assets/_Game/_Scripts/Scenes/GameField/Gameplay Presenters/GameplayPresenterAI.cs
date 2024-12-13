@@ -16,10 +16,9 @@ public class GameplayPresenterAI : GameplayPresenter
 
     protected const int AI_COOLDOWN_MIN_DEFAULT = 250;
     protected const int AI_COOLDOWN_MAX_DEFAULT = 500;
-    protected const int WAIT_FIRST_MOVE_TIME_MULT = 3;
 
-    public GameplayPresenterAI(GameplayModel model, GameplayView view, AI AI, int AICooldownMin = AI_COOLDOWN_MIN_DEFAULT, int AICooldownMax = AI_COOLDOWN_MAX_DEFAULT,
-                        int restartGameCooldown = RESTART_GAME_DEFAULT) : base(model, view, restartGameCooldown)
+    public GameplayPresenterAI(GameplayModel model, GameplayView view, AI AI, int restartGameCooldown, int AICooldownMin = AI_COOLDOWN_MIN_DEFAULT,
+        int AICooldownMax = AI_COOLDOWN_MAX_DEFAULT) : base(model, view, restartGameCooldown)
     {
         this.AI = AI;
         this.AICooldownMin = AICooldownMin;
@@ -48,13 +47,14 @@ public class GameplayPresenterAI : GameplayPresenter
         CheckField(model.Field);
     }
 
-    private async void DoAITurn(int AICooldownMin, int AICooldownMax)
+    private async void DoAITurn(int AICooldownMin = 0, int AICooldownMax = 0)
     {
         model.SetIsAIThinking(true);
 
         int id = AI.DoTurn(new List<SlotStates>(model.Field), new Queue<int>(model.QueueCircleID), new Queue<int>(model.QueueCrossID), AIState);
 
-        await WaitForSeconds(Random.Range(AICooldownMin, AICooldownMax));
+        int randomAICooldown = Random.Range(AICooldownMin, AICooldownMax);
+        await Task.Delay(randomAICooldown);
 
         List<SlotStates> field = model.Field;
 
@@ -114,7 +114,7 @@ public class GameplayPresenterAI : GameplayPresenter
         {
             startState = SlotStates.Cross;
             view.SetTurnState(startState);
-            DoAITurn(WAIT_FIRST_MOVE_TIME_MULT * AICooldownMin, WAIT_FIRST_MOVE_TIME_MULT * AICooldownMax);
+            DoAITurn();
         }
         else
         {

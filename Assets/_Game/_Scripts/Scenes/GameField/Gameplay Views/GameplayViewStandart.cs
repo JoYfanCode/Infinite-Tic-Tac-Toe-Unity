@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 using VInspector;
+using System.Threading.Tasks;
 
 public class GameplayViewStandart : GameplayView
 {
@@ -11,8 +12,8 @@ public class GameplayViewStandart : GameplayView
     [SerializeField] private Color circleColor = Color.blue;
     [SerializeField] private Color crossColor = Color.red;
     [SerializeField] private float halfTransparentAlpha = 0.25f;
-    [SerializeField] private float nextSlotClearCooldown = 0.1f;
-    [SerializeField] private float effectCooldown = 0.1f;
+    [SerializeField] private int nextSlotClearMilisecCooldown = 100;
+    [SerializeField] private int effectMilisecCooldown = 200;
 
     [Tab("Objects")]
     [SerializeField] private List<Slot> slots;
@@ -33,15 +34,13 @@ public class GameplayViewStandart : GameplayView
     [SerializeField] private Transform effectsParent;
 
     [Tab("Managers")]
+    [SerializeField] private ScenesChanger scenesChanger;
     [SerializeField] private PointsHandler circlesPointsHandler;
     [SerializeField] private PointsHandler crossesPointsHandler;
-
-    private WaitForSeconds waitCooldownEffect;
 
     public override void Init(GameplayPresenter presenter)
     {
         base.Init(presenter);
-        waitCooldownEffect = new WaitForSeconds(effectCooldown);
         InitSlotsButtons();
     }
 
@@ -77,23 +76,15 @@ public class GameplayViewStandart : GameplayView
         ChangeTurnState();
     }
 
-    public override void ClearFieldAnimation()
-    {
-        StartCoroutine(ClearFieldAnimationCoroutine());
-    }
-
-    private IEnumerator ClearFieldAnimationCoroutine()
+    public override async Task ClearFieldAnimation()
     {
         for (int i = 0; i < slots.Count; ++i)
         {
-            yield return new WaitForSeconds(nextSlotClearCooldown);
+            await Task.Delay(nextSlotClearMilisecCooldown);
 
             slots[i].Image.color = Color.clear;
             slots[i].Shaker.Shake();
         }
-
-        presenter.ResetFieldState();
-        presenter.FirstMoveAnotherPlayer();
     }
 
     public override void DisplayCounters(int countCirclesPoints, int countCrossesPoints)
@@ -176,33 +167,37 @@ public class GameplayViewStandart : GameplayView
     {
         if (winState == SlotStates.Circle)
         {
-            StartCoroutine(PlayWinEffectsCoroutine(circleBigEffectPrefab, circleSmallEffectPrefab));
+            PlayWinEffectsCoroutine(circleBigEffectPrefab, circleSmallEffectPrefab);
         }
         else if (winState == SlotStates.Cross)
         {
-            StartCoroutine(PlayWinEffectsCoroutine(crossBigEffectPrefab, crossSmallEffectPrefab));
+            PlayWinEffectsCoroutine(crossBigEffectPrefab, crossSmallEffectPrefab);
         }
     }
 
-    public IEnumerator PlayWinEffectsCoroutine(GameObject bigEffectPrefab, GameObject smallEffectPrefab)
+    public async void PlayWinEffectsCoroutine(GameObject bigEffectPrefab, GameObject smallEffectPrefab)
     {
-        yield return waitCooldownEffect;
+        await Task.Delay(effectMilisecCooldown);
 
         GameObject rightEffect = Instantiate(smallEffectPrefab, Vector2.zero, Quaternion.identity, effectsParent).gameObject;
         rightEffect.transform.localPosition = rightPoint.transform.localPosition;
         PlayFireworkSound();
 
-        yield return waitCooldownEffect;
+        await Task.Delay(effectMilisecCooldown);
 
         GameObject leftEffect = Instantiate(smallEffectPrefab, Vector2.zero, Quaternion.identity, effectsParent).gameObject;
         leftEffect.transform.localPosition = leftPoint.transform.localPosition;
         PlayFireworkSound();
 
-        yield return waitCooldownEffect;
-        yield return waitCooldownEffect;
+        await Task.Delay(effectMilisecCooldown);
 
         GameObject centerEffect = Instantiate(bigEffectPrefab, Vector2.zero, Quaternion.identity, effectsParent).gameObject;
         centerEffect.transform.localPosition = centerPoint.transform.localPosition;
         PlayFireworkSound();
+    }
+
+    public override void OpenMenu()
+    {
+        scenesChanger.OpenScene(ScenesChanger.MENU);
     }
 }

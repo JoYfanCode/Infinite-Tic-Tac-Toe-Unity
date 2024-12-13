@@ -20,7 +20,7 @@ public class SceneChangerAnimation : MonoBehaviour
         while (timeDx < duration)
         {
             blackScreen.alpha = timeDx / duration;
-            await WaitForSeconds(delayMilisecDuration);
+            await Task.Delay(delayMilisecDuration);
             timeDx = Time.time - startTime;
         }
     }
@@ -36,10 +36,8 @@ public class SceneChangerAnimation : MonoBehaviour
         while (timeDx < duration)
         {
             blackScreen.alpha = 1- timeDx / duration;
-            await WaitForSeconds(delayMilisecDuration);
+            await Task.Delay(delayMilisecDuration);
             timeDx = Time.time - startTime;
         }
     }
-
-    protected async Task WaitForSeconds(int time) => await Task.Delay(time);
 }

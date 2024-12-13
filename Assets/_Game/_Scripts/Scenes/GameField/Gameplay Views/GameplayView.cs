@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 
 public abstract class GameplayView : MonoBehaviour
 {
@@ -17,8 +18,9 @@ public abstract class GameplayView : MonoBehaviour
     public abstract void LightUpColorSlots();
     public abstract void DisplayCounters(int countCirclesPoints, int countCrossesPoints);
     public abstract void SetTurnState(SlotStates state);
-    public abstract void ClearFieldAnimation();
+    public abstract Task ClearFieldAnimation();
     public abstract void PlayWinEffects(SlotStates winState);
+    public abstract void OpenMenu();
 
     public void PlayClickSound() => AudioSystem.PlayClickSound();
     public void PlayWinSound() => AudioSystem.PlaySound(AudioSystem.inst.Win);

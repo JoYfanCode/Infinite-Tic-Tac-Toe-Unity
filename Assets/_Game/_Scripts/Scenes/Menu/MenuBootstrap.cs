@@ -11,14 +11,23 @@ public class MenuBootstrap : MonoBehaviour
     [SerializeField] private ObjectsAppearAnimation AIDifficultyButtonsAppearAnimation;
     [SerializeField] private DifficultiesManager difficultiesManager;
 
-    public void Awake()
+    public async void Awake()
     {
         audioSystem.Init();
 
         difficultiesManager.Init();
         AIDifficultyButtonsAppearAnimation.Init();
-        startButtonsAppearAnimation.Init().Appear();
+        startButtonsAppearAnimation.Init();
+        
+        await sceneChangerAnimation.Fade();
 
-        sceneChangerAnimation.Fade();
+        if (SetUp.isOpenedNewDifficulty)
+        {
+            AIDifficultyButtonsAppearAnimation.Appear();
+        }
+        else
+        {
+            startButtonsAppearAnimation.Appear();
+        }
     }
 }
