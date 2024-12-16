@@ -9,7 +9,7 @@ public class SceneChangerAnimation : MonoBehaviour
     [SerializeField] private int delayMilisecDuration = 10;
     [SerializeField] private CanvasGroup blackScreen;
 
-    public async Task Appear()
+    public async Task AppearAsync()
     {
         blackScreen.gameObject.SetActive(true);
         blackScreen.alpha = 0f;
@@ -25,7 +25,7 @@ public class SceneChangerAnimation : MonoBehaviour
         }
     }
 
-    public async Task Fade()
+    public async Task FadeAsync()
     {
         blackScreen.gameObject.SetActive(true);
         blackScreen.alpha = 1f;

@@ -11,7 +11,13 @@ public class GameFieldBootstrap : MonoBehaviour
     [SerializeField, Range(0, 2000)] private int AICooldownMax = 600;
     [SerializeField, Range(0, 5000)] private int restartGameCooldown = 1500;
 
-    [Tab("Objects")]
+    [Tab("Configs")]
+
+    [SerializeField] private List<AIConfig> AINormalConfigs;
+    [SerializeField] private List<AIConfig> AIHardConfigs;
+    [SerializeField] private List<AIConfig> AIVeryHardConfigs;
+
+    [Tab("Settings")]
 
     [SerializeField] private GameplayViewStandart gameplayView;
 
@@ -20,16 +26,14 @@ public class GameFieldBootstrap : MonoBehaviour
     [SerializeField] private ObjectsAppearAnimation circlesPointsAnimation;
     [SerializeField] private ObjectsAppearAnimation crossesPointsAnimation;
 
-    private GameModes gameMode = GameModes.TwoPlayers;
-    private AIDifficulties AIDifficulty = AIDifficulties.NORMAL;
-
-    private const int AI_NORMAL_DEPTH = 2;
-    private const int AI_HARD_DEPTH = 3;
+    private GameModes gameMode;
+    private AIDifficulties AIDifficulty;
 
     public async void Awake()
     {
         gameMode = SetUp.GameMode;
         AIDifficulty = SetUp.AIDifficulty;
+        print(AIDifficulty);
 
         GameplayModel gameplayModel = new GameplayModel();
         GameplayPresenter gameplayPresenter = CreatePresenter(gameMode, AIDifficulty, gameplayModel, gameplayView);
@@ -39,7 +43,7 @@ public class GameFieldBootstrap : MonoBehaviour
         circlesPointsAnimation.Init();
         crossesPointsAnimation.Init();
 
-        await sceneChangerAnimation.Fade();
+        await sceneChangerAnimation.FadeAsync();
 
         circlesPointsAnimation.Appear();
         crossesPointsAnimation.Appear();
@@ -57,9 +61,23 @@ public class GameFieldBootstrap : MonoBehaviour
         }
         else if (gameMode == GameModes.OnePlayer)
         {
-            if (AIDifficulty == AIDifficulties.NORMAL) return new GameplayPresenterAI(model, view, new AIOneTurn(), restartGameCooldown, AICooldownMin, AICooldownMax);
-            else if (AIDifficulty == AIDifficulties.HARD) return new GameplayPresenterAI(model, view, new AIMiniMax(AI_NORMAL_DEPTH), restartGameCooldown, AICooldownMin, AICooldownMax);
-            else if (AIDifficulty == AIDifficulties.VERY_HARD) return new GameplayPresenterAI(model, view, new AIMiniMax(AI_HARD_DEPTH), restartGameCooldown, AICooldownMin, AICooldownMax);
+            if (AIDifficulty == AIDifficulties.NORMAL)
+            {
+                print("Normal");
+                return new GameplayPresenterAI(model, view, new AIOneTurn(AINormalConfigs), restartGameCooldown, AICooldownMin, AICooldownMax);
+            }
+
+            else if (AIDifficulty == AIDifficulties.HARD)
+            {
+                print("Hard");
+                return new GameplayPresenterAI(model, view, new AIMiniMax(AIHardConfigs), restartGameCooldown, AICooldownMin, AICooldownMax);
+            }
+
+            else if (AIDifficulty == AIDifficulties.VERY_HARD)
+            {
+                print("VeryHard");
+                return new GameplayPresenterAI(model, view, new AIMiniMax(AIVeryHardConfigs), restartGameCooldown, AICooldownMin, AICooldownMax);
+            }
         }
 
         return new GameplayPresenterTwoPlayers(model, view, restartGameCooldown);

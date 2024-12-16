@@ -34,10 +34,7 @@ public class ObjectsAppearAnimation : MonoBehaviour
         return this;
     }
 
-    public void Appear()
-    {
-        AppearAsync();
-    }
+    public async void Appear() => await AppearAsync();
 
     public async Task AppearAsync()
     {
@@ -58,10 +55,7 @@ public class ObjectsAppearAnimation : MonoBehaviour
         }
     }
 
-    public void Dissappear()
-    {
-        DisappearAsync();
-    }
+    public async void Dissappear() => await DisappearAsync();
 
     public async Task DisappearAsync()
     {

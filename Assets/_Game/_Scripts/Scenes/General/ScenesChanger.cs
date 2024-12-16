@@ -13,7 +13,7 @@ public class ScenesChanger : MonoBehaviour
 
     public async void OpenScene(string sceneName)
     {
-        await sceneChangerAnimation.Appear();
+        await sceneChangerAnimation.AppearAsync();
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 }

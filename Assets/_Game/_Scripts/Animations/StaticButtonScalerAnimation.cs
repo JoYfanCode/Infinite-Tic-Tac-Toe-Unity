@@ -5,12 +5,16 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using TMPro;
 using System;
+using VInspector;
 
 [RequireComponent(typeof(Button))]
 public class StaticButtonScalerAnimation : MonoBehaviour, IPointerMoveHandler
 {
     [SerializeField] private bool isSetScale = false;
+
+    [ShowIf("isSetScale")]
     [SerializeField] private Vector2 normalScaleValue = Vector2.one;
+    [EndIf]
 
     private Vector2 normalScale;
     private Vector2 maxScale;

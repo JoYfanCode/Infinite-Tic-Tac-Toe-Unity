@@ -51,7 +51,16 @@ public class GameplayPresenterAI : GameplayPresenter
     {
         model.SetIsAIThinking(true);
 
-        int id = AI.DoTurn(new List<SlotStates>(model.Field), new Queue<int>(model.QueueCircleID), new Queue<int>(model.QueueCrossID), AIState);
+        int id = 0;
+
+        if (AIState == SlotStates.Circle)
+        {
+            id = AI.DoTurn(new List<SlotStates>(model.Field), new Queue<int>(model.QueueCircleID), new Queue<int>(model.QueueCrossID), AIState, model.CountTurns, model.CountCirclesPoints);
+        }
+        else if (AIState == SlotStates.Cross)
+        {
+            id = AI.DoTurn(new List<SlotStates>(model.Field), new Queue<int>(model.QueueCircleID), new Queue<int>(model.QueueCrossID), AIState, model.CountTurns, model.CountCrossesPoints);
+        }
 
         int randomAICooldown = Random.Range(AICooldownMin, AICooldownMax);
         await Task.Delay(randomAICooldown);

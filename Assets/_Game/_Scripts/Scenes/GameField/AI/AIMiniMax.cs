@@ -3,49 +3,104 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using static UnityEngine.Rendering.STP;
+
+public struct Turn
+{
+    public int Index;
+    public int Score;
+
+    public Turn(int index, int score)
+    {
+        Index = index;
+        Score = score;
+    }
+}
 
 public class AIMiniMax : AI
 {
     protected int maxDepth;
+    protected int loseDepth = 0;
     protected int secondTurnDepth = 2;
 
+    protected int percentDontLose1Depth;
+    protected int percentDontLose2Depth;
+    protected int percentDontLose3Depth;
+
+    protected int percentNoticeBestTurn;
+    protected int percentNoticeSecondBestTurn;
+
+    protected int lose1DepthInTurns;
+    protected int lose2DepthInTurns;
+    protected int lose3DepthInTurns;
+    protected int lose4DepthInTurns;
+
     protected List<int> turnsPoints;
-    protected int MaxTurnPoints;
-    protected int MaxTurnIndex;
+    protected int maxTurnPoints;
+    protected int maxTurnIndex;
 
     protected List<SlotStates> Field;
 
     protected SlotStates AIState;
     protected SlotStates opponentState;
 
+    protected int MaxDepth => maxDepth - loseDepth;
+
     protected const int LIMIT_QUEUE_ID = 3;
-    protected const int SLOTS_COUNT = 9;
-
     protected const int WIN_AI = 10;
+    protected const int NOBODY_WIN = 0;
     protected const int WIN_OPPONENT = -10;
+    protected const int MIN_SCORE = -1000;
+    protected const int MAX_SCORE = 1000;
 
-    public AIMiniMax(int depth)
+    protected List<AIConfig> configs;
+
+    public AIMiniMax(List<AIConfig> configs)
     {
-        if (depth >= 1)
-            maxDepth = depth;
-        else
-            maxDepth = 1;
+        this.configs = configs;
     }
 
-    public override int DoTurn(List<SlotStates> Field, Queue<int> queueCirclesID, Queue<int> queueCrossesID, SlotStates AIState)
+    public void SetAIConfig(AIConfig config)
+    {
+        maxDepth = config.MaxDepth;
+
+        percentDontLose1Depth = config.PercentDontLose1Depth;
+        percentDontLose2Depth = config.PercentDontLose2Depth;
+        percentDontLose3Depth = config.PercentDontLose3Depth;
+
+        percentNoticeBestTurn = config.PercentNoticeBestTurn;
+        percentNoticeSecondBestTurn = config.PercentNoticeSecondBestTurn;
+
+        lose1DepthInTurns = config.Lose1DepthInTurns;
+        lose2DepthInTurns = config.Lose2DepthInTurns;
+        lose3DepthInTurns = config.Lose3DepthInTurns;
+        lose4DepthInTurns = config.Lose4DepthInTurns;
+    }
+
+    public override int DoTurn(List<SlotStates> Field, Queue<int> queueCirclesID, Queue<int> queueCrossesID, SlotStates AIState, int countTurns, int countPoints)
     {
         this.Field = Field;
         this.AIState = AIState;
 
-        int BestScore = -1000;
-        List<(int, int)> Moves = new List<(int, int)>();
+        SetAIConfig(configs[countPoints]);
 
-        if (AIState == SlotStates.Circle)
-            opponentState = SlotStates.Cross;
-        else
-            opponentState = SlotStates.Circle;
+        if (countTurns >= lose4DepthInTurns) loseDepth = 4;
+        else if (countTurns >= lose3DepthInTurns) loseDepth = 3;
+        else if (countTurns >= lose2DepthInTurns) loseDepth = 2;
+        else if (countTurns >= lose1DepthInTurns) loseDepth = 1;
+        else loseDepth = 0;
 
-        if (maxDepth == 1)
+        if (NumbericUtilities.RollChance(100 - percentDontLose3Depth)) loseDepth += 3;
+        else if (NumbericUtilities.RollChance(100 - percentDontLose2Depth)) loseDepth += 2;
+        else if (NumbericUtilities.RollChance(100 - percentDontLose1Depth)) loseDepth += 1;
+
+        int BestScore = MIN_SCORE;
+        List<Turn> Turns = new List<Turn>();
+
+        if (AIState == SlotStates.Circle) opponentState = SlotStates.Cross;
+        else if (AIState == SlotStates.Cross) opponentState = SlotStates.Circle;
+
+        if (MaxDepth == 1)
             secondTurnDepth = 1;
 
         int EmptySlots = 0;
@@ -55,29 +110,38 @@ public class AIMiniMax : AI
                 EmptySlots++;
         }
 
-        if (EmptySlots == 9)
-            return Random.Range(0, SLOTS_COUNT);
+        if (EmptySlots == this.Field.Count)
+            return Random.Range(0, this.Field.Count);
 
-        MakeTurnsIterations(queueCirclesID, queueCrossesID, Moves, ref BestScore);
+        MakeTurnsIterations(queueCirclesID, queueCrossesID, Turns, ref BestScore);
 
         if (BestScore == WIN_OPPONENT)
         {
             int tempDepth = maxDepth;
+            loseDepth = 0;
             maxDepth = secondTurnDepth;
-            BestScore = -1000;
-            Moves = new List<(int, int)>();
-            MakeTurnsIterations(queueCirclesID, queueCrossesID, Moves, ref BestScore);
+            BestScore = MAX_SCORE;
+            Turns = new List<Turn>();
+            MakeTurnsIterations(queueCirclesID, queueCrossesID, Turns, ref BestScore);
             maxDepth = tempDepth;
+            secondTurnDepth = 2;
         }
 
-        return RandomBestTurn(Moves, BestScore);
+        FindThreeBestScores(Turns, out int FirstBestScore, out int SecondBestScore, out int ThirdBestScore);
+
+        if (NumbericUtilities.RollChance(percentNoticeBestTurn))
+            return RandomBestTurn(Turns, FirstBestScore);
+        else if (NumbericUtilities.RollChance(percentNoticeSecondBestTurn))
+            return RandomBestTurn(Turns, SecondBestScore);
+        else
+            return RandomBestTurn(Turns, ThirdBestScore);
     }
 
-    private void MakeTurnsIterations(Queue<int> queueCirclesID, Queue<int> queueCrossesID, List<(int, int)> Moves, ref int BestScore)
+    private void MakeTurnsIterations(Queue<int> queueCirclesID, Queue<int> queueCrossesID, List<Turn> Moves, ref int BestScore)
     {
         int MoveScore = 0;
 
-        for (int i = 0; i < SLOTS_COUNT; i++)
+        for (int i = 0; i < Field.Count; i++)
         {
             if (Field[i] == SlotStates.Empty)
             {
@@ -91,27 +155,59 @@ public class AIMiniMax : AI
 
                 MoveScore = MiniMax(TurnField, TurnQueueCircleID, TurnQueueCrossID, 1, false);
 
-                Moves.Add((i, MoveScore));
+                Moves.Add(new Turn(i, MoveScore));
 
-                if (MoveScore > BestScore)
-                {
-                    BestScore = MoveScore;
-                }
+                if (MoveScore > BestScore) BestScore = MoveScore;
             }
         }
     }
 
-    private int RandomBestTurn(List<(int, int)> Moves, int BestScore)
+    private void FindThreeBestScores(List<Turn> Moves, out int FirstBestScore, out int SecondBestScore, out int ThirdBestScore)
+    {
+        FirstBestScore = MIN_SCORE;
+        SecondBestScore = MIN_SCORE;
+        ThirdBestScore = MIN_SCORE;
+
+        for (int i = 0; i < Moves.Count; i++)
+        {
+            if (Moves[i].Score > FirstBestScore)
+            {
+                ThirdBestScore = SecondBestScore;
+                SecondBestScore = FirstBestScore;
+                FirstBestScore = Moves[i].Score;
+            }
+        }
+    }
+
+    private int RandomBestTurn(List<Turn> Moves, int BestScore)
     {
         List<int> BestMovesIndexex = new List<int>();
 
         for (int i = 0; i < Moves.Count; i++)
         {
-            if (Moves[i].Item2 == BestScore)
-                BestMovesIndexex.Add(Moves[i].Item1);
+            if (Moves[i].Score == BestScore)
+                BestMovesIndexex.Add(Moves[i].Index);
         }
 
-        return BestMovesIndexex[Random.Range(0, BestMovesIndexex.Count)];
+        if (BestMovesIndexex.Count > 0)
+            return BestMovesIndexex[Random.Range(0, BestMovesIndexex.Count)];
+        else
+            return RandomTurn();
+    }
+
+    protected int RandomTurn()
+    {
+        List<int> EmptyIndexes = new List<int>();
+
+        for (int i = 0; i < Field.Count; i++)
+        {
+            if (Field[i] == SlotStates.Empty)
+                EmptyIndexes.Add(i);
+        }
+
+        int RandomIndex = EmptyIndexes[Random.Range(0, EmptyIndexes.Count)];
+
+        return RandomIndex;
     }
 
     private int MiniMax(List<SlotStates> Field, Queue<int> queueCirclesID, Queue<int> queueCrossesID,
@@ -120,17 +216,17 @@ public class AIMiniMax : AI
         int score = EvaluateScore(Field);
         int BestScore = 0;
 
-        if (score == -10 || score == 10)
+        if (score == WIN_OPPONENT || score == WIN_AI)
             return score;
 
-        if (depth >= maxDepth)
+        if (depth >= MaxDepth)
             return 0;
 
         if (isMax)
         {
-            BestScore = -1000;
+            BestScore = MIN_SCORE;
 
-            for (int i = 0; i < SLOTS_COUNT; i++)
+            for (int i = 0; i < Field.Count; i++)
             {
                 if (Field[i] == SlotStates.Empty)
                 {
@@ -148,9 +244,9 @@ public class AIMiniMax : AI
         }
         else
         {
-            BestScore = 1000;
+            BestScore = MAX_SCORE;
 
-            for (int i = 0; i < SLOTS_COUNT; i++)
+            for (int i = 0; i < Field.Count; i++)
             {
                 if (Field[i] == SlotStates.Empty)
                 {
@@ -173,12 +269,12 @@ public class AIMiniMax : AI
     private int EvaluateScore(List<SlotStates> Field)
     {
         if (FieldChecker.Check(Field, AIState))
-            return 10;
+            return WIN_AI;
 
         if (FieldChecker.Check(Field, opponentState))
-            return -10;
+            return WIN_OPPONENT;
 
-        return 0;
+        return NOBODY_WIN;
     }
 
     private void EnqueueStateID(SlotStates State, Queue<int> queueCircleID, Queue<int> queueCrossID, int id)

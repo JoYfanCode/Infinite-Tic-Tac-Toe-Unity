@@ -78,12 +78,15 @@ public class GameplayViewStandart : GameplayView
 
     public override async Task ClearFieldAnimation()
     {
-        for (int i = 0; i < slots.Count; ++i)
+        Permutation permutation = new Permutation(slots.Count);
+        permutation.Shuffle();
+
+        for (int i = 0; i < slots.Count; i++)
         {
             await Task.Delay(nextSlotClearMilisecCooldown);
 
-            slots[i].Image.color = Color.clear;
-            slots[i].Shaker.Shake();
+            slots[permutation.GetElement(i)].Image.color = Color.clear;
+            slots[permutation.GetElement(i)].Shaker.Shake();
         }
     }
 

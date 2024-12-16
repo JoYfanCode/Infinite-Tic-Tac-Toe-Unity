@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9efe6cd841d414b4d9643a4f939ca161, type: 3}
+  m_Name: AI Test Config 4
+  m_EditorClassIdentifier: 
+  algorithm: MiniMax
+  percentsNoticeWinTurn: 100
+  percentsNoticeDontLoseTurn: 100
+  maxDepth: 5
+  percentDontLose1Depth: 100
+  percentDontLose2Depth: 100
+  percentDontLose3Depth: 100
+  percentNoticeBestTurn: 100
+  percentNoticeSecondBestTurn: 100
+  lose1DepthInTurns: 10000
+  lose2DepthInTurns: 10000
+  lose3DepthInTurns: 10000
+  lose4DepthInTurns: 10000

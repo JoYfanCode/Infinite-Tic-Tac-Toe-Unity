@@ -19,11 +19,12 @@ public class MenuBootstrap : MonoBehaviour
         AIDifficultyButtonsAppearAnimation.Init();
         startButtonsAppearAnimation.Init();
         
-        await sceneChangerAnimation.Fade();
+        await sceneChangerAnimation.FadeAsync();
 
         if (SetUp.isOpenedNewDifficulty)
         {
             AIDifficultyButtonsAppearAnimation.Appear();
+            SetUp.isOpenedNewDifficulty = false;
         }
         else
         {

@@ -12,6 +12,8 @@ public class GameplayModel
     protected int countCirclesPoints;
     protected int countCrossesPoints;
 
+    protected int countTurns;
+
     public int LIMIT_QUEUE_ID = 3;
     public int SLOTS_COUNT = 9;
     public int POINTS_FOR_WIN = 5;
@@ -26,13 +28,18 @@ public class GameplayModel
     public bool IsCirclesWin => countCirclesPoints == POINTS_FOR_WIN;
     public bool IsCrossesWin => CountCrossesPoints == POINTS_FOR_WIN;
     public bool IsWin => IsCirclesWin || IsCrossesWin;
+    public int CountTurns => countTurns;
 
     public GameplayModel()
     {
         ResetFieldState();
     }
 
-    public void SetState(List<SlotStates> Field) => slotStates = Field;
+    public void SetState(List<SlotStates> Field)
+    {
+        slotStates = Field;
+        countTurns++;
+    }
 
     public void SetIsAIThinking(bool isAIThinking) => this.isAIThinking = isAIThinking;
 
@@ -49,6 +56,7 @@ public class GameplayModel
 
         isWinState = false;
         isAIThinking = false;
+        countTurns = 0;
     }
 
     public void AddPoint(SlotStates slotState)

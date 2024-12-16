@@ -61,6 +61,7 @@ public class StartGameButtonsManager : MonoBehaviour
     {
         SetUp.GameMode = GameModes.OnePlayer;
         SetUp.AIDifficulty = AIDifficulties.VERY_HARD;
+        print("StartVeryHard");
 
         AudioSystem.PlaySound(AudioSystem.inst.OpenGameMode);
         scenesChanger.OpenScene(ScenesChanger.GAME_FIELD);

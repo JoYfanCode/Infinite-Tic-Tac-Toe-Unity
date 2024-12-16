@@ -4,11 +4,12 @@ using System.Collections.Generic;
 
 public class AIOneTurn : AI
 {
-    protected List<int> _turnsPoints;
-    protected int MaxTurnPoints;
-    protected int MaxTurnIndex;
+    protected List<int> turnsPoints;
+    protected int maxTurnPoints;
+    protected int maxTurnIndex;
 
-    protected const int SLOTS_COUNT = 9;
+    protected int percentsChanceNoticeWinTurn;
+    protected int percentsChanceNoticeDontLoseTurn;
 
     protected const int WIN_TURN = 100;
     protected const int DONT_LOSE_TURN = 90;
@@ -18,30 +19,45 @@ public class AIOneTurn : AI
     protected SlotStates AIState;
     protected SlotStates opponentState;
 
-    public override int DoTurn(List<SlotStates> Field, Queue<int> queueCirclesID, Queue<int> queueCrossesID, SlotStates AIState)
+    protected List<AIConfig> configs;
+
+    public AIOneTurn(List<AIConfig> configs) 
+    {
+        this.configs = configs;
+    }
+
+    public void SetAIConfig(AIConfig config)
+    {
+        percentsChanceNoticeWinTurn = config.PercentsNoticeWinTurn;
+        percentsChanceNoticeDontLoseTurn = config.PercentsNoticeDontLoseTurn;
+    }
+
+    public override int DoTurn(List<SlotStates> Field, Queue<int> queueCirclesID, Queue<int> queueCrossesID, SlotStates AIState, int countTurns, int countPoints)
     {
         this.Field = Field;
         this.AIState = AIState;
+
+        SetAIConfig(configs[countPoints]);
 
         if (AIState == SlotStates.Circle)
             opponentState = SlotStates.Cross;
         else
             opponentState = SlotStates.Circle;
 
-        _turnsPoints = new List<int>();
+        turnsPoints = new List<int>();
 
-        for (int i = 0; i < SLOTS_COUNT; i++)
-            _turnsPoints.Add(0);
+        for (int i = 0; i < this.Field.Count; i++)
+            turnsPoints.Add(0);
 
-        MaxTurnPoints = 0;
+        maxTurnPoints = 0;
 
         CalculateTurns();
         FindMaxPoints();
 
-        if (MaxTurnPoints != 0)
+        if (maxTurnPoints != 0)
         {
-            this.Field[MaxTurnIndex] = this.AIState;
-            return MaxTurnIndex;
+            this.Field[maxTurnIndex] = this.AIState;
+            return maxTurnIndex;
         }
         else
         {
@@ -51,23 +67,14 @@ public class AIOneTurn : AI
 
     protected void CalculateTurns()
     {
-        for (int i = 0; i < SLOTS_COUNT; i++)
+        for (int i = 0; i < Field.Count; i++)
         {
             if (Field[i] == SlotStates.Empty)
             {
-                CheckWinTurn(i);
                 CheckDontLoseTurn(i);
+                CheckWinTurn(i);
             }
         }
-    }
-
-    protected void CheckWinTurn(int index)
-    {
-        List<SlotStates> TurnSlotsStates = new List<SlotStates>(Field);
-        TurnSlotsStates[index] = AIState;
-
-        if (FieldChecker.Check(TurnSlotsStates, AIState))
-            _turnsPoints[index] = WIN_TURN;
     }
 
     protected void CheckDontLoseTurn(int index)
@@ -76,17 +83,29 @@ public class AIOneTurn : AI
         TurnSlotsStates[index] = opponentState;
 
         if (FieldChecker.Check(TurnSlotsStates, opponentState))
-            _turnsPoints[index] = DONT_LOSE_TURN;
+            if (NumbericUtilities.RollChance(percentsChanceNoticeDontLoseTurn))
+                turnsPoints[index] = DONT_LOSE_TURN;
     }
+
+    protected void CheckWinTurn(int index)
+    {
+        List<SlotStates> TurnSlotsStates = new List<SlotStates>(Field);
+        TurnSlotsStates[index] = AIState;
+
+        if (FieldChecker.Check(TurnSlotsStates, AIState))
+            if (NumbericUtilities.RollChance(percentsChanceNoticeWinTurn))
+                turnsPoints[index] = WIN_TURN;
+    }
+
 
     protected void FindMaxPoints()
     {
-        for (int i = 0; i < SLOTS_COUNT; i++)
+        for (int i = 0; i < Field.Count; i++)
         {
-            if (_turnsPoints[i] > MaxTurnPoints)
+            if (turnsPoints[i] > maxTurnPoints)
             {
-                MaxTurnPoints = _turnsPoints[i];
-                MaxTurnIndex = i;
+                maxTurnPoints = turnsPoints[i];
+                maxTurnIndex = i;
             }
         }
     }
@@ -95,7 +114,7 @@ public class AIOneTurn : AI
     {
         List<int> EmptyIndexes = new List<int>();
 
-        for (int i = 0; i < SLOTS_COUNT; i++)
+        for (int i = 0; i < Field.Count; i++)
         {
             if (Field[i] == SlotStates.Empty)
                 EmptyIndexes.Add(i);

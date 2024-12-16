@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using VInspector;
 
 public class Shaker : MonoBehaviour
 {
@@ -7,7 +8,10 @@ public class Shaker : MonoBehaviour
     [SerializeField] private float radius = 1.25f;
 
     [SerializeField] private bool isSetScale = false;
+
+    [ShowIf("isSetScale")]
     [SerializeField] private Vector2 normalScaleValue = Vector2.one;
+    [EndIf]
 
     private Vector2 _maxScale;
     private Vector2 _normalScale;

@@ -2089,7 +2089,7 @@ MonoBehaviour:
   circleColor: {r: 0.7921569, g: 0.7411765, b: 1, a: 1}
   crossColor: {r: 1, g: 0.9019608, b: 0.6745098, a: 1}
   halfTransparentAlpha: 0.25
-  nextSlotClearMilisecCooldown: 100
+  nextSlotClearMilisecCooldown: 75
   effectMilisecCooldown: 200
   slots:
   - {fileID: 2708484935622403769}
@@ -2415,6 +2415,24 @@ MonoBehaviour:
   AICooldownMin: 300
   AICooldownMax: 600
   restartGameCooldown: 1000
+  AINormalConfigs:
+  - {fileID: 11400000, guid: af4fc135ea3b3754087016e52c8e8ac1, type: 2}
+  - {fileID: 11400000, guid: 4e2402ce6720c234db7e93e458ba5048, type: 2}
+  - {fileID: 11400000, guid: 842fd1038dd93eb4c999f352ef74dd6f, type: 2}
+  - {fileID: 11400000, guid: 3f85a0a7db7aac341b0208b16bfc93df, type: 2}
+  - {fileID: 11400000, guid: fbf6fb5806a118f49896af8096f04057, type: 2}
+  AIHardConfigs:
+  - {fileID: 11400000, guid: 7c4a91d763b1d084c91d585fe80378e1, type: 2}
+  - {fileID: 11400000, guid: 4d49cb5b36a439649abac86bdbbf3bb0, type: 2}
+  - {fileID: 11400000, guid: 26b7fcf4cc8b2b24ea0ea1195e6e094f, type: 2}
+  - {fileID: 11400000, guid: 5137f992a6841ae4b879fa7eddc3eb30, type: 2}
+  - {fileID: 11400000, guid: 65790d7efcd3457478dfeff8f6f9b62b, type: 2}
+  AIVeryHardConfigs:
+  - {fileID: 11400000, guid: 8a742c1fb476913479dad872efdd7149, type: 2}
+  - {fileID: 11400000, guid: 83db62b7cafa4964aa4322c4b013a159, type: 2}
+  - {fileID: 11400000, guid: eec1d2dc0ae84e04b80717dfaf9ded04, type: 2}
+  - {fileID: 11400000, guid: 79566660a535487479c833c3bceefba3, type: 2}
+  - {fileID: 11400000, guid: aea02914d43f1d94182c354bc1ab7b0f, type: 2}
   gameplayView: {fileID: 969526896}
   sceneChangerAnimation: {fileID: 1546797070}
   slotsAppearAnimation: {fileID: 706115726}
