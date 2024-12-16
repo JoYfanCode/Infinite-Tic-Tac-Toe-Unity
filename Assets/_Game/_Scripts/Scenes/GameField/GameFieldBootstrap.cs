@@ -33,7 +33,6 @@ public class GameFieldBootstrap : MonoBehaviour
     {
         gameMode = SetUp.GameMode;
         AIDifficulty = SetUp.AIDifficulty;
-        print(AIDifficulty);
 
         GameplayModel gameplayModel = new GameplayModel();
         GameplayPresenter gameplayPresenter = CreatePresenter(gameMode, AIDifficulty, gameplayModel, gameplayView);
@@ -63,19 +62,14 @@ public class GameFieldBootstrap : MonoBehaviour
         {
             if (AIDifficulty == AIDifficulties.NORMAL)
             {
-                print("Normal");
                 return new GameplayPresenterAI(model, view, new AIOneTurn(AINormalConfigs), restartGameCooldown, AICooldownMin, AICooldownMax);
             }
-
             else if (AIDifficulty == AIDifficulties.HARD)
             {
-                print("Hard");
                 return new GameplayPresenterAI(model, view, new AIMiniMax(AIHardConfigs), restartGameCooldown, AICooldownMin, AICooldownMax);
             }
-
             else if (AIDifficulty == AIDifficulties.VERY_HARD)
             {
-                print("VeryHard");
                 return new GameplayPresenterAI(model, view, new AIMiniMax(AIVeryHardConfigs), restartGameCooldown, AICooldownMin, AICooldownMax);
             }
         }

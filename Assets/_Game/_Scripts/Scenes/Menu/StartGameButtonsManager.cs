@@ -42,7 +42,6 @@ public class StartGameButtonsManager : MonoBehaviour
     private void StartGameAINormal()
     {
         SetUp.GameMode = GameModes.OnePlayer;
-        SetUp.AIDifficulty = AIDifficulties.NORMAL;
 
         AudioSystem.PlaySound(AudioSystem.inst.OpenGameMode);
         scenesChanger.OpenScene(ScenesChanger.GAME_FIELD);
@@ -51,7 +50,6 @@ public class StartGameButtonsManager : MonoBehaviour
     private void StartGameAIHard()
     {
         SetUp.GameMode = GameModes.OnePlayer;
-        SetUp.AIDifficulty = AIDifficulties.HARD;
 
         AudioSystem.PlaySound(AudioSystem.inst.OpenGameMode);
         scenesChanger.OpenScene(ScenesChanger.GAME_FIELD);
@@ -60,8 +58,6 @@ public class StartGameButtonsManager : MonoBehaviour
     private void StartGameAIVeryHard()
     {
         SetUp.GameMode = GameModes.OnePlayer;
-        SetUp.AIDifficulty = AIDifficulties.VERY_HARD;
-        print("StartVeryHard");
 
         AudioSystem.PlaySound(AudioSystem.inst.OpenGameMode);
         scenesChanger.OpenScene(ScenesChanger.GAME_FIELD);

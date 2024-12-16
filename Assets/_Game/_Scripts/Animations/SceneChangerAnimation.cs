@@ -35,7 +35,7 @@ public class SceneChangerAnimation : MonoBehaviour
 
         while (timeDx < duration)
         {
-            blackScreen.alpha = 1- timeDx / duration;
+            blackScreen.alpha = 1 - timeDx / duration;
             await Task.Delay(delayMilisecDuration);
             timeDx = Time.time - startTime;
         }

@@ -15,13 +15,13 @@ MonoBehaviour:
   algorithm: MiniMax
   percentsNoticeWinTurn: 100
   percentsNoticeDontLoseTurn: 100
-  maxDepth: 3
-  percentDontLose1Depth: 100
+  maxDepth: 4
+  percentDontLose1Depth: 70
   percentDontLose2Depth: 100
   percentDontLose3Depth: 100
-  percentNoticeBestTurn: 100
+  percentNoticeBestTurn: 85
   percentNoticeSecondBestTurn: 100
-  lose1DepthInTurns: 0
-  lose2DepthInTurns: 10
-  lose3DepthInTurns: 10000
+  lose1DepthInTurns: 5
+  lose2DepthInTurns: 7
+  lose3DepthInTurns: 10
   lose4DepthInTurns: 10000

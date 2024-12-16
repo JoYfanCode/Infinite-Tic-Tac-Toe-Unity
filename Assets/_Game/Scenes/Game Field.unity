@@ -2428,11 +2428,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5137f992a6841ae4b879fa7eddc3eb30, type: 2}
   - {fileID: 11400000, guid: 65790d7efcd3457478dfeff8f6f9b62b, type: 2}
   AIVeryHardConfigs:
-  - {fileID: 11400000, guid: 8a742c1fb476913479dad872efdd7149, type: 2}
-  - {fileID: 11400000, guid: 83db62b7cafa4964aa4322c4b013a159, type: 2}
-  - {fileID: 11400000, guid: eec1d2dc0ae84e04b80717dfaf9ded04, type: 2}
-  - {fileID: 11400000, guid: 79566660a535487479c833c3bceefba3, type: 2}
-  - {fileID: 11400000, guid: aea02914d43f1d94182c354bc1ab7b0f, type: 2}
+  - {fileID: 11400000, guid: 6e9fed5653318c34586e2e448f7e00a7, type: 2}
+  - {fileID: 11400000, guid: 51e17a8659bf3a845b683a4a5246451c, type: 2}
+  - {fileID: 11400000, guid: 8cf89234c98bf0240804b6924ff53bf6, type: 2}
+  - {fileID: 11400000, guid: dfd01d5bcdb1a3f45b28fefc4e13f97b, type: 2}
+  - {fileID: 11400000, guid: 7b45548bf5db8cf4fb215ee5b31355e6, type: 2}
   gameplayView: {fileID: 969526896}
   sceneChangerAnimation: {fileID: 1546797070}
   slotsAppearAnimation: {fileID: 706115726}
