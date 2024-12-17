@@ -435,7 +435,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   isLocked: 0
-  lockedAlpha: 0.5
   button: {fileID: 29442864}
   lockPanel: {fileID: 460685002}
 --- !u!1 &83613755
@@ -627,7 +626,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 178755640}
   m_OnClick:
     m_PersistentCalls:
@@ -786,8 +785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  isLocked: 0
-  lockedAlpha: 0.5
+  isLocked: 1
   button: {fileID: 178755639}
   lockPanel: {fileID: 2131791021}
 --- !u!1 &238534585
@@ -949,7 +947,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: v1.2
+  m_text: v1.2.1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 28d7d2cd5a77e91419079860ae6689da, type: 2}
   m_sharedMaterial: {fileID: 1020185230227205288, guid: 28d7d2cd5a77e91419079860ae6689da, type: 2}
@@ -2404,7 +2402,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1890901147}
-  - {fileID: 1703555768}
   - {fileID: 489322703}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2487,7 +2484,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1152335620
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2591,6 +2588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSystem: {fileID: 1703555769}
+  saveLoader: {fileID: 1834731303}
   sceneChangerAnimation: {fileID: 1837255268}
   startButtonsAppearAnimation: {fileID: 1975494221}
   AIDifficultyButtonsAppearAnimation: {fileID: 1527477279}
@@ -2854,7 +2852,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1557349396}
   m_OnClick:
     m_PersistentCalls:
@@ -3013,8 +3011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 2
-  isLocked: 0
-  lockedAlpha: 0.5
+  isLocked: 1
   button: {fileID: 1557349395}
   lockPanel: {fileID: 1152335619}
 --- !u!1 &1567989412
@@ -3261,7 +3258,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1109112147}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1703555769
 MonoBehaviour:
@@ -3327,6 +3324,50 @@ MonoBehaviour:
   - {fileID: 29442869}
   - {fileID: 178755644}
   - {fileID: 1557349400}
+--- !u!1 &1834731301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1834731302}
+  - component: {fileID: 1834731303}
+  m_Layer: 0
+  m_Name: Save System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1834731302
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834731301}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1834731303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834731301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 491510aa98115b54e9cbc98da5639db2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1837255266
 GameObject:
   m_ObjectHideFlags: 0
@@ -3785,7 +3826,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2131791022
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3855,3 +3896,5 @@ SceneRoots:
   - {fileID: 678051384}
   - {fileID: 2115297281}
   - {fileID: 1109112147}
+  - {fileID: 1834731302}
+  - {fileID: 1703555768}

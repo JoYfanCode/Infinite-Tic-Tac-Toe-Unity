@@ -5144,6 +5144,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1767557772939402630}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4016569888046834909, guid: 008397fa20b2ac0419222a2ca066fa97, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6790331839919458797}
     - targetCorrespondingSourceObject: {fileID: 4016569888089266202, guid: 008397fa20b2ac0419222a2ca066fa97, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6913424606307156394}
@@ -5176,6 +5179,25 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &3064875339948243734 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4016569888046834909, guid: 008397fa20b2ac0419222a2ca066fa97, type: 3}
+  m_PrefabInstance: {fileID: 2104631188654645195}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6790331839919458797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3064875339948243734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 773c0969c792501478f3910b5af786a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefinedTime: 1
+  TimeUntilDestroy: 3
 --- !u!4 &3064875339948243753 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4016569888046834914, guid: 008397fa20b2ac0419222a2ca066fa97, type: 3}

@@ -104,4 +104,10 @@ public class GameplayPresenterTwoPlayers : GameplayPresenter
 
         view.SetTurnState(_startState);
     }
+
+    protected override void PlayWinEffects()
+    {
+        if (model.IsCirclesWin) view.PlayWinEffects(SlotStates.Circle);
+        else if (model.IsCrossesWin) view.PlayWinEffects(SlotStates.Cross);
+    }
 }

@@ -147,4 +147,10 @@ public class GameplayPresenterAI : GameplayPresenter
 
         view.SetTurnState(startState);
     }
+
+    protected override void PlayWinEffects()
+    {
+        if (playerState == SlotStates.Circle && model.IsCirclesWin) view.PlayWinEffects(SlotStates.Circle);
+        else if (playerState == SlotStates.Cross && model.IsCrossesWin) view.PlayWinEffects(SlotStates.Cross);
+    }
 }

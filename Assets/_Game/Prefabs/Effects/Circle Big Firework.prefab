@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6790331839919458797, guid: c371c511fc737d945bdbaeed1dc850ee, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6790331839919458797, guid: c371c511fc737d945bdbaeed1dc850ee, type: 3}
+      propertyPath: isDefinedTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6790331839919458797, guid: c371c511fc737d945bdbaeed1dc850ee, type: 3}
+      propertyPath: TimeUntilDestroy
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2266188385834638204, guid: c371c511fc737d945bdbaeed1dc850ee, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
       value: 1
@@ -38,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3064875339948243734, guid: c371c511fc737d945bdbaeed1dc850ee, type: 3}
       propertyPath: m_Name
-      value: Circle Big Firework Variant
+      value: Circle Big Firework
       objectReference: {fileID: 0}
     - target: {fileID: 3064875339948243735, guid: c371c511fc737d945bdbaeed1dc850ee, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
@@ -90,6 +102,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3064875339948243753, guid: c371c511fc737d945bdbaeed1dc850ee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3064875339948243754, guid: c371c511fc737d945bdbaeed1dc850ee, type: 3}
+      propertyPath: clearBehavior
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5004869814023357238, guid: c371c511fc737d945bdbaeed1dc850ee, type: 3}

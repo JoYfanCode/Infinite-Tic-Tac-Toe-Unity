@@ -67,7 +67,7 @@ public class ObjectsAppearAnimation : MonoBehaviour
         for (int i = 0; i < objects.Count; i++)
         {
             objects[i].transform.LeanScale(Vector3.zero, scaleTime).setEaseOutExpo();
-            await Task.Delay((int)(nextAppearButtonTime * MILISEC_IN_SEC));
+            await Task.Delay((int)(nextDisappearButtonTime * MILISEC_IN_SEC));
         }
     }
 

@@ -30,17 +30,14 @@ public abstract class GameplayPresenter
         if (model.IsWin)
         {
             await Task.Delay(restartGameCooldown / 2);
-
-            if (model.IsCirclesWin) view.PlayWinEffects(SlotStates.Circle);
-            else if (model.IsCrossesWin) view.PlayWinEffects(SlotStates.Cross);
-
+            PlayWinEffects();
             await Task.Delay(2 * restartGameCooldown);
 
             if (SetUp.GameMode == GameModes.OnePlayer && model.IsCirclesWin)
             {
-                if (SetUp.AIDifficultiesComplited[SetUp.AIDifficulty] == false)
+                if (SetUp.AIDifficultiesCompleted[SetUp.AIDifficulty] == false)
                 {
-                    SetUp.AIDifficultiesComplited[SetUp.AIDifficulty] = true;
+                    SetUp.AIDifficultiesCompleted[SetUp.AIDifficulty] = true;
                     SetUp.isOpenedNewDifficulty = true;
                     view.OpenMenu();
                 }
@@ -58,6 +55,8 @@ public abstract class GameplayPresenter
         ResetFieldState();
         FirstMoveAnotherPlayer();
     }
+
+    protected abstract void PlayWinEffects();
 
     public void ResetFieldState()
     {

@@ -7,7 +7,6 @@ public class AIDifficulty : MonoBehaviour
 {
     [SerializeField] private AIDifficulties type = AIDifficulties.NORMAL;
     [SerializeField] private bool isLocked = true;
-    [SerializeField] private float lockedAlpha = 0.5f;
 
     [Space]
 

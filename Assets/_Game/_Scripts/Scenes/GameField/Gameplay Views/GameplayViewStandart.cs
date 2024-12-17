@@ -23,10 +23,14 @@ public class GameplayViewStandart : GameplayView
 
     [Space]
     [Header("Effects")]
+    [SerializeField] private GameObject circleSlotEffectPrefab;
+    [SerializeField] private GameObject crossSlotEffectPrefab;
     [SerializeField] private GameObject circleSmallEffectPrefab;
     [SerializeField] private GameObject circleBigEffectPrefab;
     [SerializeField] private GameObject crossSmallEffectPrefab;
     [SerializeField] private GameObject crossBigEffectPrefab;
+
+    [Space]
 
     [SerializeField] private Transform leftPoint;
     [SerializeField] private Transform centerPoint;
@@ -98,14 +102,13 @@ public class GameplayViewStandart : GameplayView
 
     public override void BoomParticleSlot(int indexSlot, SlotStates slotState)
     {
-        if (slotState == SlotStates.Circle)
-        {
-            slots[indexSlot].CircleEffect.Play();
-        }
-        else if (slotState == SlotStates.Cross)
-        {
-            slots[indexSlot].CrossEffect.Play();
-        }
+        GameObject slotEffectPrefab;
+
+        if (slotState == SlotStates.Circle) slotEffectPrefab = circleSlotEffectPrefab;
+        else slotEffectPrefab = crossSlotEffectPrefab;
+
+        GameObject slotEffect = Instantiate(slotEffectPrefab, Vector2.zero, Quaternion.identity, effectsParent).gameObject;
+        slotEffect.transform.localPosition = slots[indexSlot].transform.localPosition;
     }
 
     public override void LightDownColorSlot(int indexSlot)

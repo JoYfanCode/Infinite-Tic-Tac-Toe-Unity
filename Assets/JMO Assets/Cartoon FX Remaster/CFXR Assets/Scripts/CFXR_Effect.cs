@@ -10,7 +10,7 @@
 
 //#define DISABLE_CAMERA_SHAKE
 //#define DISABLE_LIGHTS
-//#define DISABLE_CLEAR_BEHAVIOR
+#define DISABLE_CLEAR_BEHAVIOR
 
 //--------------------------------------------------------------------------------------------------------------------------------
 

@@ -24,7 +24,7 @@ public class DifficultiesManager : MonoBehaviour
                 }
             }
 
-            if (SetUp.AIDifficultiesComplited[difficultyType])
+            if (SetUp.AIDifficultiesCompleted[difficultyType])
             {
                 isPrevDifComplited = true;
             }

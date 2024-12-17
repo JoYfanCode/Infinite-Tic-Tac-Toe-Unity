@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3452815659112915724}
   - component: {fileID: 153199575786919171}
   - component: {fileID: 3457274548263939730}
+  - component: {fileID: 8326943537978974863}
   m_Layer: 0
   m_Name: Firework
   m_TagString: Untagged
@@ -5044,6 +5045,20 @@ MonoBehaviour:
     perlinColor: 0
     perlinColorSpeed: 1
   fadeOutReference: {fileID: 0}
+--- !u!114 &8326943537978974863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290596864291628675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 773c0969c792501478f3910b5af786a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefinedTime: 1
+  TimeUntilDestroy: 3
 --- !u!1 &1025072298344015858
 GameObject:
   m_ObjectHideFlags: 0

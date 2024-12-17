@@ -6,6 +6,8 @@ using VInspector;
 public class MenuBootstrap : MonoBehaviour
 {
     [SerializeField] private AudioSystem audioSystem;
+    [SerializeField] private SaveLoader saveLoader;
+
     [SerializeField] private SceneChangerAnimation sceneChangerAnimation;
     [SerializeField] private ObjectsAppearAnimation startButtonsAppearAnimation;
     [SerializeField] private ObjectsAppearAnimation AIDifficultyButtonsAppearAnimation;
@@ -13,6 +15,7 @@ public class MenuBootstrap : MonoBehaviour
 
     public async void Awake()
     {
+        saveLoader.Init();
         audioSystem.Init();
 
         difficultiesManager.Init();
