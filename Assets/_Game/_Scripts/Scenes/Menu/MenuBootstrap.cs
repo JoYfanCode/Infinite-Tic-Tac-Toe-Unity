@@ -18,7 +18,7 @@ public class MenuBootstrap : MonoBehaviour
         saveLoader.Init();
         audioSystem.Init();
 
-        difficultiesManager.Init();
+        
         AIDifficultyButtonsAppearAnimation.Init();
         startButtonsAppearAnimation.Init();
         
@@ -26,11 +26,15 @@ public class MenuBootstrap : MonoBehaviour
 
         if (SetUp.isOpenedNewDifficulty)
         {
-            AIDifficultyButtonsAppearAnimation.Appear();
+            difficultiesManager.UnlockWithoutNew();
+            await AIDifficultyButtonsAppearAnimation.AppearAsync();
+            difficultiesManager.UnlockNew();
+
             SetUp.isOpenedNewDifficulty = false;
         }
         else
         {
+            difficultiesManager.Unlock();
             startButtonsAppearAnimation.Appear();
         }
     }

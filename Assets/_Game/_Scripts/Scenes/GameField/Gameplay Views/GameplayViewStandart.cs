@@ -202,8 +202,8 @@ public class GameplayViewStandart : GameplayView
         PlayFireworkSound();
     }
 
-    public override void OpenMenu()
+    public override async Task OpenMenuAsync()
     {
-        scenesChanger.OpenScene(ScenesChanger.MENU);
+        await scenesChanger.OpenSceneAsync(ScenesChanger.MENU);
     }
 }

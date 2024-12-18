@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,6 +13,12 @@ public class ScenesChanger : MonoBehaviour
     public static string GAME_FIELD = "Game Field";
 
     public async void OpenScene(string sceneName)
+    {
+        await sceneChangerAnimation.AppearAsync();
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+    }
+
+    public async Task OpenSceneAsync(string sceneName)
     {
         await sceneChangerAnimation.AppearAsync();
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);

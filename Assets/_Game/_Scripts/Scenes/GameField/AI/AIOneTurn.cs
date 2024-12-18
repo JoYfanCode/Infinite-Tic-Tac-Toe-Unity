@@ -13,6 +13,7 @@ public class AIOneTurn : AI
 
     protected const int WIN_TURN = 100;
     protected const int DONT_LOSE_TURN = 90;
+    protected const int MAX_DX_POINTS = 4;
 
     protected List<SlotStates> Field;
 
@@ -32,12 +33,12 @@ public class AIOneTurn : AI
         percentsChanceNoticeDontLoseTurn = config.PercentsNoticeDontLoseTurn;
     }
 
-    public override int DoTurn(List<SlotStates> Field, Queue<int> queueCirclesID, Queue<int> queueCrossesID, SlotStates AIState, int countTurns, int countPoints)
+    public override int DoTurn(List<SlotStates> Field, Queue<int> queueCirclesID, Queue<int> queueCrossesID, SlotStates AIState, int countTurns, int dxPoints)
     {
         this.Field = Field;
         this.AIState = AIState;
 
-        SetAIConfig(configs[countPoints]);
+        SetAIConfig(configs[dxPoints + MAX_DX_POINTS]);
 
         if (AIState == SlotStates.Circle)
             opponentState = SlotStates.Cross;

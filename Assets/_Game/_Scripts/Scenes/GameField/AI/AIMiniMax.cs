@@ -52,6 +52,7 @@ public class AIMiniMax : AI
     protected const int WIN_OPPONENT = -10;
     protected const int MIN_SCORE = -1000;
     protected const int MAX_SCORE = 1000;
+    protected const int MAX_DX_POINTS = 4;
 
     protected List<AIConfig> configs;
 
@@ -77,12 +78,12 @@ public class AIMiniMax : AI
         lose4DepthInTurns = config.Lose4DepthInTurns;
     }
 
-    public override int DoTurn(List<SlotStates> Field, Queue<int> queueCirclesID, Queue<int> queueCrossesID, SlotStates AIState, int countTurns, int countPoints)
+    public override int DoTurn(List<SlotStates> Field, Queue<int> queueCirclesID, Queue<int> queueCrossesID, SlotStates AIState, int countTurns, int dxPoints)
     {
         this.Field = Field;
         this.AIState = AIState;
 
-        SetAIConfig(configs[countPoints]);
+        SetAIConfig(configs[dxPoints + MAX_DX_POINTS]);
 
         if (countTurns >= lose4DepthInTurns) loseDepth = 4;
         else if (countTurns >= lose3DepthInTurns) loseDepth = 3;

@@ -25,6 +25,7 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-f72c5dc68c6ba5e4099c127ac98e53c3-1109112146-0
         - globalObjectIdString: GlobalObjectId_V1-2-f72c5dc68c6ba5e4099c127ac98e53c3-943105946-0
         - globalObjectIdString: GlobalObjectId_V1-2-f72c5dc68c6ba5e4099c127ac98e53c3-238534585-0
+        - globalObjectIdString: GlobalObjectId_V1-2-f72c5dc68c6ba5e4099c127ac98e53c3-1441709939-0
         values:
         - colorIndex: 1
           iconNameOrGuid: Settings Icon
@@ -34,6 +35,8 @@ MonoBehaviour:
           iconNameOrGuid: AvatarMask On Icon
         - colorIndex: 1
           iconNameOrGuid: PreMatCube
+        - colorIndex: 1
+          iconNameOrGuid: 
         - colorIndex: 1
           iconNameOrGuid: 
         - colorIndex: 1

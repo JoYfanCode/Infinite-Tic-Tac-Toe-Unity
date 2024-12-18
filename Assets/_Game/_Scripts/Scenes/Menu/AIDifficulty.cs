@@ -10,6 +10,9 @@ public class AIDifficulty : MonoBehaviour
 
     [Space]
 
+    [SerializeField] private Transform lockTransform;
+    [SerializeField] private Transform effectsParent;
+    [SerializeField] private GameObject newUnlockEffectPrefab;
     [SerializeField] private Button button;
     [SerializeField] private GameObject lockPanel;
 
@@ -35,6 +38,14 @@ public class AIDifficulty : MonoBehaviour
     {
         isLocked = false;
         SetActivePanel();
+    }
+
+    public void NewUnlock()
+    {
+        Unlock();
+        GameObject effect = Instantiate(newUnlockEffectPrefab, effectsParent);
+        effect.transform.localPosition = lockTransform.localPosition;
+        AudioSystem.PlaySound(AudioSystem.inst.Firework);
     }
 
     private void SetActivePanel()

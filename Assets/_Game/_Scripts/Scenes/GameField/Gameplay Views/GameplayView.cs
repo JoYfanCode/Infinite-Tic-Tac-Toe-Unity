@@ -20,7 +20,7 @@ public abstract class GameplayView : MonoBehaviour
     public abstract void SetTurnState(SlotStates state);
     public abstract Task ClearFieldAnimation();
     public abstract void PlayWinEffects(SlotStates winState);
-    public abstract void OpenMenu();
+    public abstract Task OpenMenuAsync();
 
     public void PlayClickSound() => AudioSystem.PlayClickSound();
     public void PlayWinSound() => AudioSystem.PlaySound(AudioSystem.inst.Win);

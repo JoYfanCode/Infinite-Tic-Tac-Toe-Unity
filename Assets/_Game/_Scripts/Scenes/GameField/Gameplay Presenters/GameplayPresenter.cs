@@ -39,7 +39,7 @@ public abstract class GameplayPresenter
                 {
                     SetUp.AIDifficultiesCompleted[SetUp.AIDifficulty] = true;
                     SetUp.isOpenedNewDifficulty = true;
-                    view.OpenMenu();
+                    await view.OpenMenuAsync();
                 }
             }
 

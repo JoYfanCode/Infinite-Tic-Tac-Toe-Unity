@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: AI Normal Config 1
   m_EditorClassIdentifier: 
   algorithm: OneTurn
-  percentsNoticeWinTurn: 80
+  percentsNoticeWinTurn: 97
   percentsNoticeDontLoseTurn: 100
   maxDepth: 2
-  percentDontLoseDepth: 100
+  percentDontLose1Depth: 100
+  percentDontLose2Depth: 100
+  percentDontLose3Depth: 100
   percentNoticeBestTurn: 100
   percentNoticeSecondBestTurn: 100
   lose1DepthInTurns: 10000

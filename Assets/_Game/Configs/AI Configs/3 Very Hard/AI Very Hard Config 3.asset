@@ -21,7 +21,7 @@ MonoBehaviour:
   percentDontLose3Depth: 100
   percentNoticeBestTurn: 100
   percentNoticeSecondBestTurn: 100
-  lose1DepthInTurns: 2
-  lose2DepthInTurns: 4
-  lose3DepthInTurns: 8
-  lose4DepthInTurns: 13
+  lose1DepthInTurns: 4
+  lose2DepthInTurns: 6
+  lose3DepthInTurns: 16
+  lose4DepthInTurns: 21

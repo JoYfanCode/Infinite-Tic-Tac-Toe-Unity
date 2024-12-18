@@ -2423,18 +2423,30 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 842fd1038dd93eb4c999f352ef74dd6f, type: 2}
   - {fileID: 11400000, guid: 3f85a0a7db7aac341b0208b16bfc93df, type: 2}
   - {fileID: 11400000, guid: fbf6fb5806a118f49896af8096f04057, type: 2}
+  - {fileID: 11400000, guid: c49ce4c0d4a476643b2a172f426acfc3, type: 2}
+  - {fileID: 11400000, guid: 51afe506fe957d44abb61dd21f7076bb, type: 2}
+  - {fileID: 11400000, guid: 249ef4324f552c745bc0cdf47a90b0d5, type: 2}
+  - {fileID: 11400000, guid: 692b0cffa1e896043b2df1eab5b334b5, type: 2}
   AIHardConfigs:
   - {fileID: 11400000, guid: 7c4a91d763b1d084c91d585fe80378e1, type: 2}
   - {fileID: 11400000, guid: 4d49cb5b36a439649abac86bdbbf3bb0, type: 2}
   - {fileID: 11400000, guid: 26b7fcf4cc8b2b24ea0ea1195e6e094f, type: 2}
   - {fileID: 11400000, guid: 5137f992a6841ae4b879fa7eddc3eb30, type: 2}
   - {fileID: 11400000, guid: 65790d7efcd3457478dfeff8f6f9b62b, type: 2}
+  - {fileID: 11400000, guid: f9353fdff023eff4c9bfd0fd1f49d0d0, type: 2}
+  - {fileID: 11400000, guid: b699a46c3bcb61a4cbd9956bd5bae908, type: 2}
+  - {fileID: 11400000, guid: 6b0b38f1a2ff24f4fa250937b65a5ed1, type: 2}
+  - {fileID: 11400000, guid: 6f369f62a15322f4cbdbcadd836cf8a4, type: 2}
   AIVeryHardConfigs:
   - {fileID: 11400000, guid: 6e9fed5653318c34586e2e448f7e00a7, type: 2}
   - {fileID: 11400000, guid: 51e17a8659bf3a845b683a4a5246451c, type: 2}
   - {fileID: 11400000, guid: 8cf89234c98bf0240804b6924ff53bf6, type: 2}
   - {fileID: 11400000, guid: dfd01d5bcdb1a3f45b28fefc4e13f97b, type: 2}
   - {fileID: 11400000, guid: 7b45548bf5db8cf4fb215ee5b31355e6, type: 2}
+  - {fileID: 11400000, guid: bb0caa007987b0d4e99fd1a58d1f2e1b, type: 2}
+  - {fileID: 11400000, guid: 96ad32f0c6e7d91418251b39c69ca090, type: 2}
+  - {fileID: 11400000, guid: 5d35c73a0ba9b2948ad4f52dd5bbac5d, type: 2}
+  - {fileID: 11400000, guid: 12a82ed95b39ac845b1f39ae629ee036, type: 2}
   gameplayView: {fileID: 969526896}
   sceneChangerAnimation: {fileID: 1546797070}
   slotsAppearAnimation: {fileID: 706115726}
