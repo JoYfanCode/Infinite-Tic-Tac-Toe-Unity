@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9efe6cd841d414b4d9643a4f939ca161, type: 3}
   m_Name: AI Normal Config 2
   m_EditorClassIdentifier: 
-  algorithm: OneTurn
+  algorithm: 0
   percentsNoticeWinTurn: 93
   percentsNoticeDontLoseTurn: 100
   maxDepth: 2

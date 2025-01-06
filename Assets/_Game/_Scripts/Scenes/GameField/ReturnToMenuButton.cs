@@ -6,8 +6,6 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Shaker))]
 public class ReturnToMenuButton : MonoBehaviour
 {
-    [SerializeField] private ScenesChanger scenesChanger;
-
     private Button button;
     private Shaker shaker;
 
@@ -31,6 +29,6 @@ public class ReturnToMenuButton : MonoBehaviour
     {
         AudioSystem.PlayClickSound();
         shaker.Shake();
-        scenesChanger.OpenScene(ScenesChanger.MENU);
+        ScenesChanger.OpenScene(ScenesChanger.inst.menu);
     }
 }

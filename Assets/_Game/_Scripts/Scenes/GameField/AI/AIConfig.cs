@@ -1,34 +1,58 @@
-﻿using System.Collections;
+﻿using Sirenix.OdinInspector;
 using UnityEngine;
-using VInspector;
+
+public enum AIAlgorithm
+{
+    OneTurn,
+    MiniMax,
+}
 
 [CreateAssetMenu(fileName = "AIConfig", menuName = "Configs/AIConfig")]
 public class AIConfig : ScriptableObject
 {
-    [Variants("OneTurn", "MiniMax")]
-    [SerializeField] private string algorithm;
+    [EnumToggleButtons, HideLabel]
+    [SerializeField] private AIAlgorithm algorithm;
 
-    [ShowIf("algorithm", "OneTurn")]
-    [SerializeField, RangeResettable(0, 100)] private int percentsNoticeWinTurn = 100;
-    [SerializeField, RangeResettable(0, 100)] private int percentsNoticeDontLoseTurn = 100;
-    [EndIf]
+    [BoxGroup("OneTurn", ShowLabel = false), ShowIf("IsOneTurn")]
+    [SerializeField, Range(0, 100)] private int percentsNoticeWinTurn = 100;
 
-    [ShowIf("algorithm", "MiniMax")]
-    [SerializeField, RangeResettable(1, 10)] private int maxDepth = 2;
-    [Space]
-    [SerializeField, RangeResettable(1, 100)] private int percentDontLose1Depth = 100;
-    [SerializeField, RangeResettable(1, 100)] private int percentDontLose2Depth = 100;
-    [SerializeField, RangeResettable(1, 100)] private int percentDontLose3Depth = 100;
-    [Space]
-    [SerializeField, RangeResettable(1, 100)] private int percentNoticeBestTurn = 100;
-    [SerializeField, RangeResettable(1, 100)] private int percentNoticeSecondBestTurn = 100;
-    [Space]
+    [BoxGroup("OneTurn"), ShowIf("IsOneTurn")]
+    [SerializeField, Range(0, 100)] private int percentsNoticeDontLoseTurn = 100;
+
+    [BoxGroup("MiniMax", ShowLabel = false), ShowIf("IsMiniMax")]
+    [SerializeField, Range(1, 10)] private int maxDepth = 2;
+
+    [BoxGroup("MiniMax"), ShowIf("IsMiniMax")]
+    [SerializeField, Range(1, 100)] private int percentDontLose1Depth = 100;
+
+    [BoxGroup("MiniMax"), ShowIf("IsMiniMax")]
+    [SerializeField, Range(1, 100)] private int percentDontLose2Depth = 100;
+
+    [BoxGroup("MiniMax"), ShowIf("IsMiniMax")]
+    [SerializeField, Range(1, 100)] private int percentDontLose3Depth = 100;
+
+    [PropertySpace(SpaceBefore = 30)]
+
+    [BoxGroup("MiniMax"), ShowIf("IsMiniMax")]
+    [SerializeField, Range(1, 100)] private int percentNoticeBestTurn = 100;
+
+    [BoxGroup("MiniMax"), ShowIf("IsMiniMax")]
+    [SerializeField, Range(1, 100)] private int percentNoticeSecondBestTurn = 100;
+
+    [BoxGroup("MiniMax"), ShowIf("IsMiniMax")]
     [SerializeField] private int lose1DepthInTurns = 10000;
-    [SerializeField] private int lose2DepthInTurns = 10000;
-    [SerializeField] private int lose3DepthInTurns = 10000;
-    [SerializeField] private int lose4DepthInTurns = 10000;
-    [EndIf]
 
+    [BoxGroup("MiniMax"), ShowIf("IsMiniMax")]
+    [SerializeField] private int lose2DepthInTurns = 10000;
+
+    [BoxGroup("MiniMax"), ShowIf("IsMiniMax")]
+    [SerializeField] private int lose3DepthInTurns = 10000;
+
+    [BoxGroup("MiniMax"), ShowIf("IsMiniMax")]
+    [SerializeField] private int lose4DepthInTurns = 10000;
+
+
+    // Свойства
     public int PercentsNoticeWinTurn => percentsNoticeWinTurn;
     public int PercentsNoticeDontLoseTurn => percentsNoticeDontLoseTurn;
 
@@ -42,4 +66,8 @@ public class AIConfig : ScriptableObject
     public int Lose4DepthInTurns => lose4DepthInTurns;
     public int PercentNoticeBestTurn => percentNoticeBestTurn;
     public int PercentNoticeSecondBestTurn => percentNoticeSecondBestTurn;
+
+    // Методы для проверки состояния алгоритма
+    private bool IsOneTurn() => algorithm == AIAlgorithm.OneTurn;
+    private bool IsMiniMax() => algorithm == AIAlgorithm.MiniMax;
 }

@@ -4,10 +4,6 @@ using UnityEngine.UI;
 
 public class StartGameButtonsManager : MonoBehaviour
 {
-    [SerializeField] private ScenesChanger scenesChanger;
-
-    [Space]
-
     [SerializeField] private Button startGameAINormalButton;
     [SerializeField] private Button startGameAIHardButton;
     [SerializeField] private Button startGameAIVeryHardButton;
@@ -36,7 +32,7 @@ public class StartGameButtonsManager : MonoBehaviour
         SetUp.GameMode = GameModes.TwoPlayers;
 
         AudioSystem.PlaySound(AudioSystem.inst.OpenGameMode);
-        scenesChanger.OpenScene(ScenesChanger.GAME_FIELD);
+        ScenesChanger.OpenScene(ScenesChanger.inst.gameField);
     }
 
     private void StartGameAINormal()
@@ -44,7 +40,7 @@ public class StartGameButtonsManager : MonoBehaviour
         SetUp.GameMode = GameModes.OnePlayer;
 
         AudioSystem.PlaySound(AudioSystem.inst.OpenGameMode);
-        scenesChanger.OpenScene(ScenesChanger.GAME_FIELD);
+        ScenesChanger.OpenScene(ScenesChanger.inst.gameField);
     }
 
     private void StartGameAIHard()
@@ -52,7 +48,7 @@ public class StartGameButtonsManager : MonoBehaviour
         SetUp.GameMode = GameModes.OnePlayer;
 
         AudioSystem.PlaySound(AudioSystem.inst.OpenGameMode);
-        scenesChanger.OpenScene(ScenesChanger.GAME_FIELD);
+        ScenesChanger.OpenScene(ScenesChanger.inst.gameField);
     }
 
     private void StartGameAIVeryHard()
@@ -60,6 +56,6 @@ public class StartGameButtonsManager : MonoBehaviour
         SetUp.GameMode = GameModes.OnePlayer;
 
         AudioSystem.PlaySound(AudioSystem.inst.OpenGameMode);
-        scenesChanger.OpenScene(ScenesChanger.GAME_FIELD);
+        ScenesChanger.OpenScene(ScenesChanger.inst.gameField);
     }
 }

@@ -1,27 +1,30 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using VInspector;
 
+// Put away MonoBehaviour
 public class GameFieldBootstrap : MonoBehaviour
 {
-    [Tab("Parameters")]
+    [BoxGroup("Parameters")]
 
     [SerializeField, Range(0, 1000)] private int AICooldownMin = 300;
     [SerializeField, Range(0, 2000)] private int AICooldownMax = 600;
     [SerializeField, Range(0, 5000)] private int restartGameCooldown = 1500;
 
-    [Tab("Configs")]
+    // Use Zenject to this?
+
+    [BoxGroup("Configs")]
 
     [SerializeField] private List<AIConfig> AINormalConfigs;
     [SerializeField] private List<AIConfig> AIHardConfigs;
     [SerializeField] private List<AIConfig> AIVeryHardConfigs;
 
-    [Tab("Settings")]
+    [BoxGroup("Settings")]
 
+    // Inject
     [SerializeField] private GameplayViewStandart gameplayView;
 
-    [SerializeField] private SceneChangerAnimation sceneChangerAnimation;
     [SerializeField] private ObjectsAppearAnimation slotsAppearAnimation;
     [SerializeField] private ObjectsAppearAnimation circlesPointsAnimation;
     [SerializeField] private ObjectsAppearAnimation crossesPointsAnimation;
@@ -42,7 +45,7 @@ public class GameFieldBootstrap : MonoBehaviour
         circlesPointsAnimation.Init();
         crossesPointsAnimation.Init();
 
-        await sceneChangerAnimation.FadeAsync();
+        await SceneChangerAnimation.inst.FadeAsync();
 
         circlesPointsAnimation.Appear();
         crossesPointsAnimation.Appear();
@@ -52,6 +55,7 @@ public class GameFieldBootstrap : MonoBehaviour
         gameplayPresenter.FirstMoveDetermination();
     }
 
+    // Model and View have to inject to Zenject Installer
     private GameplayPresenter CreatePresenter(GameModes gameMode, AIDifficulties AIDifficulty, GameplayModel model, GameplayView view)
     {
         if (gameMode == GameModes.TwoPlayers)

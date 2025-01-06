@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9efe6cd841d414b4d9643a4f939ca161, type: 3}
   m_Name: AI Test Config 0
   m_EditorClassIdentifier: 
-  algorithm: MiniMax
+  algorithm: 1
   percentsNoticeWinTurn: 100
   percentsNoticeDontLoseTurn: 100
   maxDepth: 5

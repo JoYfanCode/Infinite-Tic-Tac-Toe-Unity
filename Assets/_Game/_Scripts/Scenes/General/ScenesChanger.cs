@@ -1,26 +1,38 @@
-using System;
+using Sirenix.OdinInspector;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using VInspector;
 
+// Put away MonoBehaviour
 public class ScenesChanger : MonoBehaviour
 {
-    [SerializeField] private SceneChangerAnimation sceneChangerAnimation;
+    public static ScenesChanger inst;
 
-    public static string MENU = "Menu";
-    public static string GAME_FIELD = "Game Field";
+    [FilePath(Extensions = ".unity")] public string menu;
+    [FilePath(Extensions = ".unity")] public string gameField;
 
-    public async void OpenScene(string sceneName)
+    public void Init()
     {
-        await sceneChangerAnimation.AppearAsync();
+        if (inst == null)
+        {
+            inst = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
+
+    public static async void OpenScene(string sceneName)
+    {
+        await SceneChangerAnimation.inst.AppearAsync();
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 
-    public async Task OpenSceneAsync(string sceneName)
+    public static async Task OpenSceneAsync(string sceneName)
     {
-        await sceneChangerAnimation.AppearAsync();
+        await SceneChangerAnimation.inst.AppearAsync();
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 }

@@ -1,8 +1,19 @@
-Добавить 9 сложностей для бота, который основывается на разнице очков между игроком и ботом
+Create System Debug for Add Points to test win with Zenject
+Make MVO to Points Handler for Debug working
 
-Убрать эффект салюта при победе бота
+Put away MonoBehaviours
 
-Визуальные эффекты слотов создавать на канвасе эффектов
+Inject Zenject
+
+Add _ for private fields
+
+Refactor MVPresenter
+
+Clear Field Different Beautyful Patterns
+
+Немного изменить анимацию появления поля - вместо спавна из скейл 0, спавн из скейл 1 до 1.2
+
+Добавить звук для очищения поля
 
 Убирать задний шейдер фон для мобильных устройств
 

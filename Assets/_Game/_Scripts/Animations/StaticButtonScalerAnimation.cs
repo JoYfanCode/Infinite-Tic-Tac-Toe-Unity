@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using TMPro;
 using System;
-using VInspector;
+using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(Button))]
 public class StaticButtonScalerAnimation : MonoBehaviour, IPointerMoveHandler
@@ -14,7 +14,6 @@ public class StaticButtonScalerAnimation : MonoBehaviour, IPointerMoveHandler
 
     [ShowIf("isSetScale")]
     [SerializeField] private Vector2 normalScaleValue = Vector2.one;
-    [EndIf]
 
     private Vector2 normalScale;
     private Vector2 maxScale;

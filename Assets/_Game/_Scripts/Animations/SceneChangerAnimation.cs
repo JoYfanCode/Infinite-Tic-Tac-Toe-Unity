@@ -5,9 +5,24 @@ using UnityEngine;
 
 public class SceneChangerAnimation : MonoBehaviour
 {
+    public static SceneChangerAnimation inst;
+
     [SerializeField] private float duration = 0.2f;
     [SerializeField] private int delayMilisecDuration = 10;
     [SerializeField] private CanvasGroup blackScreen;
+
+    public void Init()
+    {
+        if (inst == null)
+        {
+            inst = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
     public async Task AppearAsync()
     {
@@ -23,6 +38,8 @@ public class SceneChangerAnimation : MonoBehaviour
             await Task.Delay(delayMilisecDuration);
             timeDx = Time.time - startTime;
         }
+
+        blackScreen.alpha = 1;
     }
 
     public async Task FadeAsync()
@@ -39,5 +56,7 @@ public class SceneChangerAnimation : MonoBehaviour
             await Task.Delay(delayMilisecDuration);
             timeDx = Time.time - startTime;
         }
+
+        blackScreen.alpha = 0;
     }
 }

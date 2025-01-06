@@ -1,13 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using VInspector;
 
+// Put away MonoBehaviour
 public class MenuBootstrap : MonoBehaviour
 {
     [SerializeField] private AudioSystem audioSystem;
     [SerializeField] private SaveLoader saveLoader;
 
+    [SerializeField] private ScenesChanger scenesChanger;
     [SerializeField] private SceneChangerAnimation sceneChangerAnimation;
     [SerializeField] private ObjectsAppearAnimation startButtonsAppearAnimation;
     [SerializeField] private ObjectsAppearAnimation AIDifficultyButtonsAppearAnimation;
@@ -17,12 +16,13 @@ public class MenuBootstrap : MonoBehaviour
     {
         saveLoader.Init();
         audioSystem.Init();
+        scenesChanger.Init();
 
-        
         AIDifficultyButtonsAppearAnimation.Init();
         startButtonsAppearAnimation.Init();
-        
-        await sceneChangerAnimation.FadeAsync();
+
+        sceneChangerAnimation.Init();
+        await SceneChangerAnimation.inst.FadeAsync();
 
         if (SetUp.isOpenedNewDifficulty)
         {

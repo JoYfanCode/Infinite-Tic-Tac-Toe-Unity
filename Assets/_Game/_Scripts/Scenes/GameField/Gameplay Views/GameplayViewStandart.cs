@@ -1,21 +1,20 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Sirenix.OdinInspector;
 using System.Collections.Generic;
-using UnityEngine.UI;
-using TMPro;
-using VInspector;
 using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.UI;
+using Zenject;
 
 public class GameplayViewStandart : GameplayView
 {
-    [Tab("Parameters")]
+    [BoxGroup("Parameters")]
     [SerializeField] private Color circleColor = Color.blue;
     [SerializeField] private Color crossColor = Color.red;
     [SerializeField] private float halfTransparentAlpha = 0.25f;
     [SerializeField] private int nextSlotClearMilisecCooldown = 100;
     [SerializeField] private int effectMilisecCooldown = 200;
 
-    [Tab("Objects")]
+    [BoxGroup("Objects")]
     [SerializeField] private List<Slot> slots;
     [SerializeField] private Sprite cross;
     [SerializeField] private Sprite circle;
@@ -37,10 +36,17 @@ public class GameplayViewStandart : GameplayView
     [SerializeField] private Transform rightPoint;
     [SerializeField] private Transform effectsParent;
 
-    [Tab("Managers")]
-    [SerializeField] private ScenesChanger scenesChanger;
-    [SerializeField] private PointsHandler circlesPointsHandler;
-    [SerializeField] private PointsHandler crossesPointsHandler;
+    [BoxGroup("Managers")]
+    private PointsHandler _circlesPointsHandler;
+    private PointsHandler _crossesPointsHandler;
+
+    [Inject]
+    public void Construct([Inject(Id = "Circles")] PointsHandler circlesPointsHandler,
+                          [Inject(Id = "Crosses")] PointsHandler crossesPointsHandler)
+    {
+        _circlesPointsHandler = circlesPointsHandler;
+        _crossesPointsHandler = crossesPointsHandler;
+    }
 
     public override void Init(GameplayPresenter presenter)
     {
@@ -96,8 +102,8 @@ public class GameplayViewStandart : GameplayView
 
     public override void DisplayCounters(int countCirclesPoints, int countCrossesPoints)
     {
-        circlesPointsHandler.SetPoints(countCirclesPoints);
-        crossesPointsHandler.SetPoints(countCrossesPoints);
+        _circlesPointsHandler.SetPoints(countCirclesPoints);
+        _crossesPointsHandler.SetPoints(countCrossesPoints);
     }
 
     public override void BoomParticleSlot(int indexSlot, SlotStates slotState)
@@ -204,6 +210,6 @@ public class GameplayViewStandart : GameplayView
 
     public override async Task OpenMenuAsync()
     {
-        await scenesChanger.OpenSceneAsync(ScenesChanger.MENU);
+        await ScenesChanger.OpenSceneAsync(ScenesChanger.inst.menu);
     }
 }
