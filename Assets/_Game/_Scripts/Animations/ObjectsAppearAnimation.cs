@@ -16,11 +16,10 @@ public class ObjectsAppearAnimation : MonoBehaviour
     private int activeButtonsCount = 0;
     private const int MILISEC_IN_SEC = 1000;
 
-    public ObjectsAppearAnimation Init(IReadOnlyList<GameObject> objects)
+    public ObjectsAppearAnimation Init<T>(IReadOnlyList<T> objects) where T : MonoBehaviour
     {
         this.objects.Clear();
-        this.objects = (List<GameObject>)objects;
-
+        this.objects = (List<GameObject>)Utilities.ConverToGameObjects(objects);
         return Init();
     }
 

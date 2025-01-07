@@ -50,9 +50,9 @@ public class AIMiniMax : AI
     protected const int MAX_SCORE = 1000;
     protected const int MAX_DX_POINTS = 4;
 
-    protected List<AIConfig> configs;
+    protected AILevelConfigs configs;
 
-    public AIMiniMax(List<AIConfig> configs)
+    public AIMiniMax(AILevelConfigs configs)
     {
         this.configs = configs;
     }
@@ -80,7 +80,7 @@ public class AIMiniMax : AI
         this.AIState = AIState;
 
         if (dxPoints + MAX_DX_POINTS > 0 && dxPoints + MAX_DX_POINTS < configs.Count)
-            SetAIConfig(configs[dxPoints + MAX_DX_POINTS]);
+            SetAIConfig(configs.AIConfig(dxPoints + MAX_DX_POINTS));
 
         if (countTurns >= lose4DepthInTurns) loseDepth = 4;
         else if (countTurns >= lose3DepthInTurns) loseDepth = 3;

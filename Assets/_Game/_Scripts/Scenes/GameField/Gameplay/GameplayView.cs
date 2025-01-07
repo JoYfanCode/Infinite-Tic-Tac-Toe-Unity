@@ -33,6 +33,8 @@ public sealed class GameplayView : MonoBehaviour
 
     private GameplayPresenter _presenter;
 
+    public IReadOnlyList<Slot> Slots => slots;
+
     public void Init(GameplayPresenter presenter)
     {
         _presenter = presenter;

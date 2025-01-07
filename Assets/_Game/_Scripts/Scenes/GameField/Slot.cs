@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
-internal class Slot : MonoBehaviour
+public class Slot : MonoBehaviour
 {
     public int Index;
 

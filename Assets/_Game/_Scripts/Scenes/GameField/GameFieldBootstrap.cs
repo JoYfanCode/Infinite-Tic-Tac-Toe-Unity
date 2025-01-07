@@ -1,20 +1,12 @@
 using Sirenix.OdinInspector;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
 // Put away MonoBehaviour
 public class GameFieldBootstrap : MonoBehaviour
 {
-    // One Config
-    [SerializeField, TabGroup("Parameters"), Range(0, 1000)] private int AICooldownMin = 300;
-    [SerializeField, TabGroup("Parameters"), Range(0, 2000)] private int AICooldownMax = 600;
-    [SerializeField, TabGroup("Parameters"), Range(0, 5000)] private int restartGameCooldown = 1500;
-
-    // One Config
-    [SerializeField, TabGroup("Configs")] private List<AIConfig> AINormalConfigs;
-    [SerializeField, TabGroup("Configs")] private List<AIConfig> AIHardConfigs;
-    [SerializeField, TabGroup("Configs")] private List<AIConfig> AIVeryHardConfigs;
+    [SerializeField] private GameFieldConfig gameFieldConfig;
+    [SerializeField] private AILevelsConfigs AILevelsConfigs;
 
     // Put away monobeh
     [SerializeField, TabGroup("Animations")] private ObjectsAppearAnimation slotsAppearAnimation;
@@ -30,50 +22,21 @@ public class GameFieldBootstrap : MonoBehaviour
     public async void Awake()
     {
         // GameplayHandler
-        GameplayPresenter gameplayPresenter = CreatePresenter();
+        GameplayPresenterFactory gameplayPresenterFactroy = new GameplayPresenterFactory(_gameplayModel, _gameplayView);
+        GameplayPresenter gameplayPresenter = gameplayPresenterFactroy.CreateGameplayPresenter(gameFieldConfig, AILevelsConfigs);
         _gameplayView.Init(gameplayPresenter);
 
         _pointsHandler.Init();
 
         // AnimationsHandler
-        slotsAppearAnimation.Init();
-        circlesPointsAnimation.Init(Utilities.ConverToGameObjects(circlesPointsView.Points));
-        crossesPointsAnimation.Init(Utilities.ConverToGameObjects(crossesPointsView.Points));
-
+        slotsAppearAnimation.Init(_gameplayView.Slots);
+        circlesPointsAnimation.Init(circlesPointsView.Points);
+        crossesPointsAnimation.Init(crossesPointsView.Points);
         await SceneChangerAnimation.inst.FadeAsync();
-
         circlesPointsAnimation.Appear();
         crossesPointsAnimation.Appear();
-
         await slotsAppearAnimation.AppearAsync();
 
         gameplayPresenter.FirstMoveDetermination();
-    }
-
-    // Model and View have to inject to Zenject Installer
-    // And mb create Factory
-    private GameplayPresenter CreatePresenter()
-    {
-        if (SetUp.GameMode == GameModes.TwoPlayers)
-        {
-            return new GameplayPresenterTwoPlayers(_gameplayModel, _gameplayView, restartGameCooldown);
-        }
-        else if (SetUp.GameMode == GameModes.OnePlayer)
-        {
-            if (SetUp.CurrentLevelIndex == 0)
-            {
-                return new GameplayPresenterAI(_gameplayModel, _gameplayView, new AIOneTurn(AINormalConfigs), restartGameCooldown, AICooldownMin, AICooldownMax);
-            }
-            else if (SetUp.CurrentLevelIndex == 1)
-            {
-                return new GameplayPresenterAI(_gameplayModel, _gameplayView, new AIMiniMax(AIHardConfigs), restartGameCooldown, AICooldownMin, AICooldownMax);
-            }
-            else if (SetUp.CurrentLevelIndex == 2)
-            {
-                return new GameplayPresenterAI(_gameplayModel, _gameplayView, new AIMiniMax(AIVeryHardConfigs), restartGameCooldown, AICooldownMin, AICooldownMax);
-            }
-        }
-
-        return new GameplayPresenterTwoPlayers(_gameplayModel, _gameplayView, restartGameCooldown);
     }
 }

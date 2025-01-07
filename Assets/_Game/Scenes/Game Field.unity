@@ -1872,8 +1872,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1010957905}
   - component: {fileID: 1010957906}
+  - component: {fileID: 1010957907}
   m_Layer: 0
-  m_Name: '[SceneContext]'
+  m_Name: '[Scene Context]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1908,7 +1909,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 1884402577}
+  - {fileID: 1010957907}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -1926,6 +1927,27 @@ MonoBehaviour:
   _parentNewObjectsUnderSceneContext: 0
   _contractNames: []
   _parentContractNames: []
+--- !u!114 &1010957907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010957904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b46925e00ce734994f118c9a05b702, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameplayView: {fileID: 969526896}
+  circlesPointsModel:
+    countMaxPoints: 5
+    pointPrefab: {fileID: 2388367916959876175, guid: 8f1c7a5b6730f364fb229ec8420ce187, type: 3}
+  crossesPointsModel:
+    countMaxPoints: 5
+    pointPrefab: {fileID: 2388367916959876175, guid: 8f1c7a5b6730f364fb229ec8420ce187, type: 3}
+  circlesPointsView: {fileID: 43175512}
+  crossesPointsView: {fileID: 422986788}
 --- !u!1 &1094982060
 GameObject:
   m_ObjectHideFlags: 0
@@ -2038,39 +2060,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e88b99cb5935ee4abe34b863e823bff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AICooldownMin: 300
-  AICooldownMax: 600
-  restartGameCooldown: 1000
-  AINormalConfigs:
-  - {fileID: 11400000, guid: af4fc135ea3b3754087016e52c8e8ac1, type: 2}
-  - {fileID: 11400000, guid: 4e2402ce6720c234db7e93e458ba5048, type: 2}
-  - {fileID: 11400000, guid: 842fd1038dd93eb4c999f352ef74dd6f, type: 2}
-  - {fileID: 11400000, guid: 3f85a0a7db7aac341b0208b16bfc93df, type: 2}
-  - {fileID: 11400000, guid: fbf6fb5806a118f49896af8096f04057, type: 2}
-  - {fileID: 11400000, guid: c49ce4c0d4a476643b2a172f426acfc3, type: 2}
-  - {fileID: 11400000, guid: 51afe506fe957d44abb61dd21f7076bb, type: 2}
-  - {fileID: 11400000, guid: 249ef4324f552c745bc0cdf47a90b0d5, type: 2}
-  - {fileID: 11400000, guid: 692b0cffa1e896043b2df1eab5b334b5, type: 2}
-  AIHardConfigs:
-  - {fileID: 11400000, guid: 7c4a91d763b1d084c91d585fe80378e1, type: 2}
-  - {fileID: 11400000, guid: 4d49cb5b36a439649abac86bdbbf3bb0, type: 2}
-  - {fileID: 11400000, guid: 26b7fcf4cc8b2b24ea0ea1195e6e094f, type: 2}
-  - {fileID: 11400000, guid: 5137f992a6841ae4b879fa7eddc3eb30, type: 2}
-  - {fileID: 11400000, guid: 65790d7efcd3457478dfeff8f6f9b62b, type: 2}
-  - {fileID: 11400000, guid: f9353fdff023eff4c9bfd0fd1f49d0d0, type: 2}
-  - {fileID: 11400000, guid: b699a46c3bcb61a4cbd9956bd5bae908, type: 2}
-  - {fileID: 11400000, guid: 6b0b38f1a2ff24f4fa250937b65a5ed1, type: 2}
-  - {fileID: 11400000, guid: 6f369f62a15322f4cbdbcadd836cf8a4, type: 2}
-  AIVeryHardConfigs:
-  - {fileID: 11400000, guid: 6e9fed5653318c34586e2e448f7e00a7, type: 2}
-  - {fileID: 11400000, guid: 51e17a8659bf3a845b683a4a5246451c, type: 2}
-  - {fileID: 11400000, guid: 8cf89234c98bf0240804b6924ff53bf6, type: 2}
-  - {fileID: 11400000, guid: dfd01d5bcdb1a3f45b28fefc4e13f97b, type: 2}
-  - {fileID: 11400000, guid: 7b45548bf5db8cf4fb215ee5b31355e6, type: 2}
-  - {fileID: 11400000, guid: bb0caa007987b0d4e99fd1a58d1f2e1b, type: 2}
-  - {fileID: 11400000, guid: 96ad32f0c6e7d91418251b39c69ca090, type: 2}
-  - {fileID: 11400000, guid: 5d35c73a0ba9b2948ad4f52dd5bbac5d, type: 2}
-  - {fileID: 11400000, guid: 12a82ed95b39ac845b1f39ae629ee036, type: 2}
+  gameFieldConfig: {fileID: 11400000, guid: ee2b0688a5c6b214ebf4556462573193, type: 2}
+  AILevelsConfigs: {fileID: 11400000, guid: 883212ff18d064d48a0938322f6975af, type: 2}
   slotsAppearAnimation: {fileID: 706115726}
   circlesPointsAnimation: {fileID: 570960660}
   crossesPointsAnimation: {fileID: 1309376652}
@@ -2433,7 +2424,6 @@ Transform:
   - {fileID: 1134314094}
   - {fileID: 1302836977}
   - {fileID: 1010957905}
-  - {fileID: 1884402576}
   - {fileID: 969526897}
   - {fileID: 706115725}
   - {fileID: 570960659}
@@ -2975,59 +2965,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6557396355435770517, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
   m_PrefabInstance: {fileID: 1867834593}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1884402575
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1884402576}
-  - component: {fileID: 1884402577}
-  m_Layer: 0
-  m_Name: '[System Installer]'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1884402576
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1884402575}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1471146512}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1884402577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1884402575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5b46925e00ce734994f118c9a05b702, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameplayView: {fileID: 969526896}
-  circlesPointsModel:
-    countMaxPoints: 5
-    pointPrefab: {fileID: 2388367916959876175, guid: 8f1c7a5b6730f364fb229ec8420ce187, type: 3}
-  crossesPointsModel:
-    countMaxPoints: 5
-    pointPrefab: {fileID: 2388367916959876175, guid: 8f1c7a5b6730f364fb229ec8420ce187, type: 3}
-  circlesPointsView: {fileID: 43175512}
-  crossesPointsView: {fileID: 422986788}
 --- !u!1 &1890901144
 GameObject:
   m_ObjectHideFlags: 0

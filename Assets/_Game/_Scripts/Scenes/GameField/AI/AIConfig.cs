@@ -2,11 +2,7 @@
 using System;
 using UnityEngine;
 
-public enum AIAlgorithm
-{
-    OneTurn,
-    MiniMax,
-}
+
 
 [CreateAssetMenu(fileName = "AIConfig", menuName = "Configs/AIConfig")]
 [Serializable]

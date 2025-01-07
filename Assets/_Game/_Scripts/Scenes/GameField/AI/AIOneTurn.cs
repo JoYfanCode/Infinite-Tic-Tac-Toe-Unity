@@ -19,9 +19,9 @@ public class AIOneTurn : AI
     protected SlotStates AIState;
     protected SlotStates opponentState;
 
-    protected List<AIConfig> configs;
+    protected AILevelConfigs configs;
 
-    public AIOneTurn(List<AIConfig> configs)
+    public AIOneTurn(AILevelConfigs configs)
     {
         this.configs = configs;
     }
@@ -38,7 +38,7 @@ public class AIOneTurn : AI
         this.AIState = AIState;
 
         if (dxPoints + MAX_DX_POINTS > 0 && dxPoints + MAX_DX_POINTS < configs.Count)
-            SetAIConfig(configs[dxPoints + MAX_DX_POINTS]);
+            SetAIConfig(configs.AIConfig(dxPoints + MAX_DX_POINTS));
 
         if (AIState == SlotStates.Circle)
             opponentState = SlotStates.Cross;

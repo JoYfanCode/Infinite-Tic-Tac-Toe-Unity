@@ -1,24 +1,24 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
-// Put away MonoBehaviour
 public class MenuBootstrap : MonoBehaviour
 {
-    [SerializeField] private int milisecUntilUnlockNewDif = 1000;
+    [SerializeField] private ScenesConfig scenesConfig;
 
-    [SerializeField] private AudioSystem audioSystem;
-    [SerializeField] private SaveLoader saveLoader;
-
-    [SerializeField] private SceneChangerAnimation sceneChangerAnimation;
     [SerializeField] private ObjectsAppearAnimation startButtonsAppearAnimation;
     [SerializeField] private ObjectsAppearAnimation AIDifficultyButtonsAppearAnimation;
+
+    [SerializeField] private int milisecUntilUnlockNewDif = 1000;
     [SerializeField] private DifficultiesUnlocker difficultiesManager;
 
-    [SerializeField] private ScenesConfig scenesConfig;
+    [SerializeField] private SceneChangerAnimation sceneChangerAnimation;
+    [Inject] private AudioSystem audioSystem;
+    [Inject] private SaveSystem saveSystem;
 
     public async void Awake()
     {
-        saveLoader.Init();
+        saveSystem.Init();
         audioSystem.Init();
         ScenesChanger.Init(scenesConfig);
 
@@ -30,16 +30,21 @@ public class MenuBootstrap : MonoBehaviour
 
         if (SetUp.isOpenedNewDifficulty)
         {
-            difficultiesManager.Unlock(SetUp.CountCompletedLevels - 1);
-            await AIDifficultyButtonsAppearAnimation.AppearAsync();
-            await Task.Delay(milisecUntilUnlockNewDif);
-            difficultiesManager.UnlockLastOneWithEffect(SetUp.CountCompletedLevels);
-            SetUp.isOpenedNewDifficulty = false;
+            OpenNewDifficulty();
         }
         else
         {
             difficultiesManager.Unlock(SetUp.CountCompletedLevels);
             startButtonsAppearAnimation.Appear();
         }
+    }
+
+    private async void OpenNewDifficulty()
+    {
+        difficultiesManager.Unlock(SetUp.CountCompletedLevels - 1);
+        await AIDifficultyButtonsAppearAnimation.AppearAsync();
+        await Task.Delay(milisecUntilUnlockNewDif);
+        difficultiesManager.UnlockLastOneWithEffect(SetUp.CountCompletedLevels);
+        SetUp.isOpenedNewDifficulty = false;
     }
 }

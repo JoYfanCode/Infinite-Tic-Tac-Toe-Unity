@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7574d5a4c3e9ef42a10a7c0deb7ba22, type: 3}
+  m_Name: AI 3 Level Configs
+  m_EditorClassIdentifier: 
+  algorithm: 0
+  AILevelConfigsList:
+  - {fileID: 11400000, guid: 6e9fed5653318c34586e2e448f7e00a7, type: 2}
+  - {fileID: 11400000, guid: 51e17a8659bf3a845b683a4a5246451c, type: 2}
+  - {fileID: 11400000, guid: 8cf89234c98bf0240804b6924ff53bf6, type: 2}
+  - {fileID: 11400000, guid: dfd01d5bcdb1a3f45b28fefc4e13f97b, type: 2}
+  - {fileID: 11400000, guid: 7b45548bf5db8cf4fb215ee5b31355e6, type: 2}
+  - {fileID: 11400000, guid: bb0caa007987b0d4e99fd1a58d1f2e1b, type: 2}
+  - {fileID: 11400000, guid: 96ad32f0c6e7d91418251b39c69ca090, type: 2}
+  - {fileID: 11400000, guid: 5d35c73a0ba9b2948ad4f52dd5bbac5d, type: 2}
+  - {fileID: 11400000, guid: 12a82ed95b39ac845b1f39ae629ee036, type: 2}

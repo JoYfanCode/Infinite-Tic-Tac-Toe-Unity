@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Threading;
+using UnityEngine;
 
 public class GameplayPresenterAI : GameplayPresenter
 {
@@ -10,19 +9,12 @@ public class GameplayPresenterAI : GameplayPresenter
     protected SlotStates startState;
 
     protected AI AI;
+    protected readonly Vector2Int AICooldownRange;
 
-    protected readonly int AICooldownMin;
-    protected readonly int AICooldownMax;
-
-    protected const int AI_COOLDOWN_MIN_DEFAULT = 250;
-    protected const int AI_COOLDOWN_MAX_DEFAULT = 500;
-
-    public GameplayPresenterAI(GameplayModel model, GameplayView view, AI AI, int restartGameCooldown, int AICooldownMin = AI_COOLDOWN_MIN_DEFAULT,
-        int AICooldownMax = AI_COOLDOWN_MAX_DEFAULT) : base(model, view, restartGameCooldown)
+    public GameplayPresenterAI(GameplayModel model, GameplayView view, AI AI, int restartGameCooldown, Vector2Int AICooldownRange) : base(model, view, restartGameCooldown)
     {
         this.AI = AI;
-        this.AICooldownMin = AICooldownMin;
-        this.AICooldownMax = AICooldownMax;
+        this.AICooldownRange = AICooldownRange;
     }
 
     public override void OnClotClicked(int id)
@@ -30,7 +22,7 @@ public class GameplayPresenterAI : GameplayPresenter
         if (model.Field[id] == SlotStates.Empty && model.IsAIThinking == false)
         {
             if (model.IsGameState) DoTurn(id);
-            if (model.IsGameState) DoAITurn(AICooldownMin, AICooldownMax);
+            if (model.IsGameState) DoAITurn(AICooldownRange);
         }
     }
 
@@ -47,7 +39,7 @@ public class GameplayPresenterAI : GameplayPresenter
         CheckField(model.Field);
     }
 
-    private async void DoAITurn(int AICooldownMin = 0, int AICooldownMax = 0)
+    private async void DoAITurn(Vector2Int AICooldownRange)
     {
         model.SetIsAIThinking(true);
 
@@ -64,7 +56,7 @@ public class GameplayPresenterAI : GameplayPresenter
 
         int id = AI.DoTurn(new List<SlotStates>(model.Field), new Queue<int>(model.QueueCircleID), new Queue<int>(model.QueueCrossID), AIState, model.CountTurns, dxPoints);
 
-        int randomAICooldown = Random.Range(AICooldownMin, AICooldownMax);
+        int randomAICooldown = Random.Range(AICooldownRange.x, AICooldownRange.y);
         await Task.Delay(randomAICooldown);
 
         List<SlotStates> field = model.Field;
@@ -76,7 +68,7 @@ public class GameplayPresenterAI : GameplayPresenter
         view.DisplayField(model.Field);
         model.SetIsAIThinking(false);
         view.PlayClickSound();
-        
+
         CheckField(model.Field);
     }
 
@@ -125,7 +117,7 @@ public class GameplayPresenterAI : GameplayPresenter
         {
             startState = SlotStates.Cross;
             view.SetTurnState(startState);
-            DoAITurn();
+            DoAITurn(Vector2Int.zero);
         }
         else
         {
@@ -139,8 +131,7 @@ public class GameplayPresenterAI : GameplayPresenter
         if (startState == SlotStates.Circle)
         {
             startState = SlotStates.Cross;
-
-            DoAITurn(AICooldownMin, AICooldownMax);
+            DoAITurn(Vector2Int.zero);
         }
         else if (startState == SlotStates.Cross)
         {
