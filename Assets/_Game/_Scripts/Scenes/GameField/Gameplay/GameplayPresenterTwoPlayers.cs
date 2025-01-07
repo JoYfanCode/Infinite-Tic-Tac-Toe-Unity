@@ -75,7 +75,7 @@ public class GameplayPresenterTwoPlayers : GameplayPresenter
 
     public override void FirstMoveDetermination()
     {
-        if (NumbericUtilities.RollChance(50))
+        if (Utilities.RollChance(50))
         {
             _startState = SlotStates.Circle;
             _currentState = SlotStates.Circle;

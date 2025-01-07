@@ -1,4 +1,5 @@
 ﻿using Sirenix.OdinInspector;
+using System;
 using UnityEngine;
 
 public enum AIAlgorithm
@@ -8,6 +9,7 @@ public enum AIAlgorithm
 }
 
 [CreateAssetMenu(fileName = "AIConfig", menuName = "Configs/AIConfig")]
+[Serializable]
 public class AIConfig : ScriptableObject
 {
     [EnumToggleButtons, HideLabel]

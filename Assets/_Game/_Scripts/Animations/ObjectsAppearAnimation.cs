@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ObjectsAppearAnimation : MonoBehaviour
 {
     [SerializeField] private List<GameObject> objects;
     [SerializeField] private float scaleTime = 0.2f;
-    [SerializeField] private float nextAppearButtonTime = 0.1f; 
+    [SerializeField] private float nextAppearButtonTime = 0.1f;
     [SerializeField] private float nextDisappearButtonTime = 0.1f;
     [SerializeField] private float appearCooldown = 0.2f;
 
@@ -18,6 +15,14 @@ public class ObjectsAppearAnimation : MonoBehaviour
 
     private int activeButtonsCount = 0;
     private const int MILISEC_IN_SEC = 1000;
+
+    public ObjectsAppearAnimation Init(IReadOnlyList<GameObject> objects)
+    {
+        this.objects.Clear();
+        this.objects = (List<GameObject>)objects;
+
+        return Init();
+    }
 
     public ObjectsAppearAnimation Init()
     {
@@ -43,7 +48,7 @@ public class ObjectsAppearAnimation : MonoBehaviour
         for (int i = 0; i < objects.Count; i++)
         {
             objects[i].transform.localScale = Vector3.zero;
-            if(scaleAnimations[i]) scaleAnimations[i].enabled = false;
+            if (scaleAnimations[i]) scaleAnimations[i].enabled = false;
         }
 
         await Task.Delay((int)(appearCooldown * MILISEC_IN_SEC));

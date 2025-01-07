@@ -1,9 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using static UnityEngine.Rendering.STP;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public struct Turn
 {
@@ -83,7 +79,8 @@ public class AIMiniMax : AI
         this.Field = Field;
         this.AIState = AIState;
 
-        SetAIConfig(configs[dxPoints + MAX_DX_POINTS]);
+        if (dxPoints + MAX_DX_POINTS > 0 && dxPoints + MAX_DX_POINTS < configs.Count)
+            SetAIConfig(configs[dxPoints + MAX_DX_POINTS]);
 
         if (countTurns >= lose4DepthInTurns) loseDepth = 4;
         else if (countTurns >= lose3DepthInTurns) loseDepth = 3;
@@ -91,9 +88,9 @@ public class AIMiniMax : AI
         else if (countTurns >= lose1DepthInTurns) loseDepth = 1;
         else loseDepth = 0;
 
-        if (NumbericUtilities.RollChance(100 - percentDontLose3Depth)) loseDepth += 3;
-        else if (NumbericUtilities.RollChance(100 - percentDontLose2Depth)) loseDepth += 2;
-        else if (NumbericUtilities.RollChance(100 - percentDontLose1Depth)) loseDepth += 1;
+        if (Utilities.RollChance(100 - percentDontLose3Depth)) loseDepth += 3;
+        else if (Utilities.RollChance(100 - percentDontLose2Depth)) loseDepth += 2;
+        else if (Utilities.RollChance(100 - percentDontLose1Depth)) loseDepth += 1;
 
         int BestScore = MIN_SCORE;
         List<Turn> Turns = new List<Turn>();
@@ -130,9 +127,9 @@ public class AIMiniMax : AI
 
         FindThreeBestScores(Turns, out int FirstBestScore, out int SecondBestScore, out int ThirdBestScore);
 
-        if (NumbericUtilities.RollChance(percentNoticeBestTurn))
+        if (Utilities.RollChance(percentNoticeBestTurn))
             return RandomBestTurn(Turns, FirstBestScore);
-        else if (NumbericUtilities.RollChance(percentNoticeSecondBestTurn))
+        else if (Utilities.RollChance(percentNoticeSecondBestTurn))
             return RandomBestTurn(Turns, SecondBestScore);
         else
             return RandomBestTurn(Turns, ThirdBestScore);

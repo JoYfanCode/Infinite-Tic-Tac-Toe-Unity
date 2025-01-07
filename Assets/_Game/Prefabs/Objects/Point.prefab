@@ -91,7 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   downscaleSpeed: 5
   radius: 1.25
-  isSetScale: 0
+  isSetScale: 1
   normalScaleValue: {x: 1, y: 1}
 --- !u!114 &2388367916959876175
 MonoBehaviour:

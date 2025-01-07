@@ -11,6 +11,14 @@ Refactor MVPresenter
 
 Clear Field Different Beautyful Patterns
 
+Made Difficulties through int instead enum AI
+
+Make Factory for presenterAI
+
+Make Animations Without MonoBehaviour
+
+Make better scenes transitions
+
 Немного изменить анимацию появления поля - вместо спавна из скейл 0, спавн из скейл 1 до 1.2
 
 Добавить звук для очищения поля

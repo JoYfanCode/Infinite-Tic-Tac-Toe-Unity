@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class AIOneTurn : AI
 {
@@ -22,7 +21,7 @@ public class AIOneTurn : AI
 
     protected List<AIConfig> configs;
 
-    public AIOneTurn(List<AIConfig> configs) 
+    public AIOneTurn(List<AIConfig> configs)
     {
         this.configs = configs;
     }
@@ -38,7 +37,8 @@ public class AIOneTurn : AI
         this.Field = Field;
         this.AIState = AIState;
 
-        SetAIConfig(configs[dxPoints + MAX_DX_POINTS]);
+        if (dxPoints + MAX_DX_POINTS > 0 && dxPoints + MAX_DX_POINTS < configs.Count)
+            SetAIConfig(configs[dxPoints + MAX_DX_POINTS]);
 
         if (AIState == SlotStates.Circle)
             opponentState = SlotStates.Cross;
@@ -84,7 +84,7 @@ public class AIOneTurn : AI
         TurnSlotsStates[index] = opponentState;
 
         if (FieldChecker.Check(TurnSlotsStates, opponentState))
-            if (NumbericUtilities.RollChance(percentsChanceNoticeDontLoseTurn))
+            if (Utilities.RollChance(percentsChanceNoticeDontLoseTurn))
                 turnsPoints[index] = DONT_LOSE_TURN;
     }
 
@@ -94,7 +94,7 @@ public class AIOneTurn : AI
         TurnSlotsStates[index] = AIState;
 
         if (FieldChecker.Check(TurnSlotsStates, AIState))
-            if (NumbericUtilities.RollChance(percentsChanceNoticeWinTurn))
+            if (Utilities.RollChance(percentsChanceNoticeWinTurn))
                 turnsPoints[index] = WIN_TURN;
     }
 

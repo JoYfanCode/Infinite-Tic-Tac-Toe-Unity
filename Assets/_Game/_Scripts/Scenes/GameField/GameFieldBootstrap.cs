@@ -1,49 +1,44 @@
 using Sirenix.OdinInspector;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 // Put away MonoBehaviour
 public class GameFieldBootstrap : MonoBehaviour
 {
-    [BoxGroup("Parameters")]
+    // One Config
+    [SerializeField, TabGroup("Parameters"), Range(0, 1000)] private int AICooldownMin = 300;
+    [SerializeField, TabGroup("Parameters"), Range(0, 2000)] private int AICooldownMax = 600;
+    [SerializeField, TabGroup("Parameters"), Range(0, 5000)] private int restartGameCooldown = 1500;
 
-    [SerializeField, Range(0, 1000)] private int AICooldownMin = 300;
-    [SerializeField, Range(0, 2000)] private int AICooldownMax = 600;
-    [SerializeField, Range(0, 5000)] private int restartGameCooldown = 1500;
+    // One Config
+    [SerializeField, TabGroup("Configs")] private List<AIConfig> AINormalConfigs;
+    [SerializeField, TabGroup("Configs")] private List<AIConfig> AIHardConfigs;
+    [SerializeField, TabGroup("Configs")] private List<AIConfig> AIVeryHardConfigs;
 
-    // Use Zenject to this?
+    // Put away monobeh
+    [SerializeField, TabGroup("Animations")] private ObjectsAppearAnimation slotsAppearAnimation;
+    [SerializeField, TabGroup("Animations")] private ObjectsAppearAnimation circlesPointsAnimation;
+    [SerializeField, TabGroup("Animations")] private ObjectsAppearAnimation crossesPointsAnimation;
 
-    [BoxGroup("Configs")]
-
-    [SerializeField] private List<AIConfig> AINormalConfigs;
-    [SerializeField] private List<AIConfig> AIHardConfigs;
-    [SerializeField] private List<AIConfig> AIVeryHardConfigs;
-
-    [BoxGroup("Settings")]
-
-    // Inject
-    [SerializeField] private GameplayViewStandart gameplayView;
-
-    [SerializeField] private ObjectsAppearAnimation slotsAppearAnimation;
-    [SerializeField] private ObjectsAppearAnimation circlesPointsAnimation;
-    [SerializeField] private ObjectsAppearAnimation crossesPointsAnimation;
-
-    private GameModes gameMode;
-    private AIDifficulties AIDifficulty;
+    [Inject(Id = "CirclesPointsView")] private PointsView circlesPointsView;
+    [Inject(Id = "CrossesPointsView")] private PointsView crossesPointsView;
+    [Inject] private GameplayView _gameplayView;
+    [Inject] private GameplayModel _gameplayModel;
+    [Inject] private PointsHandler _pointsHandler;
 
     public async void Awake()
     {
-        gameMode = SetUp.GameMode;
-        AIDifficulty = SetUp.AIDifficulty;
+        // GameplayHandler
+        GameplayPresenter gameplayPresenter = CreatePresenter();
+        _gameplayView.Init(gameplayPresenter);
 
-        GameplayModel gameplayModel = new GameplayModel();
-        GameplayPresenter gameplayPresenter = CreatePresenter(gameMode, AIDifficulty, gameplayModel, gameplayView);
-        gameplayView.Init(gameplayPresenter);
+        _pointsHandler.Init();
 
+        // AnimationsHandler
         slotsAppearAnimation.Init();
-        circlesPointsAnimation.Init();
-        crossesPointsAnimation.Init();
+        circlesPointsAnimation.Init(Utilities.ConverToGameObjects(circlesPointsView.Points));
+        crossesPointsAnimation.Init(Utilities.ConverToGameObjects(crossesPointsView.Points));
 
         await SceneChangerAnimation.inst.FadeAsync();
 
@@ -56,28 +51,29 @@ public class GameFieldBootstrap : MonoBehaviour
     }
 
     // Model and View have to inject to Zenject Installer
-    private GameplayPresenter CreatePresenter(GameModes gameMode, AIDifficulties AIDifficulty, GameplayModel model, GameplayView view)
+    // And mb create Factory
+    private GameplayPresenter CreatePresenter()
     {
-        if (gameMode == GameModes.TwoPlayers)
+        if (SetUp.GameMode == GameModes.TwoPlayers)
         {
-            return new GameplayPresenterTwoPlayers(model, view, restartGameCooldown);
+            return new GameplayPresenterTwoPlayers(_gameplayModel, _gameplayView, restartGameCooldown);
         }
-        else if (gameMode == GameModes.OnePlayer)
+        else if (SetUp.GameMode == GameModes.OnePlayer)
         {
-            if (AIDifficulty == AIDifficulties.NORMAL)
+            if (SetUp.CurrentLevelIndex == 0)
             {
-                return new GameplayPresenterAI(model, view, new AIOneTurn(AINormalConfigs), restartGameCooldown, AICooldownMin, AICooldownMax);
+                return new GameplayPresenterAI(_gameplayModel, _gameplayView, new AIOneTurn(AINormalConfigs), restartGameCooldown, AICooldownMin, AICooldownMax);
             }
-            else if (AIDifficulty == AIDifficulties.HARD)
+            else if (SetUp.CurrentLevelIndex == 1)
             {
-                return new GameplayPresenterAI(model, view, new AIMiniMax(AIHardConfigs), restartGameCooldown, AICooldownMin, AICooldownMax);
+                return new GameplayPresenterAI(_gameplayModel, _gameplayView, new AIMiniMax(AIHardConfigs), restartGameCooldown, AICooldownMin, AICooldownMax);
             }
-            else if (AIDifficulty == AIDifficulties.VERY_HARD)
+            else if (SetUp.CurrentLevelIndex == 2)
             {
-                return new GameplayPresenterAI(model, view, new AIMiniMax(AIVeryHardConfigs), restartGameCooldown, AICooldownMin, AICooldownMax);
+                return new GameplayPresenterAI(_gameplayModel, _gameplayView, new AIMiniMax(AIVeryHardConfigs), restartGameCooldown, AICooldownMin, AICooldownMax);
             }
         }
 
-        return new GameplayPresenterTwoPlayers(model, view, restartGameCooldown);
+        return new GameplayPresenterTwoPlayers(_gameplayModel, _gameplayView, restartGameCooldown);
     }
 }

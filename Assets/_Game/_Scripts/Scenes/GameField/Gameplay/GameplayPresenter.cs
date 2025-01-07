@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
-using UnityEngine;
 
 public abstract class GameplayPresenter
 {
@@ -35,9 +33,9 @@ public abstract class GameplayPresenter
 
             if (SetUp.GameMode == GameModes.OnePlayer && model.IsCirclesWin)
             {
-                if (SetUp.AIDifficultiesCompleted[SetUp.AIDifficulty] == false)
+                if (SetUp.CurrentLevelIndex == SetUp.CountCompletedLevels)
                 {
-                    SetUp.AIDifficultiesCompleted[SetUp.AIDifficulty] = true;
+                    SetUp.CountCompletedLevels++;
                     SetUp.isOpenedNewDifficulty = true;
                     await view.OpenMenuAsync();
                 }
@@ -61,7 +59,6 @@ public abstract class GameplayPresenter
     public void ResetFieldState()
     {
         model.ResetFieldState();
-        view.DisplayCounters(model.CountCirclesPoints, model.CountCrossesPoints);
         view.LightUpColorSlots();
     }
 
@@ -77,7 +74,6 @@ public abstract class GameplayPresenter
         {
             model.SetStateWin();
             model.AddPoint(slotState);
-            view.DisplayCounters(model.CountCirclesPoints, model.CountCrossesPoints);
             view.PlayWinSound();
 
             for (int i = 0; i < WinIndexesSlots.Count; i++)

@@ -1,22 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
-[System.Serializable]
-public class AIDifficultyData
-{
-    public List<AIDifficultyEntry> entries = new List<AIDifficultyEntry>();
-}
-
-[System.Serializable]
-public class AIDifficultyEntry
-{
-    public AIDifficulties difficulty;
-    public bool completed;
-}
-
-internal class SaveLoader : MonoBehaviour
+public class SaveLoader : MonoBehaviour
 {
     public static SaveLoader inst;
+
+    private const string COUNT_COMPLETED_LEVELS = "CountCompletedLevels";
 
     public void Init()
     {
@@ -31,41 +19,25 @@ internal class SaveLoader : MonoBehaviour
             return;
         }
 
-        LoadAIDifficulties();
+        LoadCountCompletedLevels();
     }
 
     private void OnApplicationQuit()
     {
-        SaveAIDifficulties();
+        SaveCountCompletedLevels();
     }
 
-    public static void SaveAIDifficulties()
+    public static void SaveCountCompletedLevels()
     {
-        AIDifficultyData data = new AIDifficultyData();
-
-        foreach (var entry in SetUp.AIDifficultiesCompleted)
-        {
-            data.entries.Add(new AIDifficultyEntry { difficulty = entry.Key, completed = entry.Value });
-        }
-
-        string json = JsonUtility.ToJson(data);
-        PlayerPrefs.SetString("AIDifficulties", json);
+        PlayerPrefs.SetInt(COUNT_COMPLETED_LEVELS, SetUp.CountCompletedLevels);
         PlayerPrefs.Save();
     }
 
-    public static void LoadAIDifficulties()
+    public static void LoadCountCompletedLevels()
     {
-        if (PlayerPrefs.HasKey("AIDifficulties"))
+        if (PlayerPrefs.HasKey(COUNT_COMPLETED_LEVELS))
         {
-            string json = PlayerPrefs.GetString("AIDifficulties");
-            AIDifficultyData data = JsonUtility.FromJson<AIDifficultyData>(json);
-
-            SetUp.AIDifficultiesCompleted.Clear();
-
-            foreach (var entry in data.entries)
-            {
-                SetUp.AIDifficultiesCompleted[entry.difficulty] = entry.completed;
-            }
+            SetUp.CountCompletedLevels = PlayerPrefs.GetInt(COUNT_COMPLETED_LEVELS);
         }
     }
 }

@@ -56,4 +56,4 @@ MonoBehaviour:
     - colorIndex: 1
       iconNameOrGuid: 
     - colorIndex: 1
-      iconNameOrGuid: Prefab Icon
+      iconNameOrGuid: ScriptableObject Icon

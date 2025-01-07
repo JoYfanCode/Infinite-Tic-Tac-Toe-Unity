@@ -1,27 +1,13 @@
-using Sirenix.OdinInspector;
 using System.Threading.Tasks;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// Put away MonoBehaviour
-public class ScenesChanger : MonoBehaviour
+public static class ScenesChanger
 {
-    public static ScenesChanger inst;
+    public static ScenesConfig scenes;
 
-    [FilePath(Extensions = ".unity")] public string menu;
-    [FilePath(Extensions = ".unity")] public string gameField;
-
-    public void Init()
+    public static void Init(ScenesConfig scenesConfig)
     {
-        if (inst == null)
-        {
-            inst = this;
-            DontDestroyOnLoad(this);
-        }
-        else
-        {
-            Destroy(this);
-        }
+        scenes = scenesConfig;
     }
 
     public static async void OpenScene(string sceneName)

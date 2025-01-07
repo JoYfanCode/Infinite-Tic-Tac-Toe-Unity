@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
@@ -29,6 +28,6 @@ public class ReturnToMenuButton : MonoBehaviour
     {
         AudioSystem.PlayClickSound();
         shaker.Shake();
-        ScenesChanger.OpenScene(ScenesChanger.inst.menu);
+        ScenesChanger.OpenScene(ScenesChanger.scenes.Menu);
     }
 }

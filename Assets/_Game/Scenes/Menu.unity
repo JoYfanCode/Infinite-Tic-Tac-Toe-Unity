@@ -433,59 +433,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f8c0084badf3a47af8cecf44d400d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  levelIndex: 0
   isLocked: 0
   lockTransform: {fileID: 647961150}
   effectsParent: {fileID: 1441709940}
   newUnlockEffectPrefab: {fileID: 86113365510245046, guid: bb8fdd217961bdc48a2dfa2cba93a825, type: 3}
   button: {fileID: 29442864}
   lockPanel: {fileID: 460685002}
---- !u!1 &83613755
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 83613756}
-  - component: {fileID: 83613757}
-  m_Layer: 0
-  m_Name: Scene Changer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &83613756
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 83613755}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1471146512}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &83613757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 83613755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 160e48e2a59ec2740bcadefe27138242, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menu: Assets/_Game/Scenes/Menu.unity
-  gameField: Assets/_Game/Scenes/Game Field.unity
 --- !u!1 &114991473
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,7 +742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f8c0084badf3a47af8cecf44d400d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
+  levelIndex: 1
   isLocked: 1
   lockTransform: {fileID: 1567989413}
   effectsParent: {fileID: 1441709940}
@@ -2680,13 +2634,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 792b38963b3cd8643b5709c7135c9d13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  milisecUntilUnlockNewDif: 1000
   audioSystem: {fileID: 1703555769}
   saveLoader: {fileID: 1834731303}
-  scenesChanger: {fileID: 83613757}
   sceneChangerAnimation: {fileID: 1681663437}
   startButtonsAppearAnimation: {fileID: 1975494221}
   AIDifficultyButtonsAppearAnimation: {fileID: 1527477279}
   difficultiesManager: {fileID: 1787052992}
+  scenesConfig: {fileID: 11400000, guid: 14960ac868825a04ab113b3698ba7920, type: 2}
 --- !u!1 &1441709939
 GameObject:
   m_ObjectHideFlags: 0
@@ -2818,7 +2773,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1161284765}
-  - {fileID: 83613756}
   - {fileID: 1975494220}
   - {fileID: 1527477278}
   - {fileID: 1787052991}
@@ -3116,7 +3070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f8c0084badf3a47af8cecf44d400d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 2
+  levelIndex: 2
   isLocked: 1
   lockTransform: {fileID: 7022526}
   effectsParent: {fileID: 1441709940}
@@ -3515,7 +3469,7 @@ GameObject:
   - component: {fileID: 1787052991}
   - component: {fileID: 1787052992}
   m_Layer: 0
-  m_Name: Difficulties Manager
+  m_Name: Difficulties Unlocker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3552,7 +3506,6 @@ MonoBehaviour:
   - {fileID: 29442869}
   - {fileID: 178755644}
   - {fileID: 1557349400}
-  milisecUntilUnlockNewDif: 800
 --- !u!1 &1834731301
 GameObject:
   m_ObjectHideFlags: 0

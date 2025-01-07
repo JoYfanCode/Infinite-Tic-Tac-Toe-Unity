@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class AIDifficulty : MonoBehaviour
 {
-    [SerializeField] private AIDifficulties type = AIDifficulties.NORMAL;
+    [SerializeField] private int levelIndex = 0;
     [SerializeField] private bool isLocked = true;
 
     [Space]
@@ -17,21 +15,21 @@ public class AIDifficulty : MonoBehaviour
     [SerializeField] private GameObject lockPanel;
 
     public bool IsLocked => isLocked;
-    public AIDifficulties Type => type;
+    public int LevelIndex => levelIndex;
 
     private void Awake()
     {
-        button.onClick.AddListener(SetUpDifficulty);
+        button.onClick.AddListener(OnDifficultyButtonClicked);
     }
 
     private void OnDisable()
     {
-        button.onClick.RemoveListener(SetUpDifficulty);
+        button.onClick.RemoveListener(OnDifficultyButtonClicked);
     }
 
-    private void SetUpDifficulty()
+    private void OnDifficultyButtonClicked()
     {
-        SetUp.AIDifficulty = type;
+        SetUp.CurrentLevelIndex = levelIndex;
     }
 
     public void Unlock()
@@ -44,7 +42,7 @@ public class AIDifficulty : MonoBehaviour
     {
         Unlock();
         GameObject effect = Instantiate(newUnlockEffectPrefab, effectsParent);
-        effect.transform.localPosition = lockTransform.localPosition;
+        effect.transform.position = lockTransform.position;
         AudioSystem.PlaySound(AudioSystem.inst.Firework);
     }
 

@@ -4,11 +4,7 @@ using Zenject;
 
 public class SystemDebug : MonoBehaviour
 {
-    [Inject(Id = "Circles")]
+    [Inject]
     [ShowInInspector, HideInEditorMode]
-    private PointsHandler circlesPointsHandler;
-
-    [Inject(Id = "Crosses")]
-    [ShowInInspector, HideInEditorMode]
-    private PointsHandler crossesPointsHandler;
+    [SerializeField] private GameplayModel gameplayModel;
 }

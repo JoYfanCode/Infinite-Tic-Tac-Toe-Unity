@@ -121,7 +121,7 @@ public class GameplayPresenterAI : GameplayPresenter
 
     public override void FirstMoveDetermination()
     {
-        if (NumbericUtilities.RollChance(50))
+        if (Utilities.RollChance(50))
         {
             startState = SlotStates.Cross;
             view.SetTurnState(startState);

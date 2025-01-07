@@ -3,65 +3,50 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
-public class GameplayViewStandart : GameplayView
+public sealed class GameplayView : MonoBehaviour
 {
-    [BoxGroup("Parameters")]
-    [SerializeField] private Color circleColor = Color.blue;
-    [SerializeField] private Color crossColor = Color.red;
-    [SerializeField] private float halfTransparentAlpha = 0.25f;
-    [SerializeField] private int nextSlotClearMilisecCooldown = 100;
-    [SerializeField] private int effectMilisecCooldown = 200;
+    [SerializeField, TabGroup("Parameters")] private Color circleColor = Color.blue;
+    [SerializeField, TabGroup("Parameters")] private Color crossColor = Color.red;
+    [SerializeField, TabGroup("Parameters")] private float halfTransparentAlpha = 0.25f;
+    [SerializeField, TabGroup("Parameters")] private int nextSlotClearMilisecCooldown = 100;
+    [SerializeField, TabGroup("Parameters")] private int effectMilisecCooldown = 200;
 
-    [BoxGroup("Objects")]
-    [SerializeField] private List<Slot> slots;
-    [SerializeField] private Sprite cross;
-    [SerializeField] private Sprite circle;
-    [SerializeField] private Image turnStateImage;
+    [SerializeField, TabGroup("Objects")] private List<Slot> slots;
+    [SerializeField, TabGroup("Objects")] private Sprite cross;
+    [SerializeField, TabGroup("Objects")] private Sprite circle;
+    [SerializeField, TabGroup("Objects")] private Image turnStateImage;
 
-    [Space]
-    [Header("Effects")]
-    [SerializeField] private GameObject circleSlotEffectPrefab;
-    [SerializeField] private GameObject crossSlotEffectPrefab;
-    [SerializeField] private GameObject circleSmallEffectPrefab;
-    [SerializeField] private GameObject circleBigEffectPrefab;
-    [SerializeField] private GameObject crossSmallEffectPrefab;
-    [SerializeField] private GameObject crossBigEffectPrefab;
+    [SerializeField, TabGroup("Effects")] private GameObject circleSlotEffectPrefab;
+    [SerializeField, TabGroup("Effects")] private GameObject crossSlotEffectPrefab;
+    [SerializeField, TabGroup("Effects")] private GameObject circleSmallEffectPrefab;
+    [SerializeField, TabGroup("Effects")] private GameObject circleBigEffectPrefab;
+    [SerializeField, TabGroup("Effects")] private GameObject crossSmallEffectPrefab;
+    [SerializeField, TabGroup("Effects")] private GameObject crossBigEffectPrefab;
 
     [Space]
 
-    [SerializeField] private Transform leftPoint;
-    [SerializeField] private Transform centerPoint;
-    [SerializeField] private Transform rightPoint;
-    [SerializeField] private Transform effectsParent;
+    [SerializeField, TabGroup("Effects")] private Transform effectLeftPoint;
+    [SerializeField, TabGroup("Effects")] private Transform effectCenterPoint;
+    [SerializeField, TabGroup("Effects")] private Transform effectRightPoint;
+    [SerializeField, TabGroup("Effects")] private Transform effectsParent;
 
-    [BoxGroup("Managers")]
-    private PointsHandler _circlesPointsHandler;
-    private PointsHandler _crossesPointsHandler;
+    private GameplayPresenter _presenter;
 
-    [Inject]
-    public void Construct([Inject(Id = "Circles")] PointsHandler circlesPointsHandler,
-                          [Inject(Id = "Crosses")] PointsHandler crossesPointsHandler)
+    public void Init(GameplayPresenter presenter)
     {
-        _circlesPointsHandler = circlesPointsHandler;
-        _crossesPointsHandler = crossesPointsHandler;
-    }
-
-    public override void Init(GameplayPresenter presenter)
-    {
-        base.Init(presenter);
+        _presenter = presenter;
         InitSlotsButtons();
     }
 
     public void OnSlotClicked(int id)
     {
-        presenter.OnClotClicked(id);
+        _presenter.OnClotClicked(id);
         slots[id].Shaker.Shake();
         PlayClickSound();
     }
 
-    public override void DisplayField(IReadOnlyList<SlotStates> Field)
+    public void DisplayField(IReadOnlyList<SlotStates> Field)
     {
         for (int i = 0; i < slots.Count; i++)
         {
@@ -86,7 +71,7 @@ public class GameplayViewStandart : GameplayView
         ChangeTurnState();
     }
 
-    public override async Task ClearFieldAnimation()
+    public async Task ClearFieldAnimation()
     {
         Permutation permutation = new Permutation(slots.Count);
         permutation.Shuffle();
@@ -100,13 +85,7 @@ public class GameplayViewStandart : GameplayView
         }
     }
 
-    public override void DisplayCounters(int countCirclesPoints, int countCrossesPoints)
-    {
-        _circlesPointsHandler.SetPoints(countCirclesPoints);
-        _crossesPointsHandler.SetPoints(countCrossesPoints);
-    }
-
-    public override void BoomParticleSlot(int indexSlot, SlotStates slotState)
+    public void BoomParticleSlot(int indexSlot, SlotStates slotState)
     {
         GameObject slotEffectPrefab;
 
@@ -117,14 +96,14 @@ public class GameplayViewStandart : GameplayView
         slotEffect.transform.localPosition = slots[indexSlot].transform.localPosition;
     }
 
-    public override void LightDownColorSlot(int indexSlot)
+    public void LightDownColorSlot(int indexSlot)
     {
         LightUpColorSlots();
 
         slots[indexSlot].CanvasGroup.alpha = halfTransparentAlpha;
     }
 
-    public override void LightUpColorSlots()
+    public void LightUpColorSlots()
     {
         for (int i = 0; i < slots.Count; i++)
         {
@@ -132,7 +111,7 @@ public class GameplayViewStandart : GameplayView
         }
     }
 
-    public override void SetTurnState(SlotStates state)
+    public void SetTurnState(SlotStates state)
     {
         if (state == SlotStates.Circle)
         {
@@ -146,7 +125,7 @@ public class GameplayViewStandart : GameplayView
         }
     }
 
-    protected void ChangeTurnState()
+    private void ChangeTurnState()
     {
         if (turnStateImage.sprite == cross)
         {
@@ -159,7 +138,8 @@ public class GameplayViewStandart : GameplayView
             turnStateImage.color = crossColor;
         }
     }
-    protected void InitSlotsButtons()
+
+    private void InitSlotsButtons()
     {
         foreach (Slot slot in slots)
         {
@@ -167,7 +147,7 @@ public class GameplayViewStandart : GameplayView
         }
     }
 
-    protected void OnDisable()
+    private void OnDisable()
     {
         foreach (Slot slot in slots)
         {
@@ -175,7 +155,7 @@ public class GameplayViewStandart : GameplayView
         }
     }
 
-    public override void PlayWinEffects(SlotStates winState)
+    public void PlayWinEffects(SlotStates winState)
     {
         if (winState == SlotStates.Circle)
         {
@@ -192,24 +172,28 @@ public class GameplayViewStandart : GameplayView
         await Task.Delay(effectMilisecCooldown);
 
         GameObject rightEffect = Instantiate(smallEffectPrefab, Vector2.zero, Quaternion.identity, effectsParent).gameObject;
-        rightEffect.transform.localPosition = rightPoint.transform.localPosition;
+        rightEffect.transform.localPosition = effectRightPoint.transform.localPosition;
         PlayFireworkSound();
 
         await Task.Delay(effectMilisecCooldown);
 
         GameObject leftEffect = Instantiate(smallEffectPrefab, Vector2.zero, Quaternion.identity, effectsParent).gameObject;
-        leftEffect.transform.localPosition = leftPoint.transform.localPosition;
+        leftEffect.transform.localPosition = effectLeftPoint.transform.localPosition;
         PlayFireworkSound();
 
         await Task.Delay(effectMilisecCooldown);
 
         GameObject centerEffect = Instantiate(bigEffectPrefab, Vector2.zero, Quaternion.identity, effectsParent).gameObject;
-        centerEffect.transform.localPosition = centerPoint.transform.localPosition;
+        centerEffect.transform.localPosition = effectCenterPoint.transform.localPosition;
         PlayFireworkSound();
     }
 
-    public override async Task OpenMenuAsync()
+    public async Task OpenMenuAsync()
     {
-        await ScenesChanger.OpenSceneAsync(ScenesChanger.inst.menu);
+        await ScenesChanger.OpenSceneAsync(ScenesChanger.scenes.Menu);
     }
+
+    public void PlayClickSound() => AudioSystem.PlayClickSound();
+    public void PlayWinSound() => AudioSystem.PlaySound(AudioSystem.inst.Win);
+    public void PlayFireworkSound() => AudioSystem.PlaySound(AudioSystem.inst.Firework);
 }
