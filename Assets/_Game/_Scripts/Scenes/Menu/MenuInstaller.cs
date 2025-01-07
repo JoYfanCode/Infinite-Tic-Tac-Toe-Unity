@@ -3,12 +3,12 @@ using Zenject;
 
 public class MenuInstaller : MonoInstaller
 {
-    [SerializeField] private SaveSystem saveLoader;
-    [SerializeField] private AudioSystem audioSystem;
+    [SerializeField] private DifficultiesUnlocker difficultiesManager;
+    [SerializeField] private MenuButtonsHandler menuButtonsHandler;
 
     public override void InstallBindings()
     {
-        Container.Bind<SaveSystem>().FromInstance(saveLoader).AsSingle().NonLazy();
-        Container.Bind<AudioSystem>().FromInstance(audioSystem).AsSingle().NonLazy();
+        Container.Bind<DifficultiesUnlocker>().FromInstance(difficultiesManager).AsSingle().NonLazy();
+        Container.Bind<MenuButtonsHandler>().FromInstance(menuButtonsHandler).AsSingle().NonLazy();
     }
 }

@@ -2,60 +2,50 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class ObjectsAppearAnimation : MonoBehaviour
+public class ObjectsAppearAnimation<T> where T : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> objects;
-    [SerializeField] private float scaleTime = 0.2f;
-    [SerializeField] private float nextAppearButtonTime = 0.1f;
-    [SerializeField] private float nextDisappearButtonTime = 0.1f;
-    [SerializeField] private float appearCooldown = 0.2f;
+    private ObjectsAppearAnimationConfig _config;
+    private IReadOnlyList<GameObject> _objects;
+    private List<Vector3> _defaultScale = new();
+    private List<StaticButtonScalerAnimation> _scaleAnimations = new();
+    private int _activeButtonsCount = 0;
 
-    private List<Vector3> defaultScale = new();
-    private List<StaticButtonScalerAnimation> scaleAnimations = new();
-
-    private int activeButtonsCount = 0;
     private const int MILISEC_IN_SEC = 1000;
 
-    public ObjectsAppearAnimation Init<T>(IReadOnlyList<T> objects) where T : MonoBehaviour
+    public ObjectsAppearAnimation(ObjectsAppearAnimationConfig config, IReadOnlyList<T> objects)
     {
-        this.objects.Clear();
-        this.objects = (List<GameObject>)Utilities.ConverToGameObjects(objects);
-        return Init();
-    }
+        _config = config;
+        _objects = Utilities.ConverToGameObjects(objects);
 
-    public ObjectsAppearAnimation Init()
-    {
-        for (int i = 0; i < objects.Count; i++)
+        for (int i = 0; i < _objects.Count; i++)
         {
-            defaultScale.Add(objects[i].transform.localScale);
-            objects[i].TryGetComponent(out StaticButtonScalerAnimation anim);
-            scaleAnimations.Add(anim);
+            _defaultScale.Add(_objects[i].transform.localScale);
+            _objects[i].TryGetComponent(out StaticButtonScalerAnimation anim);
+            _scaleAnimations.Add(anim);
 
-            objects[i].transform.localScale = Vector3.zero;
-            if (scaleAnimations[i]) scaleAnimations[i].enabled = false;
+            _objects[i].transform.localScale = Vector3.zero;
+            if (_scaleAnimations[i]) _scaleAnimations[i].enabled = false;
         }
-
-        return this;
     }
 
     public async void Appear() => await AppearAsync();
 
     public async Task AppearAsync()
     {
-        activeButtonsCount = 0;
+        _activeButtonsCount = 0;
 
-        for (int i = 0; i < objects.Count; i++)
+        for (int i = 0; i < _objects.Count; i++)
         {
-            objects[i].transform.localScale = Vector3.zero;
-            if (scaleAnimations[i]) scaleAnimations[i].enabled = false;
+            _objects[i].transform.localScale = Vector3.zero;
+            if (_scaleAnimations[i]) _scaleAnimations[i].enabled = false;
         }
 
-        await Task.Delay((int)(appearCooldown * MILISEC_IN_SEC));
+        await Task.Delay((int)(_config.AppearCooldown * MILISEC_IN_SEC));
 
-        for (int i = 0; i < objects.Count; i++)
+        for (int i = 0; i < _objects.Count; i++)
         {
-            objects[i].transform.LeanScale(defaultScale[i], scaleTime).setEaseOutBack().setOnComplete(EnableScaleAnimation);
-            await Task.Delay((int)(nextAppearButtonTime * MILISEC_IN_SEC));
+            _objects[i].transform.LeanScale(_defaultScale[i], _config.ScaleTime).setEaseOutBack().setOnComplete(EnableScaleAnimation);
+            await Task.Delay((int)(_config.NextAppearButtonTime * MILISEC_IN_SEC));
         }
     }
 
@@ -63,21 +53,21 @@ public class ObjectsAppearAnimation : MonoBehaviour
 
     public async Task DisappearAsync()
     {
-        for (int i = 0; i < objects.Count; i++)
+        for (int i = 0; i < _objects.Count; i++)
         {
-            scaleAnimations[i].enabled = false;
+            _scaleAnimations[i].enabled = false;
         }
 
-        for (int i = 0; i < objects.Count; i++)
+        for (int i = 0; i < _objects.Count; i++)
         {
-            objects[i].transform.LeanScale(Vector3.zero, scaleTime).setEaseOutExpo();
-            await Task.Delay((int)(nextDisappearButtonTime * MILISEC_IN_SEC));
+            _objects[i].transform.LeanScale(Vector3.zero, _config.ScaleTime).setEaseOutExpo();
+            await Task.Delay((int)(_config.NextDisappearButtonTime * MILISEC_IN_SEC));
         }
     }
 
     private void EnableScaleAnimation()
     {
-        if (scaleAnimations[activeButtonsCount]) scaleAnimations[activeButtonsCount].enabled = true;
-        activeButtonsCount++;
+        if (_scaleAnimations[_activeButtonsCount]) _scaleAnimations[_activeButtonsCount].enabled = true;
+        _activeButtonsCount++;
     }
 }
