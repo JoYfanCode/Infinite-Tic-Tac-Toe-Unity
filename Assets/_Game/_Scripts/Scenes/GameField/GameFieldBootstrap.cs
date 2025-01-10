@@ -13,11 +13,11 @@ public class GameFieldBootstrap : MonoBehaviour
     [SerializeField, BoxGroup("Animations")] ObjectsAppearAnimationConfig circlesPointsAnimationConfig;
     [SerializeField, BoxGroup("Animations")] ObjectsAppearAnimationConfig crossesPointsAnimationConfig;
 
-    [Inject(Id = "CirclesPointsView")] private PointsView circlesPointsView;
-    [Inject(Id = "CrossesPointsView")] private PointsView crossesPointsView;
-    [Inject] private GameplayView gameplayView;
-    [Inject] private GameplayModel gameplayModel;
-    [Inject] private PointsHandler pointsHandler;
+    [Inject(Id = "CirclesPointsView")] PointsView circlesPointsView;
+    [Inject(Id = "CrossesPointsView")] PointsView crossesPointsView;
+    [Inject] GameplayView gameplayView;
+    [Inject] GameplayModel gameplayModel;
+    [Inject] PointsHandler pointsHandler;
 
     public async void Awake()
     {
