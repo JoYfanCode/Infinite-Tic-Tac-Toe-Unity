@@ -3,12 +3,12 @@ using Zenject;
 
 public class PointsHandler : IDisposable
 {
-    private PointsModel _circlesPointsModel;
-    private PointsModel _crossesPointsModel;
-    private PointsView _circlesPointsView;
-    private PointsView _crossesPointsView;
-    private PointsObserver _circlesPointsObserver;
-    private PointsObserver _crossesPointsObserver;
+    PointsModel _circlesPointsModel;
+    PointsModel _crossesPointsModel;
+    PointsView _circlesPointsView;
+    PointsView _crossesPointsView;
+    PointsObserver _circlesPointsObserver;
+    PointsObserver _crossesPointsObserver;
 
     [Inject]
     public void Construct(PointsModel circlesPointsModel, PointsModel crossesPointsModel,

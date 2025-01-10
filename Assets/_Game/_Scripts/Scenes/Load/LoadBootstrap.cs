@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 
+[DefaultExecutionOrder(99)]
 public class LoadBootstrap : MonoBehaviour
 {
-    [SerializeField] private ScenesConfig scenesConfig;
-    [SerializeField] private AudioSystem audioSystem;
-    [SerializeField] private SaveSystem saveSystem;
-    [SerializeField] private SceneChangerAnimation sceneChangerAnimation;
+    [SerializeField] ScenesConfig scenesConfig;
+    [SerializeField] AudioSystem audioSystem;
+    [SerializeField] SaveSystem saveSystem;
+    [SerializeField] SceneChangerAnimation sceneChangerAnimation;
 
     public void Awake()
     {

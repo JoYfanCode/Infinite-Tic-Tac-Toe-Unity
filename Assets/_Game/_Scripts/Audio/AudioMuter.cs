@@ -3,33 +3,35 @@
 [RequireComponent(typeof(AudioSource)), AddComponentMenu("Audio/Audio Muter Component")]
 public class AudioMuter : MonoBehaviour
 {
-    [SerializeField] private bool isMusic = false;
+    [SerializeField] bool isMusic = false;
 
-    private AudioSource audioSource;
-    private float baseVolume;
+    AudioSystem _audioSystem;
+    AudioSource _audioSource;
+    float _baseVolume;
 
-    private void Awake()
+    void Awake()
     {
-        audioSource = gameObject.GetComponent<AudioSource>();
-        baseVolume = audioSource.volume;
+        _audioSystem = AudioSystem.inst;
+        _audioSource = gameObject.GetComponent<AudioSource>();
+        _baseVolume = _audioSource.volume;
     }
 
-    private void Start()
+    void Start()
     {
-        AudioSystem.inst.OnAudioSettingsChanged += _audioSettingsChanged;
+        _audioSystem.OnAudioSettingsChanged += _audioSettingsChanged;
 
         _audioSettingsChanged();
     }
-    private void _audioSettingsChanged()
+    void _audioSettingsChanged()
     {
         if (isMusic)
-            audioSource.volume = (AudioSystem.settings.music) ? AudioSystem.settings.musicVolume * baseVolume : 0F;
-        if (!isMusic)
-            audioSource.volume = (AudioSystem.settings.sounds) ? AudioSystem.settings.soundsVolume * baseVolume : 0F;
+            _audioSource.volume = (_audioSystem.Settings.music) ? _audioSystem.Settings.musicVolume * _baseVolume : 0F;
+        else
+            _audioSource.volume = (_audioSystem.Settings.sounds) ? _audioSystem.Settings.soundsVolume * _baseVolume : 0F;
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
-        AudioSystem.inst.OnAudioSettingsChanged -= _audioSettingsChanged;
+        _audioSystem.OnAudioSettingsChanged -= _audioSettingsChanged;
     }
 }

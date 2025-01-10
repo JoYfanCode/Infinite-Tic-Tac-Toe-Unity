@@ -5,24 +5,24 @@ using UnityEngine;
 public class AudioSystem : MonoBehaviour
 {
     public static AudioSystem inst;
-    public static AudioSettingsModel settings = null;
-
-    [Header("Sound")]
-    public GameObject Click;
-    public GameObject OpenGameMode;
-    public GameObject Win;
-    public GameObject Firework;
 
     public Action OnAudioSettingsChanged;
 
-    private static float minPitch = 0.8f;
-    private static float maxPitch = 1.2f;
+    public Sounds Sounds => sounds;
+    public AudioSettingsModel Settings => settings;
+
+    [SerializeField] Sounds sounds;
+    AudioSettingsModel settings;
+
+    static float _minPitch = 0.8f;
+    static float _maxPitch = 1.2f;
 
     public void Init()
     {
         if (inst == null)
         {
             inst = this;
+            settings = new AudioSettingsModel();
             DontDestroyOnLoad(inst);
         }
         else
@@ -30,9 +30,6 @@ public class AudioSystem : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
-        if (settings == null)
-            settings = new AudioSettingsModel();
     }
 
     public void changeSoundsVolume(float value)
@@ -58,7 +55,7 @@ public class AudioSystem : MonoBehaviour
         if (OnAudioSettingsChanged != null)
             OnAudioSettingsChanged();
     }
-    
+
     public void toggleMusic()
     {
         settings.music = !settings.music;
@@ -67,21 +64,21 @@ public class AudioSystem : MonoBehaviour
             OnAudioSettingsChanged();
     }
 
-    public static void PlaySound(GameObject Sound, bool isDistortSound = true)
+    public void PlaySound(GameObject Sound, bool isDistortSound = true)
     {
         AudioSource sound = Instantiate(Sound).GetComponent<AudioSource>();
         DontDestroyOnLoad(sound);
 
         if (isDistortSound)
-            sound.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
+            sound.pitch = UnityEngine.Random.Range(_minPitch, _maxPitch);
     }
 
-    public static void PlayClickSound(bool isDistortSound = true)
+    public void PlayClickSound(bool isDistortSound = true)
     {
-        AudioSource sound = Instantiate(inst.Click).GetComponent<AudioSource>();
+        AudioSource sound = Instantiate(inst.sounds.Click).GetComponent<AudioSource>();
         DontDestroyOnLoad(sound);
 
         if (isDistortSound)
-            sound.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
+            sound.pitch = UnityEngine.Random.Range(_minPitch, _maxPitch);
     }
 }

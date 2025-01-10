@@ -7,19 +7,21 @@ public class MenuButtonsHandler : MonoBehaviour
     public IReadOnlyList<Button> ModeButtons => modeButtons;
     public IReadOnlyList<Button> LevelsButtons => levelsButtons;
 
-    [SerializeField] private List<Button> modeButtons;
-    [SerializeField] private List<Button> levelsButtons;
+    [SerializeField] List<Button> modeButtons;
+    [SerializeField] List<Button> levelsButtons;
 
-    private ObjectsAppearAnimation<Button> _modeButtonsAnimation;
-    private ObjectsAppearAnimation<Button> _levelsButtonsAnimation;
+    ObjectsAppearAnimation<Button> _modeButtonsAnimation;
+    ObjectsAppearAnimation<Button> _levelsButtonsAnimation;
+    AudioSystem _audioSystem;
 
     public void Init(ObjectsAppearAnimation<Button> modeButtonsAnimation, ObjectsAppearAnimation<Button> levelsButtonsAnimation)
     {
         _modeButtonsAnimation = modeButtonsAnimation;
         _levelsButtonsAnimation = levelsButtonsAnimation;
+        _audioSystem = AudioSystem.inst;
     }
 
-    private void OnEnable()
+    void OnEnable()
     {
         foreach (Button button in levelsButtons)
         {
@@ -30,7 +32,7 @@ public class MenuButtonsHandler : MonoBehaviour
         modeButtons[1]?.onClick.AddListener(OnTwoPlayerModeButtonClicked);
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
         foreach (Button button in levelsButtons)
         {
@@ -41,24 +43,24 @@ public class MenuButtonsHandler : MonoBehaviour
         modeButtons[1]?.onClick.RemoveListener(OnTwoPlayerModeButtonClicked);
     }
 
-    private void OnLevelButtonClicked()
+    void OnLevelButtonClicked()
     {
         SetUp.GameMode = GameModes.OnePlayer;
-        AudioSystem.PlaySound(AudioSystem.inst.OpenGameMode);
+        _audioSystem.PlaySound(_audioSystem.Sounds.OpenGameMode);
         ScenesChanger.OpenScene(ScenesChanger.scenes.GameField);
     }
 
-    private async void OnOnePlayerModeButtonClicked()
+    async void OnOnePlayerModeButtonClicked()
     {
-        AudioSystem.PlayClickSound();
+        _audioSystem.PlayClickSound();
         await _modeButtonsAnimation.DisappearAsync();
         _levelsButtonsAnimation.Appear();
     }
 
-    private void OnTwoPlayerModeButtonClicked()
+    void OnTwoPlayerModeButtonClicked()
     {
         SetUp.GameMode = GameModes.TwoPlayers;
-        AudioSystem.PlaySound(AudioSystem.inst.OpenGameMode);
+        _audioSystem.PlaySound(_audioSystem.Sounds.OpenGameMode);
         ScenesChanger.OpenScene(ScenesChanger.scenes.GameField);
     }
 }

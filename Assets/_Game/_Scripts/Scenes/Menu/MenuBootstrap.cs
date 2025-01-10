@@ -4,37 +4,58 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
+[DefaultExecutionOrder(99)]
 public class MenuBootstrap : MonoBehaviour
 {
-    [SerializeField, BoxGroup("General")] private int milisecUntilUnlockNewDif = 1000;
+    [SerializeField, BoxGroup("General")] int milisecUntilUnlockNewDif = 1000;
 
-    [SerializeField, BoxGroup("Animations")] private ObjectsAppearAnimationConfig modeButtonsAnimationConfig;
-    [SerializeField, BoxGroup("Animations")] private ObjectsAppearAnimationConfig levelsButtonsAppearAnimationConfig;
+    [SerializeField, BoxGroup("Animations")] ObjectsAppearAnimationConfig modeButtonsAnimationConfig;
+    [SerializeField, BoxGroup("Animations")] ObjectsAppearAnimationConfig levelsButtonsAppearAnimationConfig;
 
-    [Inject] private MenuButtonsHandler menuButtonHandler;
-    [Inject] private DifficultiesUnlocker difficultiesManager;
+    [Inject] MenuButtonsHandler menuButtonHandler;
+    [Inject] DifficultiesUnlocker difficultiesManager;
 
-    public async void Awake()
+    ObjectsAppearAnimation<Button> _modeButtonsAnimation;
+    ObjectsAppearAnimation<Button> _levelsButtonsAppearAnimation;
+
+    public void Awake()
     {
-        ObjectsAppearAnimation<Button> modeButtonsAnimation = new ObjectsAppearAnimation<Button>(modeButtonsAnimationConfig, menuButtonHandler.ModeButtons);
-        ObjectsAppearAnimation<Button> levelsButtonsAppearAnimation = new ObjectsAppearAnimation<Button>(levelsButtonsAppearAnimationConfig, menuButtonHandler.LevelsButtons);
-
-        menuButtonHandler.Init(modeButtonsAnimation, levelsButtonsAppearAnimation);
-
-        await SceneChangerAnimation.inst.FadeAsync();
+        Init();
 
         if (SetUp.isOpenedNewDifficulty)
         {
-            difficultiesManager.Unlock(SetUp.CountCompletedLevels - 1);
-            await levelsButtonsAppearAnimation.AppearAsync();
-            await Task.Delay(milisecUntilUnlockNewDif);
-            difficultiesManager.UnlockLastOneWithEffect(SetUp.CountCompletedLevels);
-            SetUp.isOpenedNewDifficulty = false;
+            OpenNewDifficulty();
         }
         else
         {
-            difficultiesManager.Unlock(SetUp.CountCompletedLevels);
-            modeButtonsAnimation.Appear();
+            ClassicInitScene();
         }
+    }
+
+    void Init()
+    {
+        _modeButtonsAnimation = new ObjectsAppearAnimation<Button>(modeButtonsAnimationConfig, menuButtonHandler.ModeButtons);
+        _levelsButtonsAppearAnimation = new ObjectsAppearAnimation<Button>(levelsButtonsAppearAnimationConfig, menuButtonHandler.LevelsButtons);
+
+        menuButtonHandler.Init(_modeButtonsAnimation, _levelsButtonsAppearAnimation);
+    }
+
+    async void OpenNewDifficulty()
+    {
+        await SceneChangerAnimation.inst.FadeAsync();
+
+        difficultiesManager.Unlock(SetUp.CountCompletedLevels - 1);
+        await _levelsButtonsAppearAnimation.AppearAsync();
+        await Task.Delay(milisecUntilUnlockNewDif);
+        difficultiesManager.UnlockLastOneWithEffect(SetUp.CountCompletedLevels);
+        SetUp.isOpenedNewDifficulty = false;
+    }
+
+    async void ClassicInitScene()
+    {
+        await SceneChangerAnimation.inst.FadeAsync();
+
+        difficultiesManager.Unlock(SetUp.CountCompletedLevels);
+        _modeButtonsAnimation.Appear();
     }
 }

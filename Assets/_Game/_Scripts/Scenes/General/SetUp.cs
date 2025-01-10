@@ -1,4 +1,4 @@
-﻿internal static class SetUp
+﻿public static class SetUp
 {
     public static GameModes GameMode;
     public static int CurrentLevelIndex = 0;

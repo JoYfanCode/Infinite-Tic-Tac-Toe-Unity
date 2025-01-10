@@ -8,23 +8,22 @@ using UnityEngine.UI;
 [RequireComponent(typeof(GridLayoutGroup))]
 public class PointsView : MonoBehaviour
 {
-    [SerializeField] private float nextPointClearCooldown = 0.1f;
-    [SerializeField] private Color colorOff = Color.gray;
-    [SerializeField] private Color colorOn = Color.white;
-
-    private Point _pointPrefab;
-    private List<Point> _points = new();
-    private int countPointsOn = 0;
-
     public IReadOnlyList<Point> Points => _points;
-
     public void SetPointPrefab(Point point) => _pointPrefab = point;
+
+    [SerializeField] float nextPointClearCooldown = 0.1f;
+    [SerializeField] Color colorOff = Color.gray;
+    [SerializeField] Color colorOn = Color.white;
+
+    Point _pointPrefab;
+    List<Point> _points = new();
+    int _countPointsOn = 0;
 
     public void SetPointsOn(int countTurnOnPoints)
     {
         if (countTurnOnPoints > _points.Count) throw new Exception("Points don't enough");
 
-        if (countTurnOnPoints != countPointsOn && countTurnOnPoints == 0)
+        if (countTurnOnPoints != _countPointsOn && countTurnOnPoints == 0)
         {
             StartCoroutine(ClearTurnedOnPointsAnimation());
         }
@@ -41,7 +40,7 @@ public class PointsView : MonoBehaviour
             }
         }
 
-        if (countTurnOnPoints > countPointsOn)
+        if (countTurnOnPoints > _countPointsOn)
         {
             for (int i = 0; i < countTurnOnPoints; i++)
             {
@@ -49,7 +48,7 @@ public class PointsView : MonoBehaviour
             }
         }
 
-        countPointsOn = countTurnOnPoints;
+        _countPointsOn = countTurnOnPoints;
     }
 
     public void CreatePoints(int countMaxPoints)
@@ -62,7 +61,7 @@ public class PointsView : MonoBehaviour
     }
 
     [Button]
-    private void ClearPoints()
+    void ClearPoints()
     {
         int countPoints = _points.Count;
 
@@ -73,7 +72,7 @@ public class PointsView : MonoBehaviour
         }
     }
 
-    private IEnumerator ClearTurnedOnPointsAnimation()
+    IEnumerator ClearTurnedOnPointsAnimation()
     {
         for (int i = _points.Count - 1; i >= 0; i--)
         {

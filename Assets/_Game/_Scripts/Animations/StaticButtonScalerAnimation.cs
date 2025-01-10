@@ -1,51 +1,37 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 using UnityEngine.EventSystems;
-using TMPro;
-using System;
-using Sirenix.OdinInspector;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
 public class StaticButtonScalerAnimation : MonoBehaviour, IPointerMoveHandler
 {
-    [SerializeField] private bool isSetScale = false;
+    [SerializeField] bool isSetScale = false;
 
     [ShowIf("isSetScale")]
-    [SerializeField] private Vector2 normalScaleValue = Vector2.one;
+    [SerializeField] Vector2 normalScaleValue = Vector2.one;
 
-    private Vector2 normalScale;
-    private Vector2 maxScale;
+    Button _button;
+    RectTransform _rect;
+    PointerEventData _eventData;
+    Vector2 _maxScale;
+    Vector2 _normalScale;
+    float _radiusSize = 1.1f;
+    float _animationTime = 0.1f;
 
-    private float radiusSize = 1.1f;
-    private float animationTime = 0.1f;
-
-    private Button _button;
-    private RectTransform _rect;
-    private PointerEventData _eventData;
-
-    private void Awake()
+    void Awake()
     {
         if (IsMobile())
             enabled = false;
 
-        if (isSetScale)
-        {
-            normalScale = normalScaleValue;
-        }
-        else
-        {
-            normalScale = transform.localScale;
-        }
-
-        maxScale = new Vector2(normalScale.x * radiusSize, normalScale.y * radiusSize);
+        _normalScale = isSetScale ? normalScaleValue : transform.localScale;
+        _maxScale = new Vector2(_normalScale.x * _radiusSize, _normalScale.y * _radiusSize);
 
         _button = GetComponent<Button>();
         _rect = GetComponent<RectTransform>();
     }
 
-    private void OnEnable()
+    void OnEnable()
     {
         if (IsMobile())
             enabled = false;
@@ -66,11 +52,11 @@ public class StaticButtonScalerAnimation : MonoBehaviour, IPointerMoveHandler
 
         if (uvX >= 0 && uvY >= 0 && uvX <= 1 && uvY <= 1)
         {
-            transform.localScale = Vector3.Lerp(transform.localScale, maxScale, Time.deltaTime / animationTime);
+            transform.localScale = Vector3.Lerp(transform.localScale, _maxScale, Time.deltaTime / _animationTime);
         }
         else
         {
-            transform.localScale = Vector3.Lerp(transform.localScale, normalScale, Time.deltaTime / animationTime);
+            transform.localScale = Vector3.Lerp(transform.localScale, _normalScale, Time.deltaTime / _animationTime);
         }
     }
 

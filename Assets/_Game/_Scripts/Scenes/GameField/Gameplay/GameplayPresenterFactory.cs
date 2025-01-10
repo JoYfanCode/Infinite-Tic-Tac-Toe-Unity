@@ -1,7 +1,13 @@
 ﻿public class GameplayPresenterFactory
 {
-    private GameplayModel _gameplayModel;
-    private GameplayView _gameplayView;
+    GameplayModel _gameplayModel;
+    GameplayView _gameplayView;
+
+    public GameplayPresenterFactory(GameplayModel model, GameplayView view)
+    {
+        _gameplayModel = model;
+        _gameplayView = view;
+    }
 
     public GameplayPresenter CreateGameplayPresenter(GameFieldConfig gameFieldConfig, AILevelsConfigs AILevelsConfigs)
     {
@@ -27,9 +33,4 @@
         }
     }
 
-    public GameplayPresenterFactory(GameplayModel model, GameplayView view)
-    {
-        _gameplayModel = model;
-        _gameplayView = view;
-    }
 }

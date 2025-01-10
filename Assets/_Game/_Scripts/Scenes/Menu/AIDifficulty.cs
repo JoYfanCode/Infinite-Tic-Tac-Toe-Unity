@@ -3,35 +3,32 @@ using UnityEngine.UI;
 
 public class AIDifficulty : MonoBehaviour
 {
-    [SerializeField] private int levelIndex = 0;
-    [SerializeField] private bool isLocked = true;
-
-    [Space]
-
-    [SerializeField] private Transform lockTransform;
-    [SerializeField] private Transform effectsParent;
-    [SerializeField] private GameObject newUnlockEffectPrefab;
-    [SerializeField] private Button button;
-    [SerializeField] private GameObject lockPanel;
-
     public bool IsLocked => isLocked;
     public int LevelIndex => levelIndex;
 
-    private void Awake()
+    [SerializeField] int levelIndex = 0;
+    [SerializeField] bool isLocked = true;
+
+    [Space]
+
+    [SerializeField] Transform lockTransform;
+    [SerializeField] Transform effectsParent;
+    [SerializeField] GameObject newUnlockEffectPrefab;
+    [SerializeField] Button button;
+    [SerializeField] GameObject lockPanel;
+
+    AudioSystem _audioSystem;
+
+    void Awake()
     {
+        _audioSystem = AudioSystem.inst;
         button.onClick.AddListener(OnDifficultyButtonClicked);
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
         button.onClick.RemoveListener(OnDifficultyButtonClicked);
     }
-
-    private void OnDifficultyButtonClicked()
-    {
-        SetUp.CurrentLevelIndex = levelIndex;
-    }
-
     public void Unlock()
     {
         isLocked = false;
@@ -43,10 +40,16 @@ public class AIDifficulty : MonoBehaviour
         Unlock();
         GameObject effect = Instantiate(newUnlockEffectPrefab, effectsParent);
         effect.transform.position = lockTransform.position;
-        AudioSystem.PlaySound(AudioSystem.inst.Firework);
+        _audioSystem.PlaySound(_audioSystem.Sounds.Firework);
     }
 
-    private void SetActivePanel()
+    void OnDifficultyButtonClicked()
+    {
+        SetUp.CurrentLevelIndex = levelIndex;
+    }
+
+
+    void SetActivePanel()
     {
         if (isLocked)
         {
@@ -60,7 +63,7 @@ public class AIDifficulty : MonoBehaviour
         }
     }
 
-    private void OnValidate()
+    void OnValidate()
     {
         SetActivePanel();
     }

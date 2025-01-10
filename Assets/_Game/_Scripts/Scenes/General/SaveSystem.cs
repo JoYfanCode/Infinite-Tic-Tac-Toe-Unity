@@ -4,13 +4,14 @@ public class SaveSystem : MonoBehaviour
 {
     public static SaveSystem inst;
 
-    private const string COUNT_COMPLETED_LEVELS = "CountCompletedLevels";
+    const string COUNT_COMPLETED_LEVELS = "CountCompletedLevels";
 
     public void Init()
     {
         if (inst == null)
         {
             inst = this;
+            LoadCountCompletedLevels();
             DontDestroyOnLoad(inst);
         }
         else
@@ -18,11 +19,9 @@ public class SaveSystem : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
-        LoadCountCompletedLevels();
     }
 
-    private void OnApplicationQuit()
+    void OnApplicationQuit()
     {
         SaveCountCompletedLevels();
     }

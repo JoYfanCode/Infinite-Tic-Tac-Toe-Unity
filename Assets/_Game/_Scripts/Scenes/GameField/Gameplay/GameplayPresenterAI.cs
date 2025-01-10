@@ -26,6 +26,37 @@ public class GameplayPresenterAI : GameplayPresenter
         }
     }
 
+
+    public override void FirstMoveDetermination()
+    {
+        if (Utilities.RollChance(50))
+        {
+            startState = SlotStates.Cross;
+            view.SetTurnState(startState);
+            DoAITurn(Vector2Int.zero);
+        }
+        else
+        {
+            startState = SlotStates.Circle;
+            view.SetTurnState(startState);
+        }
+    }
+
+    public override void FirstMoveAnotherPlayer()
+    {
+        if (startState == SlotStates.Circle)
+        {
+            startState = SlotStates.Cross;
+            DoAITurn(Vector2Int.zero);
+        }
+        else if (startState == SlotStates.Cross)
+        {
+            startState = SlotStates.Circle;
+        }
+
+        view.SetTurnState(startState);
+    }
+
     protected override void DoTurn(int id)
     {
         List<SlotStates> field = model.Field;
@@ -39,7 +70,7 @@ public class GameplayPresenterAI : GameplayPresenter
         CheckField(model.Field);
     }
 
-    private async void DoAITurn(Vector2Int AICooldownRange)
+    async void DoAITurn(Vector2Int AICooldownRange)
     {
         model.SetIsAIThinking(true);
 
@@ -72,7 +103,7 @@ public class GameplayPresenterAI : GameplayPresenter
         CheckField(model.Field);
     }
 
-    private void EnqueueStateID(SlotStates SlotState, int id)
+    void EnqueueStateID(SlotStates SlotState, int id)
     {
         if (SlotState == SlotStates.Circle)
         {
@@ -86,7 +117,7 @@ public class GameplayPresenterAI : GameplayPresenter
         }
     }
 
-    private void DequeueStateID(List<SlotStates> Field, SlotStates SlotState)
+    void DequeueStateID(List<SlotStates> Field, SlotStates SlotState)
     {
         if (SlotState == SlotStates.Circle)
         {
@@ -111,35 +142,6 @@ public class GameplayPresenterAI : GameplayPresenter
         }
     }
 
-    public override void FirstMoveDetermination()
-    {
-        if (Utilities.RollChance(50))
-        {
-            startState = SlotStates.Cross;
-            view.SetTurnState(startState);
-            DoAITurn(Vector2Int.zero);
-        }
-        else
-        {
-            startState = SlotStates.Circle;
-            view.SetTurnState(startState);
-        }
-    }
-
-    public override void FirstMoveAnotherPlayer()
-    {
-        if (startState == SlotStates.Circle)
-        {
-            startState = SlotStates.Cross;
-            DoAITurn(Vector2Int.zero);
-        }
-        else if (startState == SlotStates.Cross)
-        {
-            startState = SlotStates.Circle;
-        }
-
-        view.SetTurnState(startState);
-    }
 
     protected override void PlayWinEffects()
     {

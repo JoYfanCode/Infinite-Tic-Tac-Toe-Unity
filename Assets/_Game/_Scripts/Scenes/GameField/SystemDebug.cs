@@ -6,5 +6,5 @@ public class SystemDebug : MonoBehaviour
 {
     [Inject]
     [ShowInInspector, HideInEditorMode]
-    [SerializeField] private GameplayModel gameplayModel;
+    [SerializeField] GameplayModel gameplayModel;
 }

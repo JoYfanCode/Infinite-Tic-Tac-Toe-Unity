@@ -3,11 +3,11 @@ using Zenject;
 
 public class GameFieldInstaller : MonoInstaller
 {
-    [SerializeField] private GameplayView gameplayView;
-    [SerializeField] private PointsModel circlesPointsModel;
-    [SerializeField] private PointsModel crossesPointsModel;
-    [SerializeField] private PointsView circlesPointsView;
-    [SerializeField] private PointsView crossesPointsView;
+    [SerializeField] GameplayView gameplayView;
+    [SerializeField] PointsModel circlesPointsModel;
+    [SerializeField] PointsModel crossesPointsModel;
+    [SerializeField] PointsView circlesPointsView;
+    [SerializeField] PointsView crossesPointsView;
 
     public override void InstallBindings()
     {

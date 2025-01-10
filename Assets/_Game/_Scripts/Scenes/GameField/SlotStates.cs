@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
-public enum SlotStates
+﻿public enum SlotStates
 {
     Empty,
     Circle,

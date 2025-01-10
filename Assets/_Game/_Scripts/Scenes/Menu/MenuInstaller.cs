@@ -3,8 +3,8 @@ using Zenject;
 
 public class MenuInstaller : MonoInstaller
 {
-    [SerializeField] private DifficultiesUnlocker difficultiesManager;
-    [SerializeField] private MenuButtonsHandler menuButtonsHandler;
+    [SerializeField] DifficultiesUnlocker difficultiesManager;
+    [SerializeField] MenuButtonsHandler menuButtonsHandler;
 
     public override void InstallBindings()
     {

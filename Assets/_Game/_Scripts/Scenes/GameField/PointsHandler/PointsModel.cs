@@ -7,15 +7,15 @@ public sealed class PointsModel
 {
     public event Action<int> OnPointsOnChanged;
 
-    [SerializeField, HideInPlayMode] private int countMaxPoints = 5;
-    [SerializeField] private Point pointPrefab;
-
-    private int _countPointsOn = 0;
-
     public Point PointPrefab => pointPrefab;
     public int CountMaxPoints => countMaxPoints;
     public int CountPointsOn => _countPointsOn;
     public bool IsMax => _countPointsOn == countMaxPoints;
+
+    [SerializeField, HideInPlayMode] int countMaxPoints = 5;
+    [SerializeField] Point pointPrefab;
+
+    int _countPointsOn = 0;
 
     [Button(ButtonSizes.Large)]
     public void AddPointOn()

@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using UnityEngine;
 
 public class SceneChangerAnimation : MonoBehaviour
 {
     public static SceneChangerAnimation inst;
 
-    [SerializeField] private float duration = 0.2f;
-    [SerializeField] private int delayMilisecDuration = 10;
-    [SerializeField] private CanvasGroup blackScreen;
+    [SerializeField] float duration = 0.2f;
+    [SerializeField] int delayMilisecDuration = 10;
+    [SerializeField] CanvasGroup blackScreen;
 
     public void Init()
     {

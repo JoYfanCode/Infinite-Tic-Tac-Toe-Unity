@@ -485,7 +485,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a928df06f28d11b44b24c314986b333f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneChangerAnimation: {fileID: 0}
   difficultiesManager: {fileID: 1787052992}
   menuButtonsHandler: {fileID: 546635710}
 --- !u!114 &49138425
@@ -988,7 +987,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: v1.2.2
+  m_text: v1.2.3
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 28d7d2cd5a77e91419079860ae6689da, type: 2}
   m_sharedMaterial: {fileID: 1020185230227205288, guid: 28d7d2cd5a77e91419079860ae6689da, type: 2}

@@ -3,16 +3,16 @@
 [RequireComponent(typeof(AudioSource))]
 public class AudioSourceDestroyer : MonoBehaviour
 {
-    private AudioSource audioSource;
+    private AudioSource _audioSource;
 
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
     {
-        if (!audioSource.isPlaying)
+        if (!_audioSource.isPlaying)
         {
             Destroy(gameObject);
         }

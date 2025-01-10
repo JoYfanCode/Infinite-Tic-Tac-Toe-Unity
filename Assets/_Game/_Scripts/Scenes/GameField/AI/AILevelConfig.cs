@@ -13,10 +13,10 @@ public enum AIAlgorithm
 [Serializable]
 public class AILevelConfigs : ScriptableObject
 {
-    [SerializeField, EnumToggleButtons] private AIAlgorithm algorithm;
-    [SerializeField] private List<AIConfig> AILevelConfigsList;
-
     public AIConfig AIConfig(int index) => AILevelConfigsList[index];
     public int Count => AILevelConfigsList.Count;
     public AIAlgorithm Algorithm => algorithm;
+
+    [SerializeField, EnumToggleButtons] AIAlgorithm algorithm;
+    [SerializeField] List<AIConfig> AILevelConfigsList;
 }

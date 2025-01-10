@@ -3,14 +3,15 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
+[DefaultExecutionOrder(99)]
 public class GameFieldBootstrap : MonoBehaviour
 {
-    [SerializeField, BoxGroup("General")] private GameFieldConfig gameFieldConfig;
-    [SerializeField, BoxGroup("General")] private AILevelsConfigs AILevelsConfigs;
+    [SerializeField, BoxGroup("General")] GameFieldConfig gameFieldConfig;
+    [SerializeField, BoxGroup("General")] AILevelsConfigs AILevelsConfigs;
 
-    [SerializeField, BoxGroup("Animations")] private ObjectsAppearAnimationConfig slotsAnimationConfig;
-    [SerializeField, BoxGroup("Animations")] private ObjectsAppearAnimationConfig circlesPointsAnimationConfig;
-    [SerializeField, BoxGroup("Animations")] private ObjectsAppearAnimationConfig crossesPointsAnimationConfig;
+    [SerializeField, BoxGroup("Animations")] ObjectsAppearAnimationConfig slotsAnimationConfig;
+    [SerializeField, BoxGroup("Animations")] ObjectsAppearAnimationConfig circlesPointsAnimationConfig;
+    [SerializeField, BoxGroup("Animations")] ObjectsAppearAnimationConfig crossesPointsAnimationConfig;
 
     [Inject(Id = "CirclesPointsView")] private PointsView circlesPointsView;
     [Inject(Id = "CrossesPointsView")] private PointsView crossesPointsView;
@@ -31,7 +32,7 @@ public class GameFieldBootstrap : MonoBehaviour
         gameplayPresenter.FirstMoveDetermination();
     }
 
-    private async Task Animations()
+    async Task Animations()
     {
         ObjectsAppearAnimation<Slot> slotsAppearAnimation = new ObjectsAppearAnimation<Slot>(slotsAnimationConfig, gameplayView.Slots);
         ObjectsAppearAnimation<Point> circlesPointsAnimation = new ObjectsAppearAnimation<Point>(circlesPointsAnimationConfig, circlesPointsView.Points);

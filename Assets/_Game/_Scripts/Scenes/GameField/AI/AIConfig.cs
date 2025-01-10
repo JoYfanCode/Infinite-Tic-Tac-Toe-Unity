@@ -8,6 +8,20 @@ using UnityEngine;
 [Serializable]
 public class AIConfig : ScriptableObject
 {
+    public int PercentsNoticeWinTurn => percentsNoticeWinTurn;
+    public int PercentsNoticeDontLoseTurn => percentsNoticeDontLoseTurn;
+
+    public int MaxDepth => maxDepth;
+    public int PercentDontLose1Depth => percentDontLose1Depth;
+    public int PercentDontLose2Depth => percentDontLose2Depth;
+    public int PercentDontLose3Depth => percentDontLose3Depth;
+    public int Lose1DepthInTurns => lose1DepthInTurns;
+    public int Lose2DepthInTurns => lose2DepthInTurns;
+    public int Lose3DepthInTurns => lose3DepthInTurns;
+    public int Lose4DepthInTurns => lose4DepthInTurns;
+    public int PercentNoticeBestTurn => percentNoticeBestTurn;
+    public int PercentNoticeSecondBestTurn => percentNoticeSecondBestTurn;
+
     [EnumToggleButtons, HideLabel]
     [SerializeField] private AIAlgorithm algorithm;
 
@@ -49,23 +63,6 @@ public class AIConfig : ScriptableObject
     [BoxGroup("MiniMax"), ShowIf("IsMiniMax")]
     [SerializeField] private int lose4DepthInTurns = 10000;
 
-
-    // Свойства
-    public int PercentsNoticeWinTurn => percentsNoticeWinTurn;
-    public int PercentsNoticeDontLoseTurn => percentsNoticeDontLoseTurn;
-
-    public int MaxDepth => maxDepth;
-    public int PercentDontLose1Depth => percentDontLose1Depth;
-    public int PercentDontLose2Depth => percentDontLose2Depth;
-    public int PercentDontLose3Depth => percentDontLose3Depth;
-    public int Lose1DepthInTurns => lose1DepthInTurns;
-    public int Lose2DepthInTurns => lose2DepthInTurns;
-    public int Lose3DepthInTurns => lose3DepthInTurns;
-    public int Lose4DepthInTurns => lose4DepthInTurns;
-    public int PercentNoticeBestTurn => percentNoticeBestTurn;
-    public int PercentNoticeSecondBestTurn => percentNoticeSecondBestTurn;
-
-    // Методы для проверки состояния алгоритма
     private bool IsOneTurn() => algorithm == AIAlgorithm.OneTurn;
     private bool IsMiniMax() => algorithm == AIAlgorithm.MiniMax;
 }

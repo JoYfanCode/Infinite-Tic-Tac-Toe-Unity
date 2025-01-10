@@ -1194,10 +1194,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a264b522b1043b468378397794ec0a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Click: {fileID: 131528256396170884, guid: 530d2f7d3eee0cf4b8c40c56e836a5d6, type: 3}
-  OpenGameMode: {fileID: 4572734889819888137, guid: 9bd4ce859f5a466499d618715869e1d1, type: 3}
-  Win: {fileID: 3636703172968709186, guid: b59a9a9fc8794c94d960624a5e6814bf, type: 3}
-  Firework: {fileID: 3636703172968709186, guid: 60eb19114c7477a48bbf6a110372eafe, type: 3}
+  sounds:
+    click: {fileID: 131528256396170884, guid: 530d2f7d3eee0cf4b8c40c56e836a5d6, type: 3}
+    openGameMode: {fileID: 4572734889819888137, guid: 9bd4ce859f5a466499d618715869e1d1, type: 3}
+    win: {fileID: 3636703172968709186, guid: b59a9a9fc8794c94d960624a5e6814bf, type: 3}
+    firework: {fileID: 3636703172968709186, guid: 60eb19114c7477a48bbf6a110372eafe, type: 3}
 --- !u!1 &1834731301
 GameObject:
   m_ObjectHideFlags: 0

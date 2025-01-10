@@ -1,27 +1,26 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class ImageFader : MonoBehaviour
 {
-    [SerializeField] private float fadeDuration = 0.2f;
-    [SerializeField] private float waitDuration = 0f;
+    [SerializeField] float fadeDuration = 0.2f;
+    [SerializeField] float waitDuration = 0f;
 
-    private CanvasGroup canvasGroup;
+    CanvasGroup _canvasGroup;
 
-    private void Awake()
+    void Awake()
     {
-        canvasGroup = GetComponent<CanvasGroup>(); 
+        _canvasGroup = GetComponent<CanvasGroup>();
     }
 
     public void Fade()
     {
-        canvasGroup.alpha = 1f;
+        _canvasGroup.alpha = 1f;
         StartCoroutine(FadeCoroutine());
     }
 
-    private IEnumerator FadeCoroutine()
+    IEnumerator FadeCoroutine()
     {
         yield return new WaitForSeconds(waitDuration);
 
@@ -30,7 +29,7 @@ public class ImageFader : MonoBehaviour
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
-            canvasGroup.alpha = 1 - elapsedTime / fadeDuration;
+            _canvasGroup.alpha = 1 - elapsedTime / fadeDuration;
             yield return null;
         }
 

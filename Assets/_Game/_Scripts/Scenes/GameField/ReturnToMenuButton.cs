@@ -5,29 +5,31 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Shaker))]
 public class ReturnToMenuButton : MonoBehaviour
 {
-    private Button button;
-    private Shaker shaker;
+    Button _button;
+    Shaker _shaker;
+    AudioSystem _audioSystem;
 
-    private void Awake()
+    void Awake()
     {
-        button = GetComponent<Button>();
-        shaker = GetComponent<Shaker>();
+        _audioSystem = AudioSystem.inst;
+        _button = GetComponent<Button>();
+        _shaker = GetComponent<Shaker>();
     }
 
-    private void OnEnable()
+    void OnEnable()
     {
-        button.onClick.AddListener(OnButtonClicked);
+        _button.onClick.AddListener(OnButtonClicked);
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
-        button.onClick.RemoveListener(OnButtonClicked);
+        _button.onClick.RemoveListener(OnButtonClicked);
     }
 
-    private void OnButtonClicked()
+    void OnButtonClicked()
     {
-        AudioSystem.PlayClickSound();
-        shaker.Shake();
+        _audioSystem.PlayClickSound();
+        _shaker.Shake();
         ScenesChanger.OpenScene(ScenesChanger.scenes.Menu);
     }
 }

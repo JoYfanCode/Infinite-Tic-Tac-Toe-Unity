@@ -6,38 +6,40 @@ using UnityEngine.UI;
 
 public sealed class GameplayView : MonoBehaviour
 {
-    [SerializeField, TabGroup("Parameters")] private Color circleColor = Color.blue;
-    [SerializeField, TabGroup("Parameters")] private Color crossColor = Color.red;
-    [SerializeField, TabGroup("Parameters")] private float halfTransparentAlpha = 0.25f;
-    [SerializeField, TabGroup("Parameters")] private int nextSlotClearMilisecCooldown = 100;
-    [SerializeField, TabGroup("Parameters")] private int effectMilisecCooldown = 200;
+    [SerializeField, TabGroup("Parameters")] Color circleColor = Color.blue;
+    [SerializeField, TabGroup("Parameters")] Color crossColor = Color.red;
+    [SerializeField, TabGroup("Parameters")] float halfTransparentAlpha = 0.25f;
+    [SerializeField, TabGroup("Parameters")] int nextSlotClearMilisecCooldown = 100;
+    [SerializeField, TabGroup("Parameters")] int effectMilisecCooldown = 200;
 
-    [SerializeField, TabGroup("Objects")] private List<Slot> slots;
-    [SerializeField, TabGroup("Objects")] private Sprite cross;
-    [SerializeField, TabGroup("Objects")] private Sprite circle;
-    [SerializeField, TabGroup("Objects")] private Image turnStateImage;
+    [SerializeField, TabGroup("Objects")] List<Slot> slots;
+    [SerializeField, TabGroup("Objects")] Sprite cross;
+    [SerializeField, TabGroup("Objects")] Sprite circle;
+    [SerializeField, TabGroup("Objects")] Image turnStateImage;
 
-    [SerializeField, TabGroup("Effects")] private GameObject circleSlotEffectPrefab;
-    [SerializeField, TabGroup("Effects")] private GameObject crossSlotEffectPrefab;
-    [SerializeField, TabGroup("Effects")] private GameObject circleSmallEffectPrefab;
-    [SerializeField, TabGroup("Effects")] private GameObject circleBigEffectPrefab;
-    [SerializeField, TabGroup("Effects")] private GameObject crossSmallEffectPrefab;
-    [SerializeField, TabGroup("Effects")] private GameObject crossBigEffectPrefab;
+    [SerializeField, TabGroup("Effects")] GameObject circleSlotEffectPrefab;
+    [SerializeField, TabGroup("Effects")] GameObject crossSlotEffectPrefab;
+    [SerializeField, TabGroup("Effects")] GameObject circleSmallEffectPrefab;
+    [SerializeField, TabGroup("Effects")] GameObject circleBigEffectPrefab;
+    [SerializeField, TabGroup("Effects")] GameObject crossSmallEffectPrefab;
+    [SerializeField, TabGroup("Effects")] GameObject crossBigEffectPrefab;
 
     [Space]
 
-    [SerializeField, TabGroup("Effects")] private Transform effectLeftPoint;
-    [SerializeField, TabGroup("Effects")] private Transform effectCenterPoint;
-    [SerializeField, TabGroup("Effects")] private Transform effectRightPoint;
-    [SerializeField, TabGroup("Effects")] private Transform effectsParent;
+    [SerializeField, TabGroup("Effects")] Transform effectLeftPoint;
+    [SerializeField, TabGroup("Effects")] Transform effectCenterPoint;
+    [SerializeField, TabGroup("Effects")] Transform effectRightPoint;
+    [SerializeField, TabGroup("Effects")] Transform effectsParent;
 
-    private GameplayPresenter _presenter;
+    GameplayPresenter _presenter;
+    AudioSystem _audioSystem;
 
     public IReadOnlyList<Slot> Slots => slots;
 
     public void Init(GameplayPresenter presenter)
     {
         _presenter = presenter;
+        _audioSystem = AudioSystem.inst;
         InitSlotsButtons();
     }
 
@@ -46,6 +48,14 @@ public sealed class GameplayView : MonoBehaviour
         _presenter.OnClotClicked(id);
         slots[id].Shaker.Shake();
         PlayClickSound();
+    }
+
+    void OnDisable()
+    {
+        foreach (Slot slot in slots)
+        {
+            slot.Button.onClick.RemoveAllListeners();
+        }
     }
 
     public void DisplayField(IReadOnlyList<SlotStates> Field)
@@ -127,36 +137,6 @@ public sealed class GameplayView : MonoBehaviour
         }
     }
 
-    private void ChangeTurnState()
-    {
-        if (turnStateImage.sprite == cross)
-        {
-            turnStateImage.sprite = circle;
-            turnStateImage.color = circleColor;
-        }
-        else if (turnStateImage.sprite == circle)
-        {
-            turnStateImage.sprite = cross;
-            turnStateImage.color = crossColor;
-        }
-    }
-
-    private void InitSlotsButtons()
-    {
-        foreach (Slot slot in slots)
-        {
-            slot.Button.onClick.AddListener(delegate { OnSlotClicked(slot.Index); });
-        }
-    }
-
-    private void OnDisable()
-    {
-        foreach (Slot slot in slots)
-        {
-            slot.Button.onClick.RemoveAllListeners();
-        }
-    }
-
     public void PlayWinEffects(SlotStates winState)
     {
         if (winState == SlotStates.Circle)
@@ -195,7 +175,29 @@ public sealed class GameplayView : MonoBehaviour
         await ScenesChanger.OpenSceneAsync(ScenesChanger.scenes.Menu);
     }
 
-    public void PlayClickSound() => AudioSystem.PlayClickSound();
-    public void PlayWinSound() => AudioSystem.PlaySound(AudioSystem.inst.Win);
-    public void PlayFireworkSound() => AudioSystem.PlaySound(AudioSystem.inst.Firework);
+    public void PlayClickSound() => _audioSystem.PlayClickSound();
+    public void PlayWinSound() => _audioSystem.PlaySound(_audioSystem.Sounds.Win);
+    public void PlayFireworkSound() => _audioSystem.PlaySound(_audioSystem.Sounds.Firework);
+
+    void ChangeTurnState()
+    {
+        if (turnStateImage.sprite == cross)
+        {
+            turnStateImage.sprite = circle;
+            turnStateImage.color = circleColor;
+        }
+        else if (turnStateImage.sprite == circle)
+        {
+            turnStateImage.sprite = cross;
+            turnStateImage.color = crossColor;
+        }
+    }
+
+    void InitSlotsButtons()
+    {
+        foreach (Slot slot in slots)
+        {
+            slot.Button.onClick.AddListener(delegate { OnSlotClicked(slot.Index); });
+        }
+    }
 }

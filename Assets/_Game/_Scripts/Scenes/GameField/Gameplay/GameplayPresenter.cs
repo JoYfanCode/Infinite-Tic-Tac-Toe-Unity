@@ -54,6 +54,9 @@ public abstract class GameplayPresenter
         FirstMoveAnotherPlayer();
     }
 
+    public abstract void FirstMoveDetermination();
+    public abstract void FirstMoveAnotherPlayer();
+
     protected abstract void PlayWinEffects();
 
     public void ResetFieldState()
@@ -67,6 +70,8 @@ public abstract class GameplayPresenter
         CheckField(Field, SlotStates.Circle);
         CheckField(Field, SlotStates.Cross);
     }
+
+    protected abstract void DoTurn(int id);
 
     private void CheckField(IReadOnlyList<SlotStates> Field, SlotStates slotState)
     {
@@ -82,8 +87,4 @@ public abstract class GameplayPresenter
             RestartGame();
         }
     }
-
-    protected abstract void DoTurn(int id);
-    public abstract void FirstMoveDetermination();
-    public abstract void FirstMoveAnotherPlayer();
 }

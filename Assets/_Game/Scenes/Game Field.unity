@@ -207,6 +207,10 @@ PrefabInstance:
       propertyPath: Index
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3563618575557786262, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
+      propertyPath: index
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3996115542997966169, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -472,6 +476,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3563618575557786262, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
       propertyPath: Index
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3563618575557786262, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
+      propertyPath: index
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3996115542997966169, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
@@ -815,6 +823,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3563618575557786262, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
       propertyPath: Index
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3563618575557786262, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
+      propertyPath: index
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3996115542997966169, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
@@ -1364,6 +1376,10 @@ PrefabInstance:
       propertyPath: Index
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3563618575557786262, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
+      propertyPath: index
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3996115542997966169, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1804,10 +1820,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameplayView: {fileID: 969526896}
   circlesPointsModel:
-    countMaxPoints: 5
+    countMaxPoints: 3
     pointPrefab: {fileID: 2388367916959876175, guid: 8f1c7a5b6730f364fb229ec8420ce187, type: 3}
   crossesPointsModel:
-    countMaxPoints: 5
+    countMaxPoints: 3
     pointPrefab: {fileID: 2388367916959876175, guid: 8f1c7a5b6730f364fb229ec8420ce187, type: 3}
   circlesPointsView: {fileID: 43175512}
   crossesPointsView: {fileID: 422986788}
@@ -2089,6 +2105,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3563618575557786262, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
       propertyPath: Index
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3563618575557786262, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
+      propertyPath: index
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3996115542997966169, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
@@ -2534,6 +2554,10 @@ PrefabInstance:
       propertyPath: Index
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 3563618575557786262, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
+      propertyPath: index
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3996115542997966169, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2649,6 +2673,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3563618575557786262, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
       propertyPath: Index
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3563618575557786262, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
+      propertyPath: index
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3996115542997966169, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
@@ -2834,6 +2862,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3563618575557786262, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
       propertyPath: Index
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3563618575557786262, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}
+      propertyPath: index
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3996115542997966169, guid: 0fab5034a4b72754bad66bf696ff6d42, type: 3}

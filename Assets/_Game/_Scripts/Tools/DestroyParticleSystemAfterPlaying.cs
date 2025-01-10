@@ -4,11 +4,10 @@ using UnityEngine;
 [RequireComponent(typeof(ParticleSystem))]
 public class DestroyParticleSystemAfterPlaying : MonoBehaviour
 {
-    [SerializeField] private bool isDefinedTime;
-    [ShowIf("isDefinedTime")]
-    [SerializeField] private float TimeUntilDestroy = 2f;
+    [SerializeField] bool isDefinedTime;
+    [SerializeField, ShowIf("isDefinedTime")] float TimeUntilDestroy = 2f;
 
-    private void Awake()
+    void Awake()
     {
         if (isDefinedTime)
         {

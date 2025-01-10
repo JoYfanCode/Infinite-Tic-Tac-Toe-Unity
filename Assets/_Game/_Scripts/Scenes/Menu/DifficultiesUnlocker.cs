@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DifficultiesUnlocker : MonoBehaviour
 {
-    [SerializeField] private List<AIDifficulty> difficulties = new();
+    [SerializeField] List<AIDifficulty> difficulties = new();
 
     public void Unlock(int levelsCompleted)
     {

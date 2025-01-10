@@ -1,7 +1,7 @@
 ﻿public sealed class PointsObserver
 {
-    private readonly PointsModel model;
-    private readonly PointsView view;
+    readonly PointsModel model;
+    readonly PointsView view;
 
     public PointsObserver(PointsModel model, PointsView view)
     {
