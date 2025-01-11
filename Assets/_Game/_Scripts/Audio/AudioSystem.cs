@@ -73,6 +73,13 @@ public class AudioSystem : MonoBehaviour
             sound.pitch = UnityEngine.Random.Range(_minPitch, _maxPitch);
     }
 
+    public void PlaySound(GameObject Sound, float pitch)
+    {
+        AudioSource sound = Instantiate(Sound).GetComponent<AudioSource>();
+        DontDestroyOnLoad(sound);
+        sound.pitch = pitch;
+    }
+
     public void PlayClickSound(bool isDistortSound = true)
     {
         AudioSource sound = Instantiate(inst.sounds.Click).GetComponent<AudioSource>();

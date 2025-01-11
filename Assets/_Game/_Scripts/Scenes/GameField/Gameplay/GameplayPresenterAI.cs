@@ -66,6 +66,7 @@ public class GameplayPresenterAI : GameplayPresenter
         DequeueStateID(field, playerState);
         model.SetState(field);
         view.DisplayField(model.Field);
+        view.PlayWrapClickSound(model.CountTurns);
 
         CheckField(model.Field);
     }
@@ -98,7 +99,8 @@ public class GameplayPresenterAI : GameplayPresenter
         model.SetState(field);
         view.DisplayField(model.Field);
         model.SetIsAIThinking(false);
-        view.PlayClickSound();
+        //view.PlayClickSound();
+        view.PlayWrapClickSound(model.CountTurns);
 
         CheckField(model.Field);
     }

@@ -1,4 +1,5 @@
 ﻿using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -11,6 +12,8 @@ public sealed class GameplayView : MonoBehaviour
     [SerializeField, TabGroup("Parameters")] float halfTransparentAlpha = 0.25f;
     [SerializeField, TabGroup("Parameters")] int nextSlotClearMilisecCooldown = 100;
     [SerializeField, TabGroup("Parameters")] int effectMilisecCooldown = 200;
+    [SerializeField, TabGroup("Parameters"), MinMaxSlider(0, 2)] Vector2 clickSlotSoundPitchRange = new Vector2(0.6f, 1.4f);
+    [SerializeField, TabGroup("Parameters")] int countWrapSounds = 30;
 
     [SerializeField, TabGroup("Objects")] List<Slot> slots;
     [SerializeField, TabGroup("Objects")] Sprite cross;
@@ -23,9 +26,6 @@ public sealed class GameplayView : MonoBehaviour
     [SerializeField, TabGroup("Effects")] GameObject circleBigEffectPrefab;
     [SerializeField, TabGroup("Effects")] GameObject crossSmallEffectPrefab;
     [SerializeField, TabGroup("Effects")] GameObject crossBigEffectPrefab;
-
-    [Space]
-
     [SerializeField, TabGroup("Effects")] Transform effectLeftPoint;
     [SerializeField, TabGroup("Effects")] Transform effectCenterPoint;
     [SerializeField, TabGroup("Effects")] Transform effectRightPoint;
@@ -43,11 +43,10 @@ public sealed class GameplayView : MonoBehaviour
         InitSlotsButtons();
     }
 
-    public void OnSlotClicked(int id)
+    public void OnSlotClicked(int slotId)
     {
-        _presenter.OnClotClicked(id);
-        slots[id].Shaker.Shake();
-        PlayClickSound();
+        _presenter.OnClotClicked(slotId);
+        slots[slotId].Shaker.Shake();
     }
 
     void OnDisable()
@@ -83,17 +82,49 @@ public sealed class GameplayView : MonoBehaviour
         ChangeTurnState();
     }
 
+    // TODO: Special Class for patterns and more patterns
+
+    enum ClearFieldPatterns
+    {
+        RIGHT_DOWN,
+        LEFT_UP,
+        UP_LEFT,
+        RIGHT_DOWN_SPIRAL,
+    }
+
     public async Task ClearFieldAnimation()
     {
-        Permutation permutation = new Permutation(slots.Count);
-        permutation.Shuffle();
+        List<int> pattern = new();
+        int countPatterns = Enum.GetValues(typeof(ClearFieldPatterns)).Length;
+        int randomIndex = UnityEngine.Random.Range(0, countPatterns);
 
-        for (int i = 0; i < slots.Count; i++)
+        if (randomIndex == (int)ClearFieldPatterns.RIGHT_DOWN)
+        {
+            pattern = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+        }
+        else if (randomIndex == (int)ClearFieldPatterns.LEFT_UP)
+        {
+            pattern = new List<int> { 8, 7, 6, 5, 4, 3, 2, 1, 0 };
+        }
+        else if (randomIndex == (int)ClearFieldPatterns.UP_LEFT)
+        {
+            pattern = new List<int> { 6, 3, 0, 7, 4, 1, 8, 5, 2 };
+        }
+        else if (randomIndex == (int)ClearFieldPatterns.RIGHT_DOWN_SPIRAL)
+        {
+            pattern = new List<int> { 0, 1, 2, 5, 8, 7, 6, 3, 4 };
+        }
+
+        for (int i = 0; i < pattern.Count; i++)
         {
             await Task.Delay(nextSlotClearMilisecCooldown);
 
-            slots[permutation.GetElement(i)].Image.color = Color.clear;
-            slots[permutation.GetElement(i)].Shaker.Shake();
+            slots[pattern[i]].Image.color = Color.clear;
+            slots[pattern[i]].Shaker.Shake();
+            float minPitch = clickSlotSoundPitchRange.x;
+            float maxPitch = clickSlotSoundPitchRange.y;
+            float pitch = Mathf.Lerp(minPitch, maxPitch, (float)pattern[i] / (pattern.Count - 1));
+            PlayClickSound(pitch);
         }
     }
 
@@ -176,8 +207,16 @@ public sealed class GameplayView : MonoBehaviour
     }
 
     public void PlayClickSound() => _audioSystem.PlayClickSound();
+    public void PlayClickSound(float pitch) => _audioSystem.PlaySound(_audioSystem.Sounds.Click, pitch);
     public void PlayWinSound() => _audioSystem.PlaySound(_audioSystem.Sounds.Win);
     public void PlayFireworkSound() => _audioSystem.PlaySound(_audioSystem.Sounds.Firework);
+    public void PlayWrapClickSound(int countTurns)
+    {
+        float minPitch = clickSlotSoundPitchRange.x;
+        float maxPitch = clickSlotSoundPitchRange.y;
+        float pitch = Mathf.Lerp(minPitch, maxPitch, (float)(countTurns % countWrapSounds) / (countWrapSounds - 1));
+        PlayClickSound(pitch);
+    }
 
     void ChangeTurnState()
     {

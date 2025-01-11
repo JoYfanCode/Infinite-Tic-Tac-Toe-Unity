@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextPointClearCooldown: 0.1
-  colorOff: {r: 1, g: 1, b: 1, a: 0.05490196}
+  colorOff: {r: 1, g: 1, b: 1, a: 0.078431375}
   colorOn: {r: 0.7924528, g: 0.740566, b: 1, a: 1}
 --- !u!114 &43175513
 MonoBehaviour:
@@ -712,7 +712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextPointClearCooldown: 0.1
-  colorOff: {r: 1, g: 1, b: 1, a: 0.05490196}
+  colorOff: {r: 1, g: 1, b: 1, a: 0.078431375}
   colorOn: {r: 1, g: 0.9019608, b: 0.6745098, a: 1}
 --- !u!114 &422986789
 MonoBehaviour:
@@ -1621,6 +1621,8 @@ MonoBehaviour:
   halfTransparentAlpha: 0.25
   nextSlotClearMilisecCooldown: 100
   effectMilisecCooldown: 200
+  clickSlotSoundPitchRange: {x: 0.700202, y: 1.4051771}
+  countWrapSounds: 25
   slots:
   - {fileID: 2708484935622403769}
   - {fileID: 287984792}
