@@ -50,7 +50,7 @@ public class GameplayPresenterTwoPlayers : GameplayPresenter
         ChangeCurrentState();
         model.SetState(field);
         view.DisplayField(model.Field);
-        view.PlayWrapClickSound(model.CountTurns);
+        view.PlayClickSound();
 
         CheckField(model.Field);
     }

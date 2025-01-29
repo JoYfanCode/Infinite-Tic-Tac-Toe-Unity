@@ -16,6 +16,7 @@ MonoBehaviour:
     keys:
     - f72c5dc68c6ba5e4099c127ac98e53c3
     - 77e71fb9ff8bd924aa0580101518cd87
+    - f5d1f6699d0ddf54f80e12ad74510ed9
     values:
     - goDatas_byGlobalId:
         keys:
@@ -59,6 +60,21 @@ MonoBehaviour:
           iconNameOrGuid: AvatarMask On Icon
         - colorIndex: 1
           iconNameOrGuid: PreMatCube
+        - colorIndex: 1
+          iconNameOrGuid: 
+        - colorIndex: 1
+          iconNameOrGuid: 
+        - colorIndex: 1
+          iconNameOrGuid: 
+    - goDatas_byGlobalId:
+        keys:
+        - globalObjectIdString: GlobalObjectId_V1-2-f5d1f6699d0ddf54f80e12ad74510ed9-1471146511-0
+        - globalObjectIdString: GlobalObjectId_V1-2-f5d1f6699d0ddf54f80e12ad74510ed9-1640168468-0
+        - globalObjectIdString: GlobalObjectId_V1-2-f5d1f6699d0ddf54f80e12ad74510ed9-678051383-0
+        - globalObjectIdString: GlobalObjectId_V1-2-f5d1f6699d0ddf54f80e12ad74510ed9-1109112146-0
+        values:
+        - colorIndex: 1
+          iconNameOrGuid: 
         - colorIndex: 1
           iconNameOrGuid: 
         - colorIndex: 1

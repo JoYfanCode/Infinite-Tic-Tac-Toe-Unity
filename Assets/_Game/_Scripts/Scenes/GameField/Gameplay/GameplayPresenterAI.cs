@@ -26,7 +26,6 @@ public class GameplayPresenterAI : GameplayPresenter
         }
     }
 
-
     public override void FirstMoveDetermination()
     {
         if (Utilities.RollChance(50))
@@ -40,6 +39,8 @@ public class GameplayPresenterAI : GameplayPresenter
             startState = SlotStates.Circle;
             view.SetTurnState(startState);
         }
+
+        GameAnalyticsManager.inst.OnLevelStarted(SetUp.CurrentLevelIndex + 1);
     }
 
     public override void FirstMoveAnotherPlayer()
@@ -66,7 +67,7 @@ public class GameplayPresenterAI : GameplayPresenter
         DequeueStateID(field, playerState);
         model.SetState(field);
         view.DisplayField(model.Field);
-        view.PlayWrapClickSound(model.CountTurns);
+        view.PlayClickSound();
 
         CheckField(model.Field);
     }
@@ -99,8 +100,7 @@ public class GameplayPresenterAI : GameplayPresenter
         model.SetState(field);
         view.DisplayField(model.Field);
         model.SetIsAIThinking(false);
-        //view.PlayClickSound();
-        view.PlayWrapClickSound(model.CountTurns);
+        view.PlayClickSound();
 
         CheckField(model.Field);
     }

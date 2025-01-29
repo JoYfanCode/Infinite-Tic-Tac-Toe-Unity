@@ -210,13 +210,13 @@ public sealed class GameplayView : MonoBehaviour
     public void PlayClickSound(float pitch) => _audioSystem.PlaySound(_audioSystem.Sounds.Click, pitch);
     public void PlayWinSound() => _audioSystem.PlaySound(_audioSystem.Sounds.Win);
     public void PlayFireworkSound() => _audioSystem.PlaySound(_audioSystem.Sounds.Firework);
-    public void PlayWrapClickSound(int countTurns)
-    {
-        float minPitch = clickSlotSoundPitchRange.x;
-        float maxPitch = clickSlotSoundPitchRange.y;
-        float pitch = Mathf.Lerp(minPitch, maxPitch, (float)(countTurns % countWrapSounds) / (countWrapSounds - 1));
-        PlayClickSound(pitch);
-    }
+    //public void PlayWrapClickSound(int countTurns)
+    //{
+    //    float minPitch = clickSlotSoundPitchRange.x;
+    //    float maxPitch = clickSlotSoundPitchRange.y;
+    //    float pitch = Mathf.Lerp(minPitch, maxPitch, (float)(countTurns % countWrapSounds) / (countWrapSounds - 1));
+    //    PlayClickSound(pitch);
+    //}
 
     void ChangeTurnState()
     {

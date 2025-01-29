@@ -39,7 +39,12 @@ public abstract class GameplayPresenter
                     SetUp.isOpenedNewDifficulty = true;
                     await view.OpenMenuAsync();
                 }
+
+                GameAnalyticsManager.inst.OnLevelCompleted(SetUp.CurrentLevelIndex + 1);
             }
+
+            if (SetUp.GameMode == GameModes.OnePlayer && model.IsCrossesWin)
+                GameAnalyticsManager.inst.OnLevelFailed(SetUp.CurrentLevelIndex + 1);
 
             model.ResetCounters();
         }
