@@ -11,14 +11,10 @@ public class SaveSystem : MonoBehaviour
         if (inst == null)
         {
             inst = this;
-            LoadCountCompletedLevels();
             DontDestroyOnLoad(inst);
         }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+
+        LoadCountCompletedLevels();
     }
 
     void OnApplicationQuit()
@@ -37,6 +33,10 @@ public class SaveSystem : MonoBehaviour
         if (PlayerPrefs.HasKey(COUNT_COMPLETED_LEVELS))
         {
             SetUp.CountCompletedLevels = PlayerPrefs.GetInt(COUNT_COMPLETED_LEVELS);
+        }
+        else
+        {
+            SetUp.CountCompletedLevels = 0;
         }
     }
 }

@@ -6,7 +6,9 @@ public class ScenesConfig : ScriptableObject
 {
     [SerializeField, FilePath(Extensions = ".unity")] string menu;
     [SerializeField, FilePath(Extensions = ".unity")] string gameField;
+    [SerializeField, FilePath(Extensions = ".unity")] string load;
 
     public string Menu => menu;
     public string GameField => gameField;
+    public string Load => load;
 }
