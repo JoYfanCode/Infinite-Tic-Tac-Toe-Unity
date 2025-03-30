@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
-[DefaultExecutionOrder(99)]
+[DefaultExecutionOrder(-100)]
 public class GameFieldBootstrap : MonoBehaviour
 {
     [SerializeField, BoxGroup("General")] GameFieldConfig gameFieldConfig;
@@ -25,7 +25,9 @@ public class GameFieldBootstrap : MonoBehaviour
         GameplayPresenter gameplayPresenter = gameplayPresenterFactroy.CreateGameplayPresenter(gameFieldConfig, AILevelsConfigs);
         gameplayView.Init(gameplayPresenter);
 
-        pointsHandler.Init();
+        MoneyStorage moneyStorage = ServiceLocator.GetService<MoneyStorage>();
+        moneyStorage.AddMoney(111);
+        print(moneyStorage.Money);
 
         await Animations();
 

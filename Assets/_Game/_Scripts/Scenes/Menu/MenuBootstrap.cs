@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-[DefaultExecutionOrder(99)]
+[DefaultExecutionOrder(-100)]
 public class MenuBootstrap : MonoBehaviour
 {
     [SerializeField, BoxGroup("General")] int milisecUntilUnlockNewDif = 1000;
@@ -14,6 +14,7 @@ public class MenuBootstrap : MonoBehaviour
 
     [Inject] MenuButtonsHandler menuButtonHandler;
     [Inject] DifficultiesUnlocker difficultiesManager;
+    [Inject] SaveLoadManager saveLoadManager;
 
     ObjectsAppearAnimation<Button> _modeButtonsAnimation;
     ObjectsAppearAnimation<Button> _levelsButtonsAppearAnimation;
@@ -38,6 +39,12 @@ public class MenuBootstrap : MonoBehaviour
         _levelsButtonsAppearAnimation = new ObjectsAppearAnimation<Button>(levelsButtonsAppearAnimationConfig, menuButtonHandler.LevelsButtons);
 
         menuButtonHandler.Init(_modeButtonsAnimation, _levelsButtonsAppearAnimation);
+
+        saveLoadManager.LoadGame();
+
+        MoneyStorage moneyStorage = ServiceLocator.GetService<MoneyStorage>();
+        moneyStorage.AddMoney(100);
+        print(moneyStorage.Money);
     }
 
     async void OpenNewDifficulty()

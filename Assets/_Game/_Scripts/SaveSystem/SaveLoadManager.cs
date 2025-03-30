@@ -1,16 +1,36 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
+using Zenject;
 
-public class SaveLoaderManager : MonoBehaviour
+public class SaveLoadManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [Inject] private ISaveLoader[] _saveLoaders;
+    [Inject] private GameRepository _gameRepository;
+
+    [Button]
+    public void SaveGame()
     {
-        
+        foreach (var saveLoader in _saveLoaders)
+        {
+            saveLoader.SaveGame(_gameRepository);
+        }
+
+        print("Save Game");
     }
 
-    // Update is called once per frame
-    void Update()
+    [Button]
+    public void LoadGame()
     {
-        
+        foreach (var saveLoader in _saveLoaders)
+        {
+            saveLoader.LoadGame(_gameRepository);
+        }
+
+        print("Load Game");
+    }
+
+    public void OnApplicationQuit()
+    {
+        SaveGame();
     }
 }

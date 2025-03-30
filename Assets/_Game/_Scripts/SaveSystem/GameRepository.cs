@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class GameRepository : IGameRepository
 {
@@ -18,19 +19,36 @@ public class GameRepository : IGameRepository
     {
         string key = typeof(T).ToString();
 
-        if (!_gameState.TryGetValue(key, out var jsonData))
+        if (_gameState.TryGetValue(key, out var jsonData))
+        {
+            data = JsonConvert.DeserializeObject<T>(jsonData);
+            return true;
+        }
+        else
         {
             data = default;
             return false;
         }
-
-        data = JsonConvert.DeserializeObject<T>(jsonData);
-        return false;
     }
 
-    public void SaveState()
+    public void SaveData()
     {
-        var jsonGameState = JsonConvert.SerializeObject(_gameState);
-        _gameState = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonGameState);
+        string jsonGameState = JsonConvert.SerializeObject(_gameState);
+        PlayerPrefs.SetString(GAME_STATE_SAVE_KEY, jsonGameState);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadData()
+    {
+        if (PlayerPrefs.HasKey(GAME_STATE_SAVE_KEY))
+        {
+            string jsonGameState = PlayerPrefs.GetString(GAME_STATE_SAVE_KEY);
+            var loadedState = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonGameState);
+
+            if (loadedState != null)
+            {
+                _gameState = loadedState;
+            }
+        }
     }
 }

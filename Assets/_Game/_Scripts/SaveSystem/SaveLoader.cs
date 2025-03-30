@@ -3,21 +3,24 @@
     public void SaveGame(IGameRepository gameRepository)
     {
         var service = ServiceLocator.GetService<TService>();
+
         var data = ConvertToData(service);
         gameRepository.SetData(data);
+        gameRepository.SaveData();
     }
 
     public void LoadGame(IGameRepository gameRepository)
     {
         var service = ServiceLocator.GetService<TService>();
+        gameRepository.LoadData();
 
-        if (!gameRepository.TryGetData(out TData data))
+        if (gameRepository.TryGetData(out TData data))
         {
-            SetupDefaultData(service);
+            SetupData(data, service);
         }
         else
         {
-            SetupData(data, service);
+            SetupDefaultData(service);
         }
     }
 
