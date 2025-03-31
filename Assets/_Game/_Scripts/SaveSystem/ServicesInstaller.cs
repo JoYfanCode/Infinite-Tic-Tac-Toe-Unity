@@ -2,8 +2,8 @@
 
 public class ServicesInstaller : MonoBehaviour
 {
-    public void Awake()
+    public void Init()
     {
-        ServiceLocator.AddService<MoneyStorage>(new MoneyStorage());
+        ServiceLocator.AddService<LevelsStorage>(new LevelsStorage());
     }
 }

@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
 
-[DefaultExecutionOrder(-100)]
 public class LoadBootstrap : MonoBehaviour
 {
     [SerializeField] ScenesConfig scenesConfig;
     [SerializeField] AudioSystem audioSystem;
-    [SerializeField] SaveSystem saveSystem;
     [SerializeField] SceneChangerAnimation sceneChangerAnimation;
     [SerializeField] GameAnalyticsManager gameAnalyticsManager;
+    [SerializeField] ServicesInstaller servicesInstaller;
+    [SerializeField] SaveLoadManager saveLoadManager;
 
     public void Awake()
     {
-        saveSystem.Init();
+        servicesInstaller.Init();
         audioSystem.Init();
         sceneChangerAnimation.Init();
         ScenesChanger.Init(scenesConfig);

@@ -9,8 +9,8 @@ public class SaveSystemInstaller : MonoInstaller
     {
         Container.Bind<GameRepository>().AsSingle().NonLazy();
 
-        Container.Bind<SaveLoadManager>().FromInstance(saveLoadManager).AsSingle();
+        Container.Bind<SaveLoadManager>().FromInstance(saveLoadManager).AsSingle().NonLazy();
 
-        Container.Bind<ISaveLoader>().To<MoneySaveLoader>().AsSingle();
+        Container.Bind<ISaveLoader>().To<LevelsSaveLoader>().AsSingle().NonLazy();
     }
 }

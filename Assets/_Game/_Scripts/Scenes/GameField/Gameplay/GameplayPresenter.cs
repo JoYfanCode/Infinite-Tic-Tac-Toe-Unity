@@ -33,9 +33,9 @@ public abstract class GameplayPresenter
 
             if (SetUp.GameMode == GameModes.OnePlayer && model.IsCirclesWin)
             {
-                if (SetUp.CurrentLevelIndex == SetUp.CountCompletedLevels)
+                if (SetUp.CurrentLevelIndex == SetUp.LevelsStorage.CompletedLevels)
                 {
-                    SetUp.CountCompletedLevels++;
+                    SetUp.LevelsStorage.LevelCompleted();
                     SetUp.isOpenedNewDifficulty = true;
                     await view.OpenMenuAsync();
                 }

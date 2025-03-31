@@ -903,9 +903,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scenesConfig: {fileID: 11400000, guid: 14960ac868825a04ab113b3698ba7920, type: 2}
   audioSystem: {fileID: 1703555769}
-  saveSystem: {fileID: 1834731303}
   sceneChangerAnimation: {fileID: 1681663437}
   gameAnalyticsManager: {fileID: 1014136167}
+  servicesInstaller: {fileID: 1940546396}
+  saveLoadManager: {fileID: 5938573884286577888, guid: 208d0026aef9f4d499856948ea7279ea, type: 3}
 --- !u!1001 &1377932508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1302,50 +1303,6 @@ MonoBehaviour:
     openGameMode: {fileID: 4572734889819888137, guid: 9bd4ce859f5a466499d618715869e1d1, type: 3}
     win: {fileID: 3636703172968709186, guid: b59a9a9fc8794c94d960624a5e6814bf, type: 3}
     firework: {fileID: 3636703172968709186, guid: 60eb19114c7477a48bbf6a110372eafe, type: 3}
---- !u!1 &1834731301
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1834731302}
-  - component: {fileID: 1834731303}
-  m_Layer: 0
-  m_Name: Save System
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1834731302
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1834731301}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1834731303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1834731301}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 491510aa98115b54e9cbc98da5639db2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1890901144
 GameObject:
   m_ObjectHideFlags: 0
@@ -1531,7 +1488,6 @@ SceneRoots:
   - {fileID: 678051384}
   - {fileID: 2115297281}
   - {fileID: 1109112147}
-  - {fileID: 1834731302}
   - {fileID: 1703555768}
   - {fileID: 1681663441}
   - {fileID: 1014136168}

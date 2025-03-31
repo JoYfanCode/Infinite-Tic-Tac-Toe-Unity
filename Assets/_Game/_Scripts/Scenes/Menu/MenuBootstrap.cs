@@ -39,30 +39,28 @@ public class MenuBootstrap : MonoBehaviour
         _levelsButtonsAppearAnimation = new ObjectsAppearAnimation<Button>(levelsButtonsAppearAnimationConfig, menuButtonHandler.LevelsButtons);
 
         menuButtonHandler.Init(_modeButtonsAnimation, _levelsButtonsAppearAnimation);
-
-        saveLoadManager.LoadGame();
-
-        MoneyStorage moneyStorage = ServiceLocator.GetService<MoneyStorage>();
-        moneyStorage.AddMoney(100);
-        print(moneyStorage.Money);
     }
 
     async void OpenNewDifficulty()
     {
         await SceneChangerAnimation.inst.FadeAsync();
 
-        difficultiesManager.Unlock(SetUp.CountCompletedLevels - 1);
+        difficultiesManager.Unlock(SetUp.LevelsStorage.CompletedLevels - 1);
         await _levelsButtonsAppearAnimation.AppearAsync();
         await Task.Delay(milisecUntilUnlockNewDif);
-        difficultiesManager.UnlockLastOneWithEffect(SetUp.CountCompletedLevels);
+        difficultiesManager.UnlockLastOneWithEffect(SetUp.LevelsStorage.CompletedLevels);
         SetUp.isOpenedNewDifficulty = false;
+        saveLoadManager.SaveGame();
     }
 
     async void ClassicInitScene()
     {
+        saveLoadManager.LoadGame();
+        SetUp.LevelsStorage = ServiceLocator.GetService<LevelsStorage>();
+
         await SceneChangerAnimation.inst.FadeAsync();
 
-        difficultiesManager.Unlock(SetUp.CountCompletedLevels);
+        difficultiesManager.Unlock(SetUp.LevelsStorage.CompletedLevels);
         _modeButtonsAnimation.Appear();
     }
 }
